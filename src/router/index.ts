@@ -1,16 +1,27 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import Dashboard from "@/views/dashboard/index.vue";
 
-const routes: RouteRecordRaw[] = [
+export const constantRoutes: RouteRecordRaw[] = [
     {
         path: "/",
+        name: "Dashboard",
         component: Dashboard
     }
 ]
 
+export const asyncRoutes: RouteRecordRaw[] = [
+
+]
+
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
+    scrollBehavior: () => ({ top: 0 }),
+    routes: constantRoutes
 })
+
+export function resetRouter(): void {
+    const routes = router.getRoutes()
+    routes.forEach(r => r.name && router.removeRoute(r.name))
+}
 
 export default router
