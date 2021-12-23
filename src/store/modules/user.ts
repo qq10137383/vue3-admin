@@ -115,7 +115,7 @@ const actions: ActionTree<UserState, AllState> = {
     },
 
     // dynamically modify permissions
-    async changeRoles({ commit, dispatch }, role) {
+    async changeRoles({ commit, dispatch }, role: string) {
         const token = role + '-token'
 
         commit('SET_TOKEN', token)

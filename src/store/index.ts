@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+
 import type { AppState } from "./modules/app"
 import app from "./modules/app"
 import type { ErrorLogState } from "./modules/errorLog"
@@ -7,12 +8,20 @@ import type { SettignsState } from "./modules/settings"
 import settings from "./modules/settings"
 import type { UserState } from "./modules/user"
 import user from "./modules/user"
+import type { PermissionState } from "./modules/permission"
+import permission from "./modules/permission"
+import type { TagsViewState } from "./modules/tagsView"
+import tagsView from "./modules/tagsView"
+
+import getters from './getters'
 
 export type AllState = {
   app: AppState,
   errorLog: ErrorLogState,
   settings: SettignsState,
-  user: UserState
+  user: UserState,
+  permission: PermissionState,
+  tagsView: TagsViewState
 }
 
 export default createStore<AllState>({
@@ -20,8 +29,9 @@ export default createStore<AllState>({
     app,
     errorLog,
     settings,
-    user
+    user,
+    permission,
+    tagsView
   },
-  getters: {},
-  plugins: []
+  getters
 })
