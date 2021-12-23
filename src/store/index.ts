@@ -15,6 +15,9 @@ import tagsView from "./modules/tagsView"
 
 import getters from './getters'
 
+/**
+ * state 模块定义
+ */
 export type AllState = {
   app: AppState,
   errorLog: ErrorLogState,

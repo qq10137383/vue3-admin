@@ -3,24 +3,6 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-/**
- * Api返回结果
- */
-export interface ApiResult {
-    /**
-     * 状态码
-     */
-    code: number,
-    /**
-     * 错误消息
-     */
-    message?: string
-    /**
-     * 数据
-     */
-    data: unknown
-}
-
 // create an axios instance
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url

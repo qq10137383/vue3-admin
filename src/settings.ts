@@ -36,7 +36,7 @@ const settings: Settings = {
     tagsView: true,
     fixedHeader: false,
     sidebarLogo: false,
-    errorLog: "production"
+    errorLog: ['development', 'production']
 }
 
 export default settings;
