@@ -47,6 +47,7 @@ const actions: ActionTree<UserState, AllState> = {
         return new Promise((resolve, reject) => {
             login({ username: username.trim(), password: password }).then(response => {
                 const { data } = response
+                debugger
                 commit('SET_TOKEN', data.token)
                 setToken(data.token)
                 resolve(data.token)
