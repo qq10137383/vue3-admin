@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    // 引入webpack的types定义
     "types": [
       "webpack-env"
     ],

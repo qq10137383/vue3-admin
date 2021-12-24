@@ -3,6 +3,10 @@ import Dashboard from "@/views/dashboard/index.vue";
 
 export const constantRoutes: RouteRecordRaw[] = [
     {
+        path: '/login',
+        component: () => import("@/views/login/index.vue"),
+    },
+    {
         path: "/",
         name: "Dashboard",
         component: Dashboard

@@ -13,6 +13,10 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // 禁用any检测
+    '@typescript-eslint/no-explicit-any': 'off',
+    // 禁用!断定检测
+    "@typescript-eslint/no-non-null-assertion": 'off'
   }
 }
