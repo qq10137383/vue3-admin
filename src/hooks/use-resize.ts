@@ -1,5 +1,5 @@
 
-import { onActivated, onDeactivated, onMounted, onUnmounted, Ref, watch } from 'vue'
+import { onActivated, onBeforeUnmount, onDeactivated, onMounted, Ref, watch } from 'vue'
 import { debounce } from '@/utils'
 
 export type ResizeFn = () => void
@@ -46,7 +46,7 @@ export function useResize(cb: Ref<ResizeFn>): void {
         initResizeHandler()
         initAllResizeEvents()
     })
-    onUnmounted(destroyAllResizeEvents)
+    onBeforeUnmount(destroyAllResizeEvents)
     onActivated(initAllResizeEvents)
     onDeactivated(destroyAllResizeEvents)
 }
