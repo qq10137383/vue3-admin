@@ -77,11 +77,11 @@ const LINE_CHART_EVENT = 'handleSetLineChartData'
  * Count-To面板
  */
 export default defineComponent({
-    emits: [LINE_CHART_EVENT],
     components: {
         // 消除eslint错误提示，CountTo组件类型定义有问题
         CountTo: CountTo as any
     },
+    emits: [LINE_CHART_EVENT],
     setup(_, { emit }) {
         const handleSetLineChartData = (type: string) => {
             emit(LINE_CHART_EVENT, type)

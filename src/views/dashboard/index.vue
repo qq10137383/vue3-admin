@@ -2,6 +2,7 @@
     <div>
         <bar-chart width="300px" height="300px" />
         <panel-group />
+        <box-card />
     </div>
 </template>
 
@@ -9,12 +10,14 @@
 import { defineComponent } from "vue"
 import BarChart from "./admin/components/BarChart.vue"
 import PanelGroup from "./admin/components/PanelGroup.vue"
+import BoxCard from "./admin/components/BoxCard.vue"
 
 export default defineComponent({
     name: "Dashboard",
     components: {
         BarChart,
-        PanelGroup
+        PanelGroup,
+        BoxCard
     }
 })
 
