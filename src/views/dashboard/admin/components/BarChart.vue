@@ -11,8 +11,10 @@ import { useResize } from '@/hooks/use-resize'
 
 const animationDuration = 6000
 
+/**
+ * Bar Chart
+ */
 export default defineComponent({
-    name: "BarChart",
     props: {
         className: {
             type: String,

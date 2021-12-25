@@ -71,20 +71,21 @@
 import { defineComponent } from 'vue'
 import { CountTo } from 'vue3-count-to';
 
+const LINE_CHART_EVENT = 'handleSetLineChartData'
+
 /**
- * 组面板
+ * Count-To面板
  */
 export default defineComponent({
-    name: "PanelGroup",
+    emits: [LINE_CHART_EVENT],
     components: {
         // 消除eslint错误提示，CountTo组件类型定义有问题
         CountTo: CountTo as any
     },
     setup(_, { emit }) {
         const handleSetLineChartData = (type: string) => {
-            emit('handleSetLineChartData', type)
+            emit(LINE_CHART_EVENT, type)
         }
-
         return {
             handleSetLineChartData
         }
