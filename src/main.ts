@@ -15,7 +15,14 @@ import '@/styles/index.scss' // global css
 
 import './permission' // permission control
 
+import * as filters from './filters' // global filters
+
 const app = createApp(App)
+
+// register global utility filters
+Object.keys(filters).forEach(key => {
+    app.config.globalProperties[key] = (filters as any)[key]
+})
 
 app.use(errorLog)
     .use(store)

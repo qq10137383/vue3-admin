@@ -34,7 +34,7 @@ export default defineComponent({
 
         const elRef: HtmlDivElementRef = ref(null)
 
-        const initChart = () => {
+        function initChart() {
             chart = echarts.init(elRef.value!, 'macarons')
             chart.setOption({
                 tooltip: {
@@ -93,7 +93,7 @@ export default defineComponent({
             chart && chart.resize()
         })
         useResize(resizeChart)
-        
+
         onMounted(() => nextTick(initChart))
         onBeforeUnmount(() => {
             chart && chart.dispose()

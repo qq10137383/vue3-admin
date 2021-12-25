@@ -1,7 +1,7 @@
 /**
  * Api返回结果
  */
-export default interface ApiResult<T> {
+export interface ApiResult<T> {
     /**
      * 状态码
      */
@@ -14,4 +14,12 @@ export default interface ApiResult<T> {
      * 数据
      */
     data: T
+}
+
+export interface ListData<T> {
+    items: T[]
+}
+
+export interface TotalListData<T> extends ListData<T> {
+    total: number
 }
