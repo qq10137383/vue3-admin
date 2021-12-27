@@ -90,8 +90,9 @@
 import { defineComponent, onMounted, reactive, ref, nextTick, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute, LocationQuery } from 'vue-router'
+import { ElForm } from "element-plus"
 import { validUsername } from '@/utils/validate'
-import type { FormRuleCallBack, HtmlElementRef } from '@/utils/types'
+import type { FormRuleCallBack } from '@/utils/types'
 
 import SocialSign from './components/SocialSignin.vue'
 
@@ -111,9 +112,9 @@ export default defineComponent({
             otherQuery: {} as LocationQuery
         }
 
-        const loginFormRef = ref(null)
-        const usernameRef: HtmlElementRef = ref(null)
-        const passwordRef: HtmlElementRef = ref(null)
+        const loginFormRef = ref<InstanceType<typeof ElForm> | null>(null)
+        const usernameRef = ref<HTMLElement | null>(null)
+        const passwordRef = ref<HTMLElement | null>(null)
 
         const loginForm = reactive({
             username: 'admin',
@@ -123,7 +124,7 @@ export default defineComponent({
         const capsTooltip = ref(false)
         const loading = ref(false)
         const showDialog = ref(false)
-        
+
         const validateUsername = (_: any, value: string, callback: FormRuleCallBack) => {
             if (!validUsername(value)) {
                 callback(new Error('Please enter the correct user name'))
@@ -154,7 +155,7 @@ export default defineComponent({
             })
         }
         const handleLogin = () => {
-            (loginFormRef.value as any).validate((valid: boolean) => {
+            loginFormRef.value?.validate((valid?: boolean) => {
                 if (valid) {
                     loading.value = true
                     store.dispatch('user/login', loginForm)

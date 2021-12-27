@@ -78,9 +78,9 @@ export default defineComponent({
             return s.charAt(0).toUpperCase() + s.slice(1)
         }
         function addTodo(e: KeyboardEvent) {
-            const text = (e.target as any).text
-            addTodoItem(text);
-            (e.target as any).value = ''
+            const target = e.target as HTMLInputElement
+            addTodoItem(target.value);
+            target.value = ''
         }
 
         return {

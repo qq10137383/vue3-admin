@@ -57,7 +57,7 @@ export default defineComponent({
             emit(TOGGLE_TODO_EVENT, todo)
         }
         function doneEdit(e: KeyboardEvent | FocusEvent) {
-            const value = (e.target as any).value.trim()
+            const value = (e.target as HTMLInputElement).value.trim()
             if (!value) {
                 emit(DELETE_TODO_EVENT, props.todo)
             } else if (editing.value) {
@@ -66,7 +66,7 @@ export default defineComponent({
             }
         }
         function cancelEdit(e: KeyboardEvent) {
-            (e.target as any).value = props.todo.text
+            (e.target as HTMLInputElement).value = props.todo.text
             editing.value = false
         }
 

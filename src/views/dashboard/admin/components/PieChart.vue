@@ -6,7 +6,6 @@
 import { defineComponent, ref, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
-import { HtmlDivElementRef } from '@/utils/types'
 import { useResize } from '@/hooks/use-resize'
 
 export default defineComponent({
@@ -27,7 +26,7 @@ export default defineComponent({
     setup() {
         let chart: echarts.ECharts | null = null
 
-        const elRef: HtmlDivElementRef = ref(null)
+        const elRef = ref<HTMLDivElement | null>(null)
 
         function initChart() {
             chart = echarts.init(elRef.value!, 'macarons')

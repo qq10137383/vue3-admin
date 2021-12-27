@@ -6,7 +6,6 @@
 import { defineComponent, ref, watch, nextTick, onBeforeUnmount, onMounted, PropType } from 'vue'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
-import { HtmlDivElementRef } from '@/utils/types'
 import { useResize } from '@/hooks/use-resize'
 
 export interface LineDataType {
@@ -40,7 +39,7 @@ export default defineComponent({
     setup(props) {
         let chart: echarts.ECharts | null = null
 
-        const elRef: HtmlDivElementRef = ref(null)
+        const elRef = ref<HTMLDivElement | null>(null)
 
         function setOptions({ expectedData, actualData } = {} as any) {
             if (!chart) return
