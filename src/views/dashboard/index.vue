@@ -1,29 +1,33 @@
 <template>
-    <div>
-        <bar-chart width="300px" height="300px" />
-        <panel-group />
-        <box-card />
-        <transaction-table />
-        <todo-list />
+    <div class="dashboard-container">
+        <component :is="currentRole" />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
-import BarChart from "./admin/components/BarChart.vue"
-import PanelGroup from "./admin/components/PanelGroup.vue"
-import BoxCard from "./admin/components/BoxCard.vue"
-import TransactionTable from "./admin/components/TransactionTable.vue"
-import TodoList from "./admin/components/TodoList/index.vue"
+import { defineComponent, ref } from "vue"
+import { useGetter } from "@/hooks/use-vuex";
+import AdminDashboard from './admin/index.vue'
+import EditorDashboard from './editor/index.vue'
 
 export default defineComponent({
     name: "Dashboard",
     components: {
-        BarChart,
-        PanelGroup,
-        BoxCard,
-        TransactionTable,
-        TodoList
+        AdminDashboard,
+        EditorDashboard
+    },
+    setup() {
+        const currentRole = ref('adminDashboard')
+
+        const { roles } = useGetter(['roles'])
+
+        if (!roles.value.includes('admin')) {
+            currentRole.value = 'editorDashboard'
+        }
+
+        return {
+            currentRole
+        }
     }
 })
 

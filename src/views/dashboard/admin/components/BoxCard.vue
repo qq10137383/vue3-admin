@@ -41,7 +41,9 @@ export default defineComponent({
     },
     setup() {
         return {
-            ...useGetter(["avatar"])
+            ...useGetter([
+                "avatar"
+            ])
         }
     },
 })

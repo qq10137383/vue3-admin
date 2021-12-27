@@ -21,6 +21,10 @@
 import { defineComponent, PropType, ref, nextTick } from 'vue'
 import { TodoItem } from './use-todo'
 
+const DELETE_TODO_EVENT = "deleteTodo"
+const EDIT_TODO_EVENT = "editTodo"
+const TOGGLE_TODO_EVENT = "toggleTodo"
+
 export default defineComponent({
     directives: {
         focus(el: HTMLElement, { value }: { value: boolean }) {
@@ -39,24 +43,25 @@ export default defineComponent({
             }
         }
     },
+    emits: [DELETE_TODO_EVENT, EDIT_TODO_EVENT, TOGGLE_TODO_EVENT],
     setup(props, { emit }) {
         const editing = ref(false)
 
         function deleteTodo(todo: TodoItem) {
-            emit('deleteTodo', todo)
+            emit(DELETE_TODO_EVENT, todo)
         }
         function editTodo({ todo, value }: { todo: TodoItem, value: string }) {
-            emit('editTodo', { todo, value })
+            emit(EDIT_TODO_EVENT, { todo, value })
         }
         function toggleTodo(todo: TodoItem) {
-            emit('toggleTodo', todo)
+            emit(TOGGLE_TODO_EVENT, todo)
         }
         function doneEdit(e: KeyboardEvent | FocusEvent) {
             const value = (e.target as any).value.trim()
             if (!value) {
-                emit('deleteTodo', props.todo)
+                emit(DELETE_TODO_EVENT, props.todo)
             } else if (editing.value) {
-                emit('editTodo', { todo: props.todo, value })
+                emit(EDIT_TODO_EVENT, { todo: props.todo, value })
                 editing.value = false
             }
         }

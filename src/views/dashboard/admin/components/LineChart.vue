@@ -3,11 +3,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue'
+import { defineComponent, ref, watch, nextTick, onBeforeUnmount, onMounted, PropType } from 'vue'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { HtmlDivElementRef } from '@/utils/types'
 import { useResize } from '@/hooks/use-resize'
+
+export interface LineDataType {
+    expectedData: number[]
+    actualData: number[]
+}
 
 export default defineComponent({
     props: {
@@ -28,7 +33,7 @@ export default defineComponent({
             default: true
         },
         chartData: {
-            type: Object,
+            type: Object as PropType<LineDataType>,
             required: true
         }
     },
@@ -37,10 +42,6 @@ export default defineComponent({
 
         const elRef: HtmlDivElementRef = ref(null)
 
-        function initChart() {
-            chart = echarts.init(elRef.value!, 'macarons')
-            chart.setOption(props.chartData)
-        }
         function setOptions({ expectedData, actualData } = {} as any) {
             if (!chart) return
 
@@ -111,6 +112,10 @@ export default defineComponent({
                     animationEasing: 'quadraticOut'
                 }]
             })
+        }
+        function initChart() {
+            chart = echarts.init(elRef.value!, 'macarons')
+            setOptions(props.chartData as any)
         }
 
         const resizeChart = ref(() => {
