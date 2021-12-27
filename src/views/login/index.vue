@@ -93,7 +93,6 @@ import { useRouter, useRoute, LocationQuery } from 'vue-router'
 import { ElForm } from "element-plus"
 import { validUsername } from '@/utils/validate'
 import type { FormRuleCallBack } from '@/utils/types'
-
 import SocialSign from './components/SocialSignin.vue'
 
 /**
