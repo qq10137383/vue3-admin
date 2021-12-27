@@ -2,12 +2,26 @@
 export { parseTime, formatTime } from '@/utils'
 
 /**
+ * 全局过滤器附加到app.config.globalProperties时
+ * 可以在shims-vue.d.ts中@vue/runtime-core->ComponentCustomProperties
+ * 声明过滤器的定义
+ * 这样在options api中使用this.xxx时就能获得提示信息
+ */
+export interface CustomFilters {
+    pluralize(time: number, label: string): string
+    timeAgo(time: number): string
+    numberFormatter(num: number, digits: number): string
+    toThousandFilter(num: number): string
+    uppercaseFirst(str: string): string
+}
+
+/**
  * Show plural label if time is plural number
  * @param {number} time
  * @param {string} label
  * @return {string}
  */
-function pluralize(time: number, label: string) {
+function pluralize(time: number, label: string): string {
     if (time === 1) {
         return time + label
     }
@@ -17,7 +31,7 @@ function pluralize(time: number, label: string) {
 /**
  * @param {number} time
  */
-export function timeAgo(time: number): string {
+function timeAgo(time: number): string {
     const between = Date.now() / 1000 - Number(time)
     if (between < 3600) {
         return pluralize(~~(between / 60), ' minute')
@@ -34,7 +48,7 @@ export function timeAgo(time: number): string {
  * @param {number} num
  * @param {number} digits
  */
-export function numberFormatter(num: number, digits: number): string {
+function numberFormatter(num: number, digits: number): string {
     const si = [
         { value: 1E18, symbol: 'E' },
         { value: 1E15, symbol: 'P' },
@@ -55,7 +69,7 @@ export function numberFormatter(num: number, digits: number): string {
  * 10000 => "10,000"
  * @param {number} num
  */
-export function toThousandFilter(num: number): string {
+function toThousandFilter(num: number): string {
     return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
 
@@ -63,6 +77,16 @@ export function toThousandFilter(num: number): string {
  * Upper case first char
  * @param {String} string
  */
-export function uppercaseFirst(str: string): string {
+function uppercaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+const filters: CustomFilters = {
+    pluralize,
+    timeAgo,
+    numberFormatter,
+    toThousandFilter,
+    uppercaseFirst
+}
+
+export default filters

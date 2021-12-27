@@ -15,7 +15,7 @@ import '@/styles/index.scss' // global css
 
 import './permission' // permission control
 
-import * as filters from './filters' // global filters
+import filters from './filters' // global filters
 
 const app = createApp(App)
 

@@ -4,6 +4,7 @@
         <panel-group />
         <box-card />
         <transaction-table />
+        <todo-list />
     </div>
 </template>
 
@@ -13,6 +14,7 @@ import BarChart from "./admin/components/BarChart.vue"
 import PanelGroup from "./admin/components/PanelGroup.vue"
 import BoxCard from "./admin/components/BoxCard.vue"
 import TransactionTable from "./admin/components/TransactionTable.vue"
+import TodoList from "./admin/components/TodoList/index.vue"
 
 export default defineComponent({
     name: "Dashboard",
@@ -20,7 +22,8 @@ export default defineComponent({
         BarChart,
         PanelGroup,
         BoxCard,
-        TransactionTable
+        TransactionTable,
+        TodoList
     }
 })
 
