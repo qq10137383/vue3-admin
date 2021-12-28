@@ -60,7 +60,7 @@ export default defineComponent({
         // 下面两种写法都可以，和app.config.globalProperties.$ELEMENT是一个变量
         //  1、instance.proxy.$ELEMENT
         //  2、instance?.appContext.config.globalProperties.$ELEMENT
-        // 要获得类型提示需要在shims-vue.d.ts中定义$ELEMENT类型
+        // 要获得类型提示需要在typings/vue-runtime.d.ts中定义$ELEMENT类型
         function setElementSize() {
             const publicInstance = instance!.proxy!;
             (publicInstance.$ELEMENT || (publicInstance.$ELEMENT = {})).size = size.value
