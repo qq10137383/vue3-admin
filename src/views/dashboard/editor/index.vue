@@ -34,13 +34,13 @@ export default defineComponent({
     setup() {
         const emptyGif = ref('https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3')
 
+        const { name, avatar, roles } = useGetter(["name", "avatar", "roles"])
+
         return {
             emptyGif,
-            ...useGetter([
-                "name",
-                "avatar",
-                "roles"
-            ])
+            name,
+            avatar,
+            roles
         }
     },
 })

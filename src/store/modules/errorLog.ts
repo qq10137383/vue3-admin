@@ -1,12 +1,12 @@
 import { Module, MutationTree, ActionTree } from "vuex"
-
+import { LogItem } from "@/utils/error-log"
 import type { AllState } from '../index'
 
 /**
  * ErrorLog State
  */
 export type ErrorLogState = {
-    logs: string[]
+    logs: LogItem[]
 }
 
 const state: ErrorLogState = {
@@ -14,7 +14,7 @@ const state: ErrorLogState = {
 }
 
 const mutations: MutationTree<ErrorLogState> = {
-    ADD_ERROR_LOG(state, log: string) {
+    ADD_ERROR_LOG(state, log: LogItem) {
         state.logs.push(log)
     },
     CLEAR_ERROR_LOG(state) {
@@ -23,7 +23,7 @@ const mutations: MutationTree<ErrorLogState> = {
 }
 
 const actions: ActionTree<ErrorLogState, AllState> = {
-    addErrorLog({ commit }, log: string) {
+    addErrorLog({ commit }, log: LogItem) {
         commit('ADD_ERROR_LOG', log)
     },
     clearErrorLog({ commit }) {

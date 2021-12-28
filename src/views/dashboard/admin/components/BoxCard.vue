@@ -40,10 +40,10 @@ export default defineComponent({
         Mallki
     },
     setup() {
+        const { avatar } = useGetter(["avatar"])
+
         return {
-            ...useGetter([
-                "avatar"
-            ])
+            avatar
         }
     },
 })

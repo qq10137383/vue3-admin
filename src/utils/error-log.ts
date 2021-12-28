@@ -1,7 +1,16 @@
-import { App, nextTick } from 'vue'
+import { App, nextTick, AppConfig } from 'vue'
 import store from '@/store'
 import { isString, isArray } from '@/utils/validate'
 import settings from '@/settings'
+
+type ErrorParams = Parameters<NonNullable<AppConfig["errorHandler"]>>
+
+export interface LogItem {
+    err: ErrorParams[0]
+    vm: ErrorParams[1]
+    info: ErrorParams[2]
+    url: string
+}
 
 /**
  * 是否需要启用日志记录
@@ -36,7 +45,7 @@ function install(app: App<Element>): void {
                     vm,
                     info,
                     url: window.location.href
-                })
+                } as LogItem)
                 console.error(err, info)
             })
         }
