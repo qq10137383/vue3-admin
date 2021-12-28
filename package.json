@@ -20,7 +20,8 @@
     "vue-router": "^4.0.0-0",
     "vue3-count-to": "^1.1.1",
     "vuex": "^4.0.0-0",
-    "path-to-regexp": "2.4.0"
+    "path-to-regexp": "2.4.0",
+    "screenfull": "4.2.0"
   },
   "devDependencies": {
     "@types/echarts": "4.9.12",

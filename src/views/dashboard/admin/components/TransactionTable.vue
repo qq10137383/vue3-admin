@@ -20,13 +20,13 @@ import { TransactionVo, transactionList } from '@/api/remote-search'
 
 export default defineComponent({
     setup() {
-        const list = ref<TransactionVo[] | null>(null)
+        const list = ref<TransactionVo[] | undefined>(undefined)
 
         function orderNoFilter(str: string) {
             return str.substring(0, 30)
         }
         function statusFilter(status: 'success' | 'pending') {
-            const statusMap = {
+            const statusMap: Record<typeof status, 'success' | 'danger'> = {
                 success: 'success',
                 pending: 'danger'
             }

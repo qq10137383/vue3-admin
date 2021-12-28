@@ -12,9 +12,11 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    // 引入webpack的types定义
     "types": [
-      "webpack-env"
+      // 引入webpack的types定义
+      "webpack-env",
+      // Volar插件支持
+      "element-plus/global"
     ],
     "paths": {
       "@/*": [

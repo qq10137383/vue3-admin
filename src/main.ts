@@ -9,6 +9,7 @@ import svgIcons from '@/icons' // svg icons
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import ElementPlus from "element-plus"
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 
 import '@/styles/index.scss' // global css
@@ -29,9 +30,7 @@ app.use(errorLog)
     .use(router)
     .use(svgIcons)
     .use(ElementPlus, {
-        size: Cookies.get('size') ?? 'small'
+        size: Cookies.get('size') ?? 'small',
+        locale: zhCn
     })
     .mount('#app')
-
-
-
