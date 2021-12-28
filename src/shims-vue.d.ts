@@ -7,7 +7,7 @@
  * 1、typeof MyComponent获取构造函数类型(ComponentPublicInstanceConstructor)
  * 2、InstanceType获取vue内部生成的组件类型(ComponentPublicInstance)
  */
-/* eslint-disable *//* eslint-disable */
+/* eslint-disable */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
