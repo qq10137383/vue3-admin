@@ -19,7 +19,7 @@
                 type="checkbox"
                 @change="toggleAllTodos(allChecked)"
             />
-            <label for="toggle-all" />
+            <label for="toggle-all"></label>
             <ul class="todo-list">
                 <todo
                     v-for="(todo, index) in filteredTodos"

@@ -24,7 +24,6 @@ export default defineComponent({
     setup() {
         const route = useRoute()
         const router = useRouter()
-
         const levelList = ref<BreadItem[]>([])
 
         function isDashboard(location: RouteLocationMatched) {

@@ -60,9 +60,7 @@ export default defineComponent({
     name: "ErrorLog",
     setup() {
         const store = useStore()
-
         const dialogTableVisible = ref(false)
-
         const { errorLogs } = useGetter(["errorLogs"])
 
         function clearAll() {

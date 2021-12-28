@@ -1,5 +1,5 @@
 import { Module, MutationTree, ActionTree } from "vuex"
-import { RouteRecordRaw } from "vue-router"
+import { CustomRouteRecordRaw } from "vue-router"
 import { login, logout, getInfo, LoginDto, UserVo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
@@ -128,7 +128,7 @@ const actions: ActionTree<UserState, AllState> = {
         // generate accessible routes map based on roles
         const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
         // dynamically add accessible routes
-        accessRoutes.forEach((r: RouteRecordRaw) => router.addRoute(r));
+        accessRoutes.forEach((r: CustomRouteRecordRaw) => router.addRoute(r));
 
         // reset visited views and cached views
         dispatch('tagsView/delAllViews', null, { root: true })

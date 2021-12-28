@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router"
+import { CustomRouteRecordRaw } from "vue-router"
 import { ActionTree, Module, MutationTree } from "vuex"
 
 import type { AllState } from "../index"
@@ -10,7 +10,7 @@ export type TagsViewState = {
     /**
      * 已访问的视图路由集合
      */
-    visitedViews: RouteRecordRaw[],
+    visitedViews: CustomRouteRecordRaw[],
     /**
      * 已缓存的视图路由名集合
      */
@@ -23,7 +23,7 @@ const state: TagsViewState = {
 }
 
 const mutations: MutationTree<TagsViewState> = {
-    ADD_VISITED_VIEW(state, view: RouteRecordRaw) {
+    ADD_VISITED_VIEW(state, view: CustomRouteRecordRaw) {
         if (state.visitedViews.some(v => v.path === view.path)) return
         state.visitedViews.push(
             Object.assign({}, view, {
@@ -31,14 +31,14 @@ const mutations: MutationTree<TagsViewState> = {
             })
         )
     },
-    ADD_CACHED_VIEW(state, view: RouteRecordRaw) {
+    ADD_CACHED_VIEW(state, view: CustomRouteRecordRaw) {
         const viewName = <string>view.name
         if (state.cachedViews.includes(viewName)) return
         if (!view.meta?.noCache) {
             state.cachedViews.push(viewName)
         }
     },
-    DEL_VISITED_VIEW(state, view: RouteRecordRaw) {
+    DEL_VISITED_VIEW(state, view: CustomRouteRecordRaw) {
         for (const [i, v] of state.visitedViews.entries()) {
             if (v.path === view.path) {
                 state.visitedViews.splice(i, 1)
@@ -46,11 +46,11 @@ const mutations: MutationTree<TagsViewState> = {
             }
         }
     },
-    DEL_CACHED_VIEW(state, view: RouteRecordRaw) {
+    DEL_CACHED_VIEW(state, view: CustomRouteRecordRaw) {
         const index = state.cachedViews.indexOf(<string>view.name)
         index > -1 && state.cachedViews.splice(index, 1)
     },
-    DEL_OTHERS_CACHED_VIEWS(state, view: RouteRecordRaw) {
+    DEL_OTHERS_CACHED_VIEWS(state, view: CustomRouteRecordRaw) {
         const index = state.cachedViews.indexOf(<string>view.name)
         if (index > -1) {
             state.cachedViews = state.cachedViews.slice(index, index + 1)
@@ -67,7 +67,7 @@ const mutations: MutationTree<TagsViewState> = {
     DEL_ALL_CACHED_VIEWS(state) {
         state.cachedViews = []
     },
-    UPDATE_VISITED_VIEW(state, view: RouteRecordRaw) {
+    UPDATE_VISITED_VIEW(state, view: CustomRouteRecordRaw) {
         for (let v of state.visitedViews) {
             if (v.path === view.path) {
                 v = Object.assign(v, view)
@@ -78,17 +78,17 @@ const mutations: MutationTree<TagsViewState> = {
 }
 
 const actions: ActionTree<TagsViewState, AllState> = {
-    addView({ dispatch }, view: RouteRecordRaw) {
+    addView({ dispatch }, view: CustomRouteRecordRaw) {
         dispatch('addVisitedView', view)
         dispatch('addCachedView', view)
     },
-    addVisitedView({ commit }, view: RouteRecordRaw) {
+    addVisitedView({ commit }, view: CustomRouteRecordRaw) {
         commit('ADD_VISITED_VIEW', view)
     },
-    addCachedView({ commit }, view: RouteRecordRaw) {
+    addCachedView({ commit }, view: CustomRouteRecordRaw) {
         commit('ADD_CACHED_VIEW', view)
     },
-    delView({ dispatch, state }, view: RouteRecordRaw): Promise<TagsViewState> {
+    delView({ dispatch, state }, view: CustomRouteRecordRaw): Promise<TagsViewState> {
         return new Promise(resolve => {
             dispatch('delVisitedView', view)
             dispatch('delCachedView', view)
@@ -98,19 +98,19 @@ const actions: ActionTree<TagsViewState, AllState> = {
             })
         })
     },
-    delVisitedView({ commit, state }, view: RouteRecordRaw): Promise<RouteRecordRaw[]> {
+    delVisitedView({ commit, state }, view: CustomRouteRecordRaw): Promise<CustomRouteRecordRaw[]> {
         return new Promise(resolve => {
             commit('DEL_VISITED_VIEW', view)
             resolve([...state.visitedViews])
         })
     },
-    delCachedView({ commit, state }, view: RouteRecordRaw): Promise<string[]> {
+    delCachedView({ commit, state }, view: CustomRouteRecordRaw): Promise<string[]> {
         return new Promise(resolve => {
             commit('DEL_CACHED_VIEW', view)
             resolve([...state.cachedViews])
         })
     },
-    delOthersViews({ dispatch, state }, view: RouteRecordRaw): Promise<TagsViewState> {
+    delOthersViews({ dispatch, state }, view: CustomRouteRecordRaw): Promise<TagsViewState> {
         return new Promise(resolve => {
             dispatch('delOthersVisitedViews', view)
             dispatch('delOthersCachedViews', view)
@@ -120,19 +120,19 @@ const actions: ActionTree<TagsViewState, AllState> = {
             })
         })
     },
-    delOthersVisitedViews({ commit, state }, view: RouteRecordRaw): Promise<RouteRecordRaw[]> {
+    delOthersVisitedViews({ commit, state }, view: CustomRouteRecordRaw): Promise<CustomRouteRecordRaw[]> {
         return new Promise(resolve => {
             commit('DEL_OTHERS_VISITED_VIEWS', view)
             resolve([...state.visitedViews])
         })
     },
-    delOthersCachedViews({ commit, state }, view: RouteRecordRaw): Promise<string[]> {
+    delOthersCachedViews({ commit, state }, view: CustomRouteRecordRaw): Promise<string[]> {
         return new Promise(resolve => {
             commit('DEL_OTHERS_CACHED_VIEWS', view)
             resolve([...state.cachedViews])
         })
     },
-    delAllViews({ dispatch, state }, view: RouteRecordRaw): Promise<TagsViewState> {
+    delAllViews({ dispatch, state }, view: CustomRouteRecordRaw): Promise<TagsViewState> {
         return new Promise(resolve => {
             dispatch('delAllVisitedViews', view)
             dispatch('delAllCachedViews', view)
@@ -142,7 +142,7 @@ const actions: ActionTree<TagsViewState, AllState> = {
             })
         })
     },
-    delAllVisitedViews({ commit, state }): Promise<RouteRecordRaw[]> {
+    delAllVisitedViews({ commit, state }): Promise<CustomRouteRecordRaw[]> {
         return new Promise(resolve => {
             commit('DEL_ALL_VISITED_VIEWS')
             resolve([...state.visitedViews])

@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
+import { createRouter, createWebHistory, CustomRouteRecordRaw } from "vue-router"
 import Dashboard from "@/views/dashboard/index.vue";
 
-export const constantRoutes: RouteRecordRaw[] = [
+export const constantRoutes: CustomRouteRecordRaw[] = [
     {
         path: '/login',
         component: () => import("@/views/login/index.vue"),
@@ -13,7 +13,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     }
 ]
 
-export const asyncRoutes: RouteRecordRaw[] = [
+export const asyncRoutes: CustomRouteRecordRaw[] = [
 
 ]
 

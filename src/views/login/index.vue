@@ -102,14 +102,14 @@ export default defineComponent({
     name: "Login",
     components: { SocialSign },
     setup() {
-        const store = useStore()
-        const router = useRouter()
-        const route = useRoute()
-
         let redirectInfo = {
             redirect: "",
             otherQuery: {} as LocationQuery
         }
+
+        const store = useStore()
+        const router = useRouter()
+        const route = useRoute()
 
         const loginFormRef = ref<InstanceType<typeof ElForm> | null>(null)
         const usernameRef = ref<HTMLElement | null>(null)

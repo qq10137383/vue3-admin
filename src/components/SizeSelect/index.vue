@@ -30,11 +30,10 @@ import { useGetter } from '@/hooks/use-vuex'
 export default defineComponent({
     name: "SizeSelect",
     setup() {
-        const instance = getCurrentInstance()
         const store = useStore()
         const route = useRoute()
         const router = useRouter()
-
+        const { size } = useGetter(['size'])
         const sizeOptions = reactive([
             { label: 'Default', value: 'default' },
             { label: 'Medium', value: 'medium' },
@@ -42,7 +41,7 @@ export default defineComponent({
             { label: 'Mini', value: 'mini' }
         ])
 
-        const { size } = useGetter(['size'])
+        const instance = getCurrentInstance()
 
         function refreshView() {
             // In order to make the cached page re-rendered
@@ -60,14 +59,14 @@ export default defineComponent({
         // 下面两种写法都可以，和app.config.globalProperties.$ELEMENT是一个变量
         //  1、instance.proxy.$ELEMENT
         //  2、instance?.appContext.config.globalProperties.$ELEMENT
-        // 要获得类型提示需要在typings/vue-runtime.d.ts中定义$ELEMENT类型
+        // 要获得类型提示需要在typings/vue-runtime-ext.d.ts中定义$ELEMENT类型
         function setElementSize() {
             const publicInstance = instance!.proxy!;
             (publicInstance.$ELEMENT || (publicInstance.$ELEMENT = {})).size = size.value
         }
         function handleSetSize() {
             setElementSize()
-            store.dispatch('app/setSize', size)
+            store.dispatch('app/setSize', size.value)
             refreshView()
             ElMessage({
                 message: 'Switch Size Success',

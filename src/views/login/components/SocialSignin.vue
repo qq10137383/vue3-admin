@@ -23,11 +23,9 @@ import { defineComponent } from 'vue'
  */
 export default defineComponent({
     setup() {
-
         function wechatHandleClick(thirdpart: string) {
             alert(thirdpart)
         }
-
         function tencentHandleClick(thirdpart: string) {
             alert(thirdpart)
         }

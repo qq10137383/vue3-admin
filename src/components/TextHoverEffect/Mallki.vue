@@ -27,7 +27,6 @@ export default defineComponent({
 
 <style>
 /* Mallki */
-
 .link--mallki {
     font-weight: 800;
     color: #4dd9d5;

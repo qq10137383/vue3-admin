@@ -3,7 +3,7 @@ export { parseTime, formatTime } from '@/utils'
 
 /**
  * 全局过滤器附加到app.config.globalProperties时
- * 可以在typings/vue-runtime.d.ts -> ComponentCustomProperties声明过滤器的定义
+ * 可以在typings/vue-runtime-ext.d.ts -> ComponentCustomProperties声明过滤器的定义
  * 这样在options api中使用this.xxx时就能获得提示信息，模板中使用不会报ts警告
  */
 export interface CustomFilters {
