@@ -17,7 +17,7 @@
 
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-                <el-tooltip content="Global Size" effect="dark" placement="bottom">
+                <el-tooltip content="Global Size" :effect="tooltipEffect" placement="bottom">
                     <size-select id="size-select" class="right-menu-item hover-effect" />
                 </el-tooltip>
             </template>
@@ -55,9 +55,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
+import { Effect } from 'element-plus'
 import { useGetter } from '@/hooks/use-vuex'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
@@ -81,6 +82,10 @@ export default defineComponent({
         const route = useRoute()
         const { sidebar, avatar, device } = useGetter(['sidebar', 'avatar', 'device'])
 
+        // ts无法在模板中将字符串类型映射为枚举
+        // see https://github.com/element-plus/element-plus/issues/3257
+        const tooltipEffect = ref(Effect.DARK)
+
         function toggleSideBar() {
             store.dispatch('app/toggleSideBar')
         }
@@ -93,6 +98,7 @@ export default defineComponent({
             sidebar,
             avatar,
             device,
+            tooltipEffect,
             toggleSideBar,
             logout
         }
