@@ -36,6 +36,7 @@ function MenuItem(props: ExtractPropTypes<typeof menuItemProps>): VNode[] {
 }
 
 // 函数化组件需要导出一个函数，属性挂在函数上，functional选项被移除
+// 官方已不再推荐使用函数化组件，可以用普通组件代替
 MenuItem.props = menuItemProps;
 
 export default MenuItem;
