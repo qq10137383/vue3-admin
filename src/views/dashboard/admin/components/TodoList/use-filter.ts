@@ -27,7 +27,7 @@ export default function useFilter(todos: Ref<TodoList>, defaultFilter: FilterTyp
     const filteredTodos = computed(() => {
         return filters[filterType.value](todos.value)
     })
-    
+
     function setFilter(filter: FilterType) {
         filterType.value = filter
     }

@@ -67,7 +67,7 @@ export default defineComponent({
                 }
 
                 if (router.meta && router.meta.title) {
-                    data.title = [...data.title, router.meta.title as string]
+                    data.title = [...data.title, router.meta.title]
 
                     if (router.redirect !== 'noRedirect') {
                         // only push the routes with title
@@ -150,6 +150,7 @@ export default defineComponent({
             search,
             options,
             show,
+            headerSearchSelectRef,
             click,
             change,
             querySearch

@@ -84,7 +84,7 @@ export default defineComponent({
 
         // ts无法在模板中将字符串类型映射为枚举
         // see https://github.com/element-plus/element-plus/issues/3257
-        const tooltipEffect = ref(Effect.DARK)
+        const tooltipEffect = Effect.DARK
 
         function toggleSideBar() {
             store.dispatch('app/toggleSideBar')

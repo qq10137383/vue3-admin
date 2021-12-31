@@ -34,7 +34,7 @@ export default defineComponent({
             return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
         }
         function getBreadcrumb() {
-            const matched = route.matched.filter(item => item.meta?.title)
+            const matched = route.matched.filter(item => item.meta.title)
             const first = matched[0]
             const tmp = levelList.value
 
@@ -42,7 +42,7 @@ export default defineComponent({
                 tmp.push({ path: '/dashboard', meta: { title: 'Dashboard' }, redirect: undefined })
             }
             tmp.push(...matched)
-            levelList.value = tmp.filter(item => item.meta?.title && item.meta.breadcrumb !== false)
+            levelList.value = tmp.filter(item => item.meta.title && item.meta.breadcrumb !== false)
         }
         function pathCompile(path: string) {
             // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
@@ -78,14 +78,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .app-breadcrumb.el-breadcrumb {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 50px;
-  margin-left: 8px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 50px;
+    margin-left: 8px;
 
-  .no-redirect {
-    color: #97a8be;
-    cursor: text;
-  }
+    .no-redirect {
+        color: #97a8be;
+        cursor: text;
+    }
 }
 </style>

@@ -28,7 +28,7 @@ function MenuItem(props: ExtractPropTypes<typeof menuItemProps>): VNode[] {
   // v-slot写法，see https://github.com/vuejs/jsx-next
   if (title) {
     const slots = {
-      title: () => <span>title</span>,
+      title: () => <span>{(title)}</span>,
     };
     vnodes.push(<template v-slots={slots}></template>);
   }
@@ -40,4 +40,13 @@ function MenuItem(props: ExtractPropTypes<typeof menuItemProps>): VNode[] {
 MenuItem.props = menuItemProps;
 
 export default MenuItem;
+
 </script>
+
+<style scoped>
+.sub-el-icon {
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+}
+</style>

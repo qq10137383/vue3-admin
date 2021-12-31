@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, CustomRouteRecordRaw } from "vue-router"
+import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
 import Dashboard from "@/views/dashboard/index.vue";
 
 export const constantRoutes: CustomRouteRecordRaw[] = [
@@ -20,7 +20,7 @@ export const asyncRoutes: CustomRouteRecordRaw[] = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     scrollBehavior: () => ({ top: 0 }),
-    routes: constantRoutes
+    routes: constantRoutes as RouteRecordRaw[]
 })
 
 export function resetRouter(): void {

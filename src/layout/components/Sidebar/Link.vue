@@ -9,7 +9,7 @@ import { defineComponent, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { isExternal } from '@/utils/validate'
 
-type LinkProps = Pick<HTMLLinkElement, 'href' | 'target' | 'rel'>
+type LinkProps = Partial<HTMLLinkElement>
 type RouterLinkProps = InstanceType<typeof RouterLink>["$props"]
 
 export default defineComponent({
@@ -29,11 +29,11 @@ export default defineComponent({
                     href: to,
                     target: '_blank',
                     rel: 'noopener'
-                }
+                } as LinkProps
             }
             return {
                 to: to
-            }
+            } as RouterLinkProps
         }
 
         return {
