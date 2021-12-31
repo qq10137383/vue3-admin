@@ -19,7 +19,7 @@ export interface LogItem {
 function checkNeed() {
     const { errorLog: needErrorLog } = settings
 
-    const env: string = process.env.NODE_ENV
+    const env: string = process.env.NODE_ENV!
     if (isString(needErrorLog)) {
         return env === needErrorLog
     }

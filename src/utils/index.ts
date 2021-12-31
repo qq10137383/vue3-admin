@@ -264,7 +264,7 @@ export function debounce(func: Fn, wait: number, immediate = false): Fn {
 
         // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
         if (last < wait && last > 0) {
-            timeout = setTimeout(later, wait - last)
+            timeout = window.setTimeout(later, wait - last)
         } else {
             timeout = null
             // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
@@ -280,7 +280,7 @@ export function debounce(func: Fn, wait: number, immediate = false): Fn {
         timestamp = +new Date()
         const callNow = immediate && !timeout
         // 如果延时不存在，重新设定延时
-        if (!timeout) timeout = setTimeout(later, wait)
+        if (!timeout) timeout = window.setTimeout(later, wait)
         if (callNow) {
             result = func.apply(context, args)
             context = args = null
