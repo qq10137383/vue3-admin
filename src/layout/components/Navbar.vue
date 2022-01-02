@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { Effect } from 'element-plus'
@@ -68,6 +68,7 @@ import SizeSelect from '@/components/SizeSelect/index.vue'
 import Search from '@/components/HeaderSearch/index.vue'
 
 export default defineComponent({
+    name: 'Navbar',
     components: {
         Breadcrumb,
         Hamburger,

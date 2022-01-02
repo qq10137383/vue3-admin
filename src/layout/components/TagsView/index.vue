@@ -31,13 +31,27 @@
 
 <script lang="ts">
 import path from 'path'
-import { defineComponent, reactive, ref, toRefs, onBeforeUpdate, onMounted, nextTick, watch } from 'vue'
-import { useRoute, useRouter, RouteLocationNormalizedLoaded, CustomRouteRecordRaw, RouteLocationRaw } from 'vue-router'
+import {
+    defineComponent, reactive, ref, toRefs, onBeforeUpdate,
+    onMounted, nextTick, watch, ComponentPublicInstance
+} from 'vue'
+import {
+    useRoute, useRouter, RouteLocationNormalizedLoaded,
+    CustomRouteRecordRaw, RouteLocationRaw, RouterLinkProps
+} from 'vue-router'
 import { useStore } from 'vuex'
 import { useState, useGetter } from '@/hooks/use-vuex'
 import ScrollPane from './ScrollPane.vue'
 
+// 自定义RouteLink，修改to属性
+export type CustomRouteLink = ComponentPublicInstance<
+    Omit<RouterLinkProps, 'to'> & {
+        to: Pick<RouteLocationNormalizedLoaded, 'path' | 'query' | 'fullPath'>
+    }
+>
+
 export default defineComponent({
+    name: 'TagsView',
     components: {
         ScrollPane
     },
@@ -46,7 +60,7 @@ export default defineComponent({
 
         const elRef = ref<HTMLElement | null>(null)
         const scrollPaneRef = ref<InstanceType<typeof ScrollPane> | null>(null)
-        let tagRefs: any[] = []
+        let tagRefs: CustomRouteLink[] = []
 
         const route = useRoute()
         const router = useRouter()
@@ -61,7 +75,7 @@ export default defineComponent({
             selectedTag: {} as RouteLocationNormalizedLoaded
         })
 
-        function setTagRef(inst: any) {
+        function setTagRef(inst: CustomRouteLink) {
             tagRefs.push(inst)
         }
         function isActive(tag: RouteLocationNormalizedLoaded) {

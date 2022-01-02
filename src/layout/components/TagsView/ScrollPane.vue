@@ -12,6 +12,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 import { ElScrollbar } from 'element-plus'
+import type { CustomRouteLink } from './index.vue'
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
@@ -33,11 +34,11 @@ export default defineComponent({
             const $scrollWrapper = scrollWrapper.value!
             $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
         }
-        function moveToTarget(currentTag: any): void {
+        function moveToTarget(currentTag: CustomRouteLink): void {
             const $container = scrollContainerRef.value!.$el
             const $containerWidth = $container.offsetWidth
             const $scrollWrapper = scrollWrapper.value!
-            const tagList = instance!.proxy!.$parent!.$refs.tagRefs as any[]
+            const tagList = instance!.proxy!.$parent!.$refs.tagRefs as CustomRouteLink[]
 
             let firstTag = null
             let lastTag = null
@@ -55,14 +56,14 @@ export default defineComponent({
             } else {
                 // find preTag and nextTag
                 const currentIndex = tagList.findIndex(item => item === currentTag)
-                const prevTag = tagList[currentIndex - 1]
-                const nextTag = tagList[currentIndex + 1]
+                const prevTag = tagList[currentIndex - 1].$el as HTMLElement
+                const nextTag = tagList[currentIndex + 1].$el as HTMLElement
 
                 // the tag's offsetLeft after of nextTag
-                const afterNextTagOffsetLeft = nextTag.$el.offsetLeft + nextTag.$el.offsetWidth + tagAndTagSpacing
+                const afterNextTagOffsetLeft = prevTag.offsetLeft + nextTag.offsetWidth + tagAndTagSpacing
 
                 // the tag's offsetLeft before of prevTag
-                const beforePrevTagOffsetLeft = prevTag.$el.offsetLeft - tagAndTagSpacing
+                const beforePrevTagOffsetLeft = prevTag.offsetLeft - tagAndTagSpacing
 
                 if (afterNextTagOffsetLeft > $scrollWrapper.scrollLeft + $containerWidth) {
                     $scrollWrapper.scrollLeft = afterNextTagOffsetLeft - $containerWidth

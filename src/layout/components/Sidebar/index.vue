@@ -32,6 +32,7 @@ import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 
 export default defineComponent({
+    name: 'Sidebar',
     components: {
         Logo,
         SidebarItem

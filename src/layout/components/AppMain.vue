@@ -16,6 +16,7 @@ import { useRoute } from 'vue-router'
 import { useGetter } from '@/hooks/use-vuex'
 
 export default defineComponent({
+    name: 'AppMain',
     setup() {
         const route = useRoute()
 
