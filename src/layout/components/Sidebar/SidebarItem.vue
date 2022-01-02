@@ -41,7 +41,7 @@
 <script lang="ts">
 import path from 'path'
 import { defineComponent, onMounted, PropType, ref } from 'vue'
-import { CustomRouteRecordRaw } from 'vue-router'
+import type { CustomRouteRecordRaw } from 'vue-router'
 import { useGetter } from '@/hooks/use-vuex'
 import { isExternal } from '@/utils/validate'
 import Item from './Item.vue'

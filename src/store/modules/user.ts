@@ -1,5 +1,5 @@
 import { Module, MutationTree, ActionTree } from "vuex"
-import { CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
+import type { CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
 import { login, logout, getInfo, LoginDto, UserVo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'

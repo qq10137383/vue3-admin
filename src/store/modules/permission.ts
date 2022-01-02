@@ -1,4 +1,4 @@
-import { CustomRouteRecordRaw } from "vue-router"
+import type { CustomRouteRecordRaw } from "vue-router"
 import { ActionTree, Module, MutationTree } from "vuex"
 import type { AllState } from "../index"
 

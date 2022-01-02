@@ -10,14 +10,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, defineComponent, ref, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 import { ElScrollbar } from 'element-plus'
+
+const tagAndTagSpacing = 4 // tagAndTagSpacing
 
 const SCROLL_EVENT = 'scroll'
 
 export default defineComponent({
     name: 'ScrollPane',
     setup(_, { emit }) {
+        const instance = getCurrentInstance()
 
         const scrollContainerRef = ref<InstanceType<typeof ElScrollbar> | null>(null)
 
@@ -29,6 +32,44 @@ export default defineComponent({
             const eventDelta = (e as any).wheelDelta ?? -e.deltaY * 40
             const $scrollWrapper = scrollWrapper.value!
             $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
+        }
+        function moveToTarget(currentTag: any): void {
+            const $container = scrollContainerRef.value!.$el
+            const $containerWidth = $container.offsetWidth
+            const $scrollWrapper = scrollWrapper.value!
+            const tagList = instance!.proxy!.$parent!.$refs.tagRefs as any[]
+
+            let firstTag = null
+            let lastTag = null
+
+            // find first tag and last tag
+            if (tagList.length > 0) {
+                firstTag = tagList[0]
+                lastTag = tagList[tagList.length - 1]
+            }
+
+            if (firstTag === currentTag) {
+                $scrollWrapper.scrollLeft = 0
+            } else if (lastTag === currentTag) {
+                $scrollWrapper.scrollLeft = $scrollWrapper.scrollWidth - $containerWidth
+            } else {
+                // find preTag and nextTag
+                const currentIndex = tagList.findIndex(item => item === currentTag)
+                const prevTag = tagList[currentIndex - 1]
+                const nextTag = tagList[currentIndex + 1]
+
+                // the tag's offsetLeft after of nextTag
+                const afterNextTagOffsetLeft = nextTag.$el.offsetLeft + nextTag.$el.offsetWidth + tagAndTagSpacing
+
+                // the tag's offsetLeft before of prevTag
+                const beforePrevTagOffsetLeft = prevTag.$el.offsetLeft - tagAndTagSpacing
+
+                if (afterNextTagOffsetLeft > $scrollWrapper.scrollLeft + $containerWidth) {
+                    $scrollWrapper.scrollLeft = afterNextTagOffsetLeft - $containerWidth
+                } else if (beforePrevTagOffsetLeft < $scrollWrapper.scrollLeft) {
+                    $scrollWrapper.scrollLeft = beforePrevTagOffsetLeft
+                }
+            }
         }
         function emitScroll() {
             emit(SCROLL_EVENT)
@@ -43,7 +84,8 @@ export default defineComponent({
 
         return {
             scrollContainerRef,
-            handleScroll
+            handleScroll,
+            moveToTarget
         }
     },
 })

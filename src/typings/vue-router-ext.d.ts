@@ -1,16 +1,17 @@
-import type { RouteRecordRaw, RouteMeta } from "vue-router"
+import { RouteRecordRaw } from 'vue-router'
 
 /**
- * vue-router增加类型CustomRouteRecordRaw，继承自RouteRecordRaw，
- * 增加hidden属性
+ * vue-router 类型扩展
  */
 declare module "vue-router" {
+    // type 无法声明合并，定义一个新类型CustomRouteRecordRaw扩展RouteRecordRaw
     type CustomRouteRecordRaw = Omit<RouteRecordRaw, "children">
         & {
             children?: CustomRouteRecordRaw[]
             hidden?: boolean
             alwaysShow?: boolean
         }
+
     interface RouteMeta {
         roles?: string[]
         title: string
@@ -19,6 +20,10 @@ declare module "vue-router" {
         affix?: boolean
         breadcrumb?: boolean
         activeMenu?: string
+    }
+
+    interface RouteLocationNormalizedLoaded {
+        title?: string
     }
 }
 
