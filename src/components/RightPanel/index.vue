@@ -73,7 +73,8 @@ export default defineComponent({
         return {
             show,
             toggle,
-            theme
+            theme,
+            rightPanelRef
         }
     }
 })

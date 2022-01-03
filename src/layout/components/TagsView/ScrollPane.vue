@@ -25,7 +25,7 @@ export default defineComponent({
 
         const scrollContainerRef = ref<InstanceType<typeof ElScrollbar> | null>(null)
 
-        const scrollWrapper = computed(() => scrollContainerRef.value?.$refs.wrap as HTMLElement | null)
+        const scrollWrapper = computed(() => scrollContainerRef.value?.$refs.wrap$ as HTMLElement | null)
 
         function handleScroll(e: WheelEvent) {
             // 有些浏览器(IE)wheelDelta值可能不存在，滚动行为默认是滚动3行(deltaY)，行高40px，

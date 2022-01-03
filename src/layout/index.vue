@@ -38,9 +38,9 @@ export default defineComponent({
     setup() {
         const store = useStore()
         const { sidebar, device } = useGetter(['sidebar', 'device'])
-        const { showSettings, needTagsView, fixedHeader } = useState('settings', [
+        const { showSettings, tagsView: needTagsView, fixedHeader } = useState('settings', [
             'showSettings',
-            'needTagsView',
+            'tagsView',
             'fixedHeader'
         ])
 
