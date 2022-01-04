@@ -25,10 +25,7 @@ import { defineComponent, reactive, nextTick, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { InstallOptions } from 'element-plus/lib/utils/config'
 import { useGetter } from '@/hooks/use-vuex'
-
-export type ElementSize = InstallOptions["size"]
 
 export default defineComponent({
     name: "SizeSelect",
@@ -38,9 +35,8 @@ export default defineComponent({
         const router = useRouter()
         const { size } = useGetter(['size'])
 
-        const sizeOptions = reactive<{ label: string, value: ElementSize }[]>([
-            { label: 'Default', value: '' },
-            { label: 'Large', value: 'large' },
+        const sizeOptions = reactive([
+            { label: 'Default', value: 'default' },
             { label: 'Medium', value: 'medium' },
             { label: 'Small', value: 'small' },
             { label: 'Mini', value: 'mini' }
@@ -65,11 +61,11 @@ export default defineComponent({
         //  1、instance.proxy.$ELEMENT
         //  2、instance?.appContext.config.globalProperties.$ELEMENT
         // 要获得类型提示需要在typings/vue-runtime-ext.d.ts中定义$ELEMENT类型
-        function setElementSize(value: ElementSize) {
+        function setElementSize(value: any) {
             const publicInstance = instance!.proxy!;
             (publicInstance.$ELEMENT || (publicInstance.$ELEMENT = {})).size = value
         }
-        function handleSetSize(value: ElementSize) {
+        function handleSetSize(value: string) {
             setElementSize(value)
             store.dispatch('app/setSize', value)
             refreshView()
