@@ -18,7 +18,10 @@
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
                 <el-tooltip content="Global Size" :effect="tooltipEffect" placement="bottom">
-                    <size-select id="size-select" class="right-menu-item hover-effect" />
+                    <size-select
+                        id="size-select"
+                        class="size-select-container right-menu-item hover-effect"
+                    />
                 </el-tooltip>
             </template>
 
@@ -136,6 +139,14 @@ export default defineComponent({
     .errLog-container {
         display: inline-block;
         vertical-align: top;
+    }
+
+    .size-select-container {
+        ::v-deep(div[class^="el-dropdown--"]) {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
     }
 
     .right-menu {

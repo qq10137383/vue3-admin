@@ -13,6 +13,7 @@
 import { computed, defineComponent, ref, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 import { ElScrollbar } from 'element-plus'
 import type { CustomRouteLink } from './index.vue'
+import TagsView from './index.vue'
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
@@ -38,7 +39,7 @@ export default defineComponent({
             const $container = scrollContainerRef.value!.$el
             const $containerWidth = $container.offsetWidth
             const $scrollWrapper = scrollWrapper.value!
-            const tagList = instance!.proxy!.$parent!.$refs.tagRefs as CustomRouteLink[]
+            const tagList = (instance!.proxy!.$parent! as InstanceType<typeof TagsView>).tagRefs
 
             let firstTag = null
             let lastTag = null

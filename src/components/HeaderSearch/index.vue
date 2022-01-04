@@ -66,7 +66,7 @@ export default defineComponent({
                     title: [...prefixTitle]
                 }
 
-                if (router.meta && router.meta.title) {
+                if (router.meta?.title) {
                     data.title = [...data.title, router.meta.title]
 
                     if (router.redirect !== 'noRedirect') {

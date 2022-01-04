@@ -12,7 +12,8 @@ export default defineComponent({
             window.localStorage.setItem('x-admin-oauth-code', hash)
             window.close()
         }
-        return () => h("")
+
+        return () => h("span")
     }
 })
 </script>

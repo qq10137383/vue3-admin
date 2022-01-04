@@ -10,21 +10,18 @@
                     :index="resolvePath(onlyOneChild.path)"
                     :class="{ 'submenu-title-noDropdown': !isNest }"
                 >
-                    <item
-                        :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
-                        :title="onlyOneChild.meta.title"
-                    />
+                    <menu-icon :icon="onlyOneChild.meta.icon || (item.meta?.icon)" />
+                    <template v-slot:title>
+                        <span>{{ onlyOneChild.meta.title }}</span>
+                    </template>
                 </el-menu-item>
             </app-link>
         </template>
 
         <el-sub-menu v-else ref="subMenuRef" :index="resolvePath(item.path)" popper-append-to-body>
             <template v-slot:title>
-                <item
-                    v-if="item.meta"
-                    :icon="item.meta && item.meta.icon"
-                    :title="item.meta.title"
-                />
+                <menu-icon :icon="item.meta?.icon" />
+                <span>{{ item.meta?.title }}</span>
             </template>
             <sidebar-item
                 v-for="child in item.children"
@@ -44,7 +41,7 @@ import { defineComponent, onMounted, PropType, ref } from 'vue'
 import type { CustomRouteRecordRaw } from 'vue-router'
 import { useGetter } from '@/hooks/use-vuex'
 import { isExternal } from '@/utils/validate'
-import Item from './Item.vue'
+import MenuIcon from './Icon.vue'
 import AppLink from './Link.vue'
 
 type CustomRouteRecordRawVo = CustomRouteRecordRaw & {
@@ -53,7 +50,7 @@ type CustomRouteRecordRawVo = CustomRouteRecordRaw & {
 
 export default defineComponent({
     components: {
-        Item,
+        MenuIcon,
         AppLink
     },
     props: {

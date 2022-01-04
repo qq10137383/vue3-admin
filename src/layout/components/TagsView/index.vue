@@ -76,7 +76,9 @@ export default defineComponent({
         })
 
         function setTagRef(inst: CustomRouteLink) {
-            tagRefs.push(inst)
+            if (inst && !tagRefs.includes(inst)) {
+                tagRefs.push(inst)
+            }
         }
         function isActive(tag: RouteLocationNormalizedLoaded) {
             return tag.path === route.path

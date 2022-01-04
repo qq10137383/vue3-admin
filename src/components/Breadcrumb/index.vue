@@ -34,14 +34,15 @@ export default defineComponent({
             return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
         }
         function getBreadcrumb() {
-            const matched = route.matched.filter(item => item.meta.title)
+            const matched = route.matched.filter(item => item.meta?.title)
             const first = matched[0]
-            const tmp = levelList.value
+            const tmp: BreadItem[] = []
 
             if (!isDashboard(first)) {
                 tmp.push({ path: '/dashboard', meta: { title: 'Dashboard' }, redirect: undefined })
             }
             tmp.push(...matched)
+
             levelList.value = tmp.filter(item => item.meta.title && item.meta.breadcrumb !== false)
         }
         function pathCompile(path: string) {
