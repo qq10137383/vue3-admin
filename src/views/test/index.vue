@@ -9,11 +9,11 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
+    name: "Test",
     setup() {
         const text = ref("")
 
         return {
-
             text
         }
     }

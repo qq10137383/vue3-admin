@@ -3,7 +3,7 @@
         <router-view v-slot="{ Component }">
             <transition name="fade-transform" mode="out-in">
                 <keep-alive :include="cachedViews">
-                    <component :key="key" :is="Component" />
+                    <component :is="Component" />
                 </keep-alive>
             </transition>
         </router-view>
@@ -11,21 +11,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent } from 'vue'
 import { useGetter } from '@/hooks/use-vuex'
 
+// vue-router4 router-viewer需要包裹在keep-alive外面，和vue-router3相反
+// see https://next.router.vuejs.org/zh/guide/migration/index.html#router-view-%E3%80%81-keep-alive-%E5%92%8C-transition
 export default defineComponent({
     name: 'AppMain',
     setup() {
-        const route = useRoute()
-
-        const key = computed(() => route.path)
-
         const { cachedViews } = useGetter(["cachedViews"])
 
         return {
-            key,
             cachedViews
         }
     },
