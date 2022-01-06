@@ -214,7 +214,7 @@ export default defineComponent({
             ctxState.visible = false
         }
 
-        watch(route, () => {
+        watch(() => route.path, () => {
             addTags()
             moveToCurrentTag()
         })

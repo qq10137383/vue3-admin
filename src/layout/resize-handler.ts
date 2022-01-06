@@ -27,7 +27,7 @@ export default function resizeHandler(): void {
         }
     }
 
-    watch(route, () => {
+    watch(() => route.path, () => {
         if (device.value === 'mobile' && sidebar.value.opened) {
             store.dispatch('app/closeSideBar', { withoutAnimation: false })
         }

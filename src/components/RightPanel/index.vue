@@ -63,7 +63,7 @@ export default defineComponent({
             body.insertBefore(elx, body.firstChild)
         }
 
-        watch(show, (value) => {
+        watch(() => show.value, (value) => {
             if (value && !props.clickNotClose) {
                 addEventClick()
             }

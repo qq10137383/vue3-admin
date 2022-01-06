@@ -36,7 +36,7 @@ export function useResize(cb: Ref<ResizeFn>): void {
         destroySidebarResizeEvent()
     }
 
-    watch(cb, () => {
+    watch(() => cb.value, () => {
         destroyAllResizeEvents()
         initResizeHandler()
         initAllResizeEvents()

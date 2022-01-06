@@ -1,15 +1,21 @@
 <template>
-     <div>1233434444</div>
+    <div>
+        <div>1233434444</div>
+        <el-input v-model="text" />
+    </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
     setup() {
+        const text = ref("")
+
         return {
 
+            text
         }
-    },
+    }
 })
 </script>

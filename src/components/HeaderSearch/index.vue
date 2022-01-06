@@ -134,9 +134,9 @@ export default defineComponent({
             show.value = false
         }
 
-        watch(permission_routes, setSearchPool)
-        watch(searchPool, (value) => initFuse(value))
-        watch(show, (value) => {
+        watch(() => permission_routes.value, setSearchPool)
+        watch(() => searchPool.value, (value) => initFuse(value))
+        watch(() => show.value, (value) => {
             if (value) {
                 document.body.addEventListener('click', close)
             } else {

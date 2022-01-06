@@ -21,6 +21,7 @@ export default defineComponent({
         const route = useRoute()
 
         const key = computed(() => route.path)
+
         const { cachedViews } = useGetter(["cachedViews"])
 
         return {
