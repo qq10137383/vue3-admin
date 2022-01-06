@@ -13,16 +13,18 @@
                 @contextmenu.prevent="openMenu(tag, $event)"
             >
                 {{ tag.title }}
-                <span
+                <el-icon
                     v-if="!isAffix(tag)"
                     class="el-icon-close"
                     @click.prevent.stop="closeSelectedTag(tag)"
-                ></span>
+                >
+                    <close />
+                </el-icon>
             </router-link>
         </scroll-pane>
         <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
             <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
-            <li v-if="!isAffix(selectedTag!)" @click="closeSelectedTag(selectedTag)">Close</li>
+            <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">Close</li>
             <li @click="closeOthersTags">Close Others</li>
             <li @click="closeAllTags(selectedTag)">Close All</li>
         </ul>
@@ -39,6 +41,7 @@ import {
     useRoute, useRouter, RouteLocationNormalizedLoaded,
     CustomRouteRecordRaw, RouteLocationRaw, RouterLinkProps
 } from 'vue-router'
+import { Close } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { useState, useGetter } from '@/hooks/use-vuex'
 import ScrollPane from './ScrollPane.vue'
@@ -53,7 +56,8 @@ export type CustomRouteLink = ComponentPublicInstance<
 export default defineComponent({
     name: 'TagsView',
     components: {
-        ScrollPane
+        ScrollPane,
+        Close
     },
     setup() {
         let affixTags: RouteLocationNormalizedLoaded[] = []
@@ -288,7 +292,7 @@ export default defineComponent({
                     height: 8px;
                     border-radius: 50%;
                     position: relative;
-                    margin-right: 2px;
+                    margin-right: 4px;
                 }
             }
         }
@@ -324,16 +328,12 @@ export default defineComponent({
         .el-icon-close {
             width: 16px;
             height: 16px;
-            vertical-align: 2px;
+            padding-top: 3px;
             border-radius: 50%;
             text-align: center;
+            font-size: 9px;
             transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
             transform-origin: 100% 50%;
-            &:before {
-                transform: scale(0.6);
-                display: inline-block;
-                vertical-align: -3px;
-            }
             &:hover {
                 background-color: #b4bccc;
                 color: #fff;

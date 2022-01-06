@@ -7,7 +7,9 @@
                 :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
                 @click="toggle"
             >
-                <i :class="show ? 'el-icon-close' : 'el-icon-setting'"></i>
+                <el-icon>
+                    <component :is="show ? 'Close' : 'Setting'" />
+                </el-icon>
             </div>
             <div class="rightPanel-items">
                 <slot></slot>
@@ -18,12 +20,17 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { Close, Setting } from '@element-plus/icons-vue'
 import { useToggle } from '@/hooks/use-toggle'
 import { useState } from '@/hooks/use-vuex'
 import { addClass, removeClass } from '@/utils'
 
 export default defineComponent({
     name: 'RightPanel',
+    components: {
+        Close,
+        Setting
+    },
     props: {
         clickNotClose: {
             default: false,

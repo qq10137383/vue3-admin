@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import Cookies from 'js-cookie'
 import errorLog from '@/utils/error-log' // error-log
+import elIcons from '@/utils/el-icons' // global el-icon
 import svgIcons from '@/icons' // svg icons
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
@@ -28,6 +29,7 @@ Object.keys(filters).forEach(key => {
 app.use(errorLog)
     .use(store)
     .use(router)
+    .use(elIcons)
     .use(svgIcons)
     .use(ElementPlus, {
         size: Cookies.get('size') ?? 'small',

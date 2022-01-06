@@ -1,7 +1,9 @@
 <script lang="tsx">
-import { ExtractPropTypes, VNodeArrayChildren } from "vue";
+import { ExtractPropTypes, resolveComponent, VNodeArrayChildren } from "vue";
 
 const menuIconProps = {
+  // 可以是svg icon名称、element-plus icon组件名，
+  // 如果element-plus icon组件名，icon组件需在@/utils/el-icons.ts中全局注册，且注册名前缀为el-icon
   icon: {
     type: String,
     default: "",
@@ -14,13 +16,17 @@ function MenuIcon(props: ExtractPropTypes<typeof menuIconProps>): VNodeArrayChil
   const vnodes: VNodeArrayChildren = [];
 
   if (icon) {
-    if (icon.includes("el-icon")) {
-      vnodes.push(<i class={[icon, "sub-el-icon"]} />);
-    } else {
+    if (icon.includes('el-icon')) {
+      // 可以不使用resolveComponent转换: vnodes.push(<el-icon><icon class={['sub-el-icon']} /></el-icon>)
+      // 主要作用是icon组件如果未在全局注册，resolveComponent会在控制台输出提示信息
+      const IconComponent = resolveComponent(icon) as any
+      vnodes.push(<el-icon><IconComponent class={['sub-el-icon']} /></el-icon>)
+    }
+    else {
       vnodes.push(<svg-icon icon-class={icon} />);
     }
   }
-  
+
   return vnodes;
 }
 

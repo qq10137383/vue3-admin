@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw, Router } from "vue-router"
+import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw, Router } from 'vue-router'
 
 /* Layout */
 import Layout from '@/layout/index.vue'
@@ -16,7 +16,7 @@ import Layout from '@/layout/index.vue'
  * meta : {
     roles: ['admin','editor']    control the page roles (you can set multiple roles)
     title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
+    icon: 'svg-name'             the icon show in the sidebar，el-icon component should regist in @/utils/el-icons.ts
     noCache: true                if set true, the page will no be cached(default is false)
     affix: true                  if set true, the tag will affix in the tags-view
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
@@ -71,7 +71,7 @@ export const asyncRoutes: CustomRouteRecordRaw[] = [
                 path: 'index',
                 name: "Test",
                 component: () => import("@/views/test/index.vue"),
-                meta: { title: 'Test', icon: 'dashboard', affix: true }
+                meta: { title: 'Test', icon: 'el-icon-apple' }
             }
         ]
     },
@@ -100,7 +100,6 @@ export function addRoute(route: CustomRouteRecordRaw): RouteRemoveHandler {
 // 2、虽然使用router.remoteRoute可以移除路由，但是方法需要移除的路由有name属性，
 //    系统中的路由可以没有name，所以使用addRouter的返回值作为替代
 export function resetRouter(): void {
-    debugger
     asyncRemoveHandlers.forEach(fn => fn())
     asyncRemoveHandlers = []
 }

@@ -14,12 +14,7 @@
             <template v-slot:title>
                 <div>
                     <span style="padding-right: 10px;">Error Log</span>
-                    <el-button
-                        size="mini"
-                        type="primary"
-                        icon="el-icon-delete"
-                        @click="clearAll"
-                    >Clear All</el-button>
+                    <el-button size="mini" type="primary" :icon="Delete" @click="clearAll">Clear All</el-button>
                 </div>
             </template>
             <el-table :data="errorLogs" border>
@@ -54,6 +49,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
+import { Delete } from '@element-plus/icons-vue'
 import { useGetter } from '@/hooks/use-vuex'
 
 export default defineComponent({
@@ -71,7 +67,8 @@ export default defineComponent({
         return {
             dialogTableVisible,
             clearAll,
-            errorLogs
+            errorLogs,
+            Delete
         }
     }
 })

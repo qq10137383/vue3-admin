@@ -17,7 +17,7 @@
 
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-                <el-tooltip content="Global Size" :effect="tooltipEffect" placement="bottom">
+                <el-tooltip content="Global Size" :effect="Effect.DARK" placement="bottom">
                     <size-select
                         id="size-select"
                         class="size-select-container right-menu-item hover-effect"
@@ -28,7 +28,9 @@
             <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
                 <div class="avatar-wrapper">
                     <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
-                    <i class="el-icon-caret-bottom"></i>
+                    <el-icon class="el-icon-caret-bottom">
+                        <caret-bottom />
+                    </el-icon>
                 </div>
                 <template v-slot:dropdown>
                     <el-dropdown-menu>
@@ -62,6 +64,7 @@ import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { Effect } from 'element-plus'
+import { CaretBottom } from '@element-plus/icons-vue'
 import { useGetter } from '@/hooks/use-vuex'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
@@ -78,17 +81,14 @@ export default defineComponent({
         ErrorLog,
         Screenfull,
         SizeSelect,
-        Search
+        Search,
+        CaretBottom
     },
     setup() {
         const store = useStore()
         const router = useRouter()
         const route = useRoute()
         const { sidebar, avatar, device } = useGetter(['sidebar', 'avatar', 'device'])
-
-        // ts无法在模板中将字符串类型映射为枚举
-        // see https://github.com/element-plus/element-plus/issues/3257
-        const tooltipEffect = Effect.DARK
 
         function toggleSideBar() {
             store.dispatch('app/toggleSideBar')
@@ -102,7 +102,7 @@ export default defineComponent({
             sidebar,
             avatar,
             device,
-            tooltipEffect,
+            Effect,
             toggleSideBar,
             logout
         }
