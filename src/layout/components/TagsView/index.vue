@@ -84,7 +84,7 @@ export default defineComponent({
             return tag.path === route.path
         }
         function isAffix(tag: RouteLocationNormalizedLoaded) {
-            return tag.meta && tag.meta.affix
+            return tag.meta?.affix
         }
         function filterAffixTags(routes: CustomRouteRecordRaw[], basePath = '/') {
             let tags: RouteLocationNormalizedLoaded[] = []

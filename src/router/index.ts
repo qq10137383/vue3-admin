@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
+import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw, Router } from "vue-router"
 
 /* Layout */
 import Layout from '@/layout/index.vue'
@@ -62,7 +62,19 @@ export const constantRoutes: CustomRouteRecordRaw[] = [
 ]
 
 export const asyncRoutes: CustomRouteRecordRaw[] = [
-
+    {
+        path: '/test',
+        component: Layout,
+        redirect: '/test/index',
+        children: [
+            {
+                path: 'index',
+                name: "Test",
+                component: () => import("@/views/test/index.vue"),
+                meta: { title: 'Test', icon: 'dashboard', affix: true }
+            }
+        ]
+    },
 ]
 
 const router = createRouter({
@@ -71,9 +83,26 @@ const router = createRouter({
     routes: constantRoutes as RouteRecordRaw[]
 })
 
+
+type RouteRemoveHandler = ReturnType<Router["addRoute"]>
+
+// 动态路由移除方法，通过addRoute增加的动态路由在退出时要清理
+let asyncRemoveHandlers: RouteRemoveHandler[] = []
+
+export function addRoute(route: CustomRouteRecordRaw): RouteRemoveHandler {
+    const handler = router.addRoute(route as RouteRecordRaw)
+    asyncRemoveHandlers.push(handler)
+    return handler
+}
+
+// 1、matcher在vue3中作为函数内部变量无法访问，addRoute方法返回值为移除路由方法
+//    see https://github.com/vuejs/vue-router-next/issues/1237
+// 2、虽然使用router.remoteRoute可以移除路由，但是方法需要移除的路由有name属性，
+//    系统中的路由可以没有name，所以使用addRouter的返回值作为替代
 export function resetRouter(): void {
-    const routes = router.getRoutes()
-    routes.forEach(r => r.name && router.removeRoute(r.name))
+    debugger
+    asyncRemoveHandlers.forEach(fn => fn())
+    asyncRemoveHandlers = []
 }
 
 export default router

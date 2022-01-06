@@ -22,12 +22,12 @@ module.exports = {
         port: port,
         open: true,
         overlay: {
-          warnings: false,
-          errors: true
+            warnings: false,
+            errors: true
         },
         // 启动前先启动api服务
         before: require('./mock/mock-server.js')
-      },
+    },
     chainWebpack: config => {
         // 打开source-map，方便调试
         config.devtool('source-map')
