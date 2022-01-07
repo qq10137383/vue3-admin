@@ -134,7 +134,7 @@ export default defineComponent({
             show.value = false
         }
 
-        watch(() => permission_routes.value, setSearchPool)
+        watch(() => [...permission_routes.value], setSearchPool)
         watch(() => searchPool.value, (value) => initFuse(value))
         watch(() => show.value, (value) => {
             if (value) {
