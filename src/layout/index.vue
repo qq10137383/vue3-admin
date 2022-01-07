@@ -12,7 +12,9 @@
                 <tags-view v-if="needTagsView" />
             </div>
             <app-main />
-            <right-panel v-if="showSettings"></right-panel>
+            <right-panel v-if="showSettings">
+                <settings />
+            </right-panel>
         </div>
     </div>
 </template>
@@ -24,13 +26,14 @@ import { useStore } from 'vuex'
 import { useState, useGetter } from '@/hooks/use-vuex'
 import resizeHandler from './resize-handler'
 import RightPanel from '@/components/RightPanel/index.vue'
-import { AppMain, Navbar, Sidebar, TagsView } from './components'
+import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 
 export default defineComponent({
     name: 'Layout',
     components: {
         AppMain,
         Navbar,
+        Settings,
         RightPanel,
         Sidebar,
         TagsView

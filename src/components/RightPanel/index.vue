@@ -1,25 +1,27 @@
 <template>
-    <div ref="rightPanelRef" :class="{ show: show }" class="rightPanel-container">
-        <div class="rightPanel-background"></div>
-        <div class="rightPanel">
-            <div
-                class="handle-button"
-                :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
-                @click="toggle"
-            >
-                <el-icon>
-                    <component :is="show ? 'Close' : 'Setting'" />
-                </el-icon>
-            </div>
-            <div class="rightPanel-items">
-                <slot></slot>
+    <teleport to="body">
+        <div :class="{ show: show }" class="rightPanel-container">
+            <div class="rightPanel-background"></div>
+            <div class="rightPanel">
+                <div
+                    class="handle-button"
+                    :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
+                    @click="toggle"
+                >
+                    <el-icon>
+                        <component :is="show ? 'Close' : 'Setting'" />
+                    </el-icon>
+                </div>
+                <div class="rightPanel-items">
+                    <slot></slot>
+                </div>
             </div>
         </div>
-    </div>
+    </teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { Close, Setting } from '@element-plus/icons-vue'
 import { useToggle } from '@/hooks/use-toggle'
 import { useState } from '@/hooks/use-vuex'
@@ -45,8 +47,6 @@ export default defineComponent({
         const { state: show, toggle } = useToggle(false)
         const { theme } = useState('settings', ['theme'])
 
-        const rightPanelRef = ref<HTMLElement | null>(null)
-
         const closeSidebar = (evt: MouseEvent) => {
             const parent = (evt.target as HTMLElement).closest('.rightPanel')
             if (!parent) {
@@ -56,11 +56,6 @@ export default defineComponent({
         }
         function addEventClick() {
             window.addEventListener('click', closeSidebar)
-        }
-        function insertToBody() {
-            const elx = rightPanelRef.value!
-            const body = document.querySelector('body')!
-            body.insertBefore(elx, body.firstChild)
         }
 
         watch(() => show.value, (value) => {
@@ -74,14 +69,10 @@ export default defineComponent({
             }
         })
 
-        onMounted(insertToBody)
-        onBeforeUnmount(() => rightPanelRef.value!.remove())
-
         return {
             show,
             toggle,
-            theme,
-            rightPanelRef
+            theme
         }
     }
 })
@@ -148,9 +139,11 @@ export default defineComponent({
     cursor: pointer;
     color: #fff;
     line-height: 48px;
+    padding-top: 4px;
     i {
         font-size: 24px;
         line-height: 48px;
+        pointer-events: none;
     }
 }
 </style>

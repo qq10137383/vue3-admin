@@ -1,4 +1,5 @@
 import { Module, MutationTree, ActionTree } from "vuex"
+import elementVariables from '@/styles/element-variables.scss'
 import type { AllState } from '../index'
 
 import defaultSettings from '@/settings'
@@ -17,7 +18,7 @@ export type SettignsState = {
 }
 
 const state: SettignsState = {
-    theme: "default",
+    theme: elementVariables.theme,
     showSettings: showSettings,
     tagsView: tagsView,
     fixedHeader: fixedHeader,
