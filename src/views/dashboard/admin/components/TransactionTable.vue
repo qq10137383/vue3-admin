@@ -4,7 +4,7 @@
             <template v-slot="scope">{{ orderNoFilter(scope.row.order_no) }}</template>
         </el-table-column>
         <el-table-column label="Price" width="195" align="center">
-            <template v-slot="scope">¥{{ toThousandFilter(scope.row.price) }}</template>
+            <template v-slot="scope">¥{{ $filters.toThousandFilter(scope.row.price) }}</template>
         </el-table-column>
         <el-table-column label="Status" width="100" align="center">
             <template v-slot="{ row }">
