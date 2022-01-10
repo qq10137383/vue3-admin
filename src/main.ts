@@ -8,9 +8,8 @@ import svgIcons from '@/icons' // svg icons
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
-import ElementPlus from "element-plus"
+import elementPlus from "element-plus"
 import '@/styles/element-variables.scss'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 import '@/styles/index.scss' // global css
 
@@ -28,7 +27,5 @@ app.use(errorLog)
     .use(router)
     .use(elIcons)
     .use(svgIcons)
-    .use(ElementPlus, {
-        locale: zhCn
-    })
+    .use(elementPlus)
     .mount('#app')

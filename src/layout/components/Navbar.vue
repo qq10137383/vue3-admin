@@ -25,7 +25,11 @@
                 </el-tooltip>
             </template>
 
-            <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+            <el-dropdown
+                class="avatar-container right-menu-item hover-effect"
+                trigger="click"
+                @command="handleCommand"
+            >
                 <div class="avatar-wrapper">
                     <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
                     <el-icon class="el-icon-caret-bottom">
@@ -49,7 +53,7 @@
                         >
                             <el-dropdown-item>Docs</el-dropdown-item>
                         </a>
-                        <el-dropdown-item divided @click="logout">
+                        <el-dropdown-item divided command="logout">
                             <span style="display:block;">Log Out</span>
                         </el-dropdown-item>
                     </el-dropdown-menu>
@@ -89,12 +93,18 @@ export default defineComponent({
         const route = useRoute()
         const { sidebar, avatar, device } = useGetter(['sidebar', 'avatar', 'device'])
 
+        const handlers: Record<string, () => void> = {
+            async logout() {
+                await store.dispatch('user/logout')
+                router.push(`/login?redirect=${route.fullPath}`)
+            }
+        }
+
         function toggleSideBar() {
             store.dispatch('app/toggleSideBar')
         }
-        async function logout() {
-            await store.dispatch('user/logout')
-            router.push(`/login?redirect=${route.fullPath}`)
+        function handleCommand(command: string) {
+            handlers[command] && handlers[command]()
         }
 
         return {
@@ -102,7 +112,7 @@ export default defineComponent({
             avatar,
             device,
             toggleSideBar,
-            logout
+            handleCommand
         }
     }
 })
