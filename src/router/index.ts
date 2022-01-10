@@ -63,15 +63,15 @@ export const constantRoutes: CustomRouteRecordRaw[] = [
 
 export const asyncRoutes: CustomRouteRecordRaw[] = [
     {
-        path: '/test',
+        path: '/profile',
         component: Layout,
-        redirect: '/test/index',
+        redirect: '/profile/index',
         children: [
             {
                 path: 'index',
-                name: "Test",
-                component: () => import("@/views/test/index.vue"),
-                meta: { title: 'Test', icon: 'el-icon-apple' }
+                name: "Profile",
+                component: () => import("@/views/profile/index.vue"),
+                meta: { title: 'Profile', icon: 'el-icon-apple' }
             }
         ]
     },

@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Cookies from 'js-cookie'
 import errorLog from '@/utils/error-log' // error-log
 import elIcons from '@/utils/el-icons' // global el-icon
 import svgIcons from '@/icons' // svg icons
@@ -10,8 +9,8 @@ import svgIcons from '@/icons' // svg icons
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import ElementPlus from "element-plus"
+import '@/styles/element-variables.scss'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import 'element-plus/dist/index.css'
 
 import '@/styles/index.scss' // global css
 
@@ -32,7 +31,6 @@ app.use(errorLog)
     .use(elIcons)
     .use(svgIcons)
     .use(ElementPlus, {
-        size: Cookies.get('size') ?? 'small',
         locale: zhCn
     })
     .mount('#app')

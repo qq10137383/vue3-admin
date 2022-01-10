@@ -10,14 +10,49 @@ $--color-warning: #ffba00;
 $--color-danger: #ff4949;
 // $--color-info: #1E1E1E;
 
-$--button-font-weight: 400;
+/** 
+ * just override what you need
+ * see https://element-plus.gitee.io/zh-CN/guide/theming.html#%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98%E8%89%B2-1-1-0-beta-1-%E6%96%B0%E5%A2%9E
+ * element-plus 1.1.0-beta.1 之后样式使用了新特性sass:map，不能再使用node-sass模块(已废弃)，需要替换为sass模块(即dart-sass)
+ **/
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  // theme override
+  $colors: (
+    "primary": (
+      "base": $--color-primary,
+    ),
+    "success": (
+      "base": $--color-success,
+    ),
+    "warning": (
+      "base": $--color-warning,
+    ),
+    "danger": (
+      "base": $--color-danger
+    ),
+  ),
+  $border-color: (
+    "light": #dfe4ed,
+    "lighter": #e6ebf5
+  ),
+  // $text-color: (
+  //   "regular": #1f2d3d
+  // )
+);
 
-// $--color-text-regular: #1f2d3d;
+// If you just import on demand, you can ignore the following content.
+// 导入element-plus scss样式，由于element-plus的icon变成了svg组件，所以不需要再导入字体文件iconfont
+@use "element-plus/theme-chalk/src/index.scss" as *;
 
-$--border-color-light: #dfe4ed;
-$--border-color-lighter: #e6ebf5;
+// global override
+:root {
+  --el-font-weight-primary: 400;
+}
 
-$--table-border: 1px solid #dfe6ec;
+// el-table override
+.el-table {
+  --el-table-border-color: #dfe6ec;
+}
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass

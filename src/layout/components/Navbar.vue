@@ -17,7 +17,7 @@
 
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-                <el-tooltip content="Global Size" :effect="Effect.DARK" placement="bottom">
+                <el-tooltip content="Global Size" effect="dark" placement="bottom">
                     <size-select
                         id="size-select"
                         class="size-select-container right-menu-item hover-effect"
@@ -63,7 +63,6 @@
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { Effect } from 'element-plus'
 import { CaretBottom } from '@element-plus/icons-vue'
 import { useGetter } from '@/hooks/use-vuex'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
@@ -102,7 +101,6 @@ export default defineComponent({
             sidebar,
             avatar,
             device,
-            Effect,
             toggleSideBar,
             logout
         }
