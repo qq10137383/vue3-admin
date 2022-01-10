@@ -4,6 +4,14 @@
             <h3 class="drawer-title">Page style setting</h3>
 
             <div class="drawer-item">
+                <span>Theme Color</span>
+                <theme-picker
+                    style="float: right;height: 26px;margin: -3px 8px 0 0;"
+                    @change="themeChange"
+                />
+            </div>
+
+            <div class="drawer-item">
                 <span>Open Tags-View</span>
                 <el-switch v-model="tagsView" class="drawer-switch" />
             </div>
@@ -24,8 +32,12 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
+import ThemePicker from '@/components/ThemePicker/index.vue'
 
 export default defineComponent({
+    components: {
+        ThemePicker
+    },
     setup() {
         const store = useStore()
 
@@ -51,10 +63,15 @@ export default defineComponent({
             })
         })
 
+        function themeChange() {
+            console.log('themeChange')
+        }
+
         return {
             fixedHeader,
             tagsView,
-            sidebarLogo
+            sidebarLogo,
+            themeChange
         }
     },
 })
