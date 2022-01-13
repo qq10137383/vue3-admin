@@ -48,7 +48,10 @@ export default defineComponent({
         const { theme } = useState('settings', ['theme'])
 
         const closeSidebar = (evt: MouseEvent) => {
-            const parent = (evt.target as HTMLElement).closest('.rightPanel')
+            const target = evt.target as HTMLElement
+            // element-plus color-picker控件使用teleport创建下拉颜色带，元素不在rightPanel，增加样式
+            // inside-right-panel标记过滤掉，否则点击下拉就会关闭rightPanel
+            const parent = target.closest('.rightPanel') || target.closest('.inside-right-panel')
             if (!parent) {
                 show.value = false
                 window.removeEventListener('click', closeSidebar)

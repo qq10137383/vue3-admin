@@ -63,8 +63,12 @@ export default defineComponent({
             })
         })
 
-        function themeChange() {
-            console.log('themeChange')
+        function themeChange(val: string) {
+            store.dispatch('settings/changeSetting', {
+                key: 'theme',
+                value: val
+            })
+            store.dispatch('tagsView/delAllCachedViews')
         }
 
         return {
