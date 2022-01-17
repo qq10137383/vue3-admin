@@ -150,9 +150,7 @@ export default defineComponent({
             store.dispatch('tagsView/delCachedView', view).then(() => {
                 const { fullPath } = view
                 nextTick(() => {
-                    router.replace({
-                        path: '/redirect' + fullPath
-                    })
+                    router.replace({ path: '/redirect' + fullPath })
                 })
             })
         }

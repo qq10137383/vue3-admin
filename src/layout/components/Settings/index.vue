@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, nextTick } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ThemePicker from '@/components/ThemePicker/index.vue'
 
@@ -40,6 +41,8 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
+        const router = useRouter()
+        const route = useRoute()
 
         const fixedHeader = computed({
             get: () => store.state.settings.fixedHeader as boolean,
@@ -68,7 +71,13 @@ export default defineComponent({
                 key: 'theme',
                 value: val
             })
-            store.dispatch('tagsView/delAllCachedViews')
+            // 清除所有页面缓存并刷新当前视图(内联样式无法更新的问题)
+            store.dispatch('tagsView/delAllCachedViews').then(() => {
+                const { fullPath } = route
+                nextTick(() => {
+                    router.replace({ path: '/redirect' + fullPath })
+                })
+            })
         }
 
         return {
