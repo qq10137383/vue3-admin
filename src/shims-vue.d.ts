@@ -14,7 +14,14 @@ declare module '*.vue' {
   export default component
 }
 
+// json文件导出声明
 declare module '*.json' {
   const value: any
+  export default value
+}
+
+// @/assets/images中图片导出为字符串
+declare module '@/assets/images/*' {
+  const value: string
   export default value
 }

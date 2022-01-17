@@ -92,6 +92,7 @@ const actions: ActionTree<UserState, AllState> = {
                 commit('SET_ROLES', [])
                 removeToken()
                 resetRouter()
+                commit('permission/SET_ROUTES', [], { root: true })
 
                 // reset visited views and cached views
                 // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485

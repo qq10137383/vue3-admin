@@ -47,6 +47,21 @@ export const constantRoutes: CustomRouteRecordRaw[] = [
         hidden: true
     },
     {
+        path: '/auth-redirect',
+        component: () => import('@/views/login/auth-redirect.vue'),
+        hidden: true
+    },
+    {
+        path: '/404',
+        component: () => import('@/views/error-page/404.vue'),
+        hidden: true
+    },
+    {
+        path: '/401',
+        component: () => import('@/views/error-page/401.vue'),
+        hidden: true
+    },
+    {
         path: '/',
         component: Layout,
         redirect: '/dashboard',

@@ -71,6 +71,8 @@ const actions: ActionTree<PermissionState, AllState> = {
             } else {
                 accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
             }
+            // 404 page must be placed at the end !!!
+            accessedRoutes.push({ path: '/:pathMatch(.*)*', redirect: '/404', hidden: true })
             commit('SET_ROUTES', accessedRoutes)
             resolve(accessedRoutes)
         })
