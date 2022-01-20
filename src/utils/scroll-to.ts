@@ -1,26 +1,3 @@
-declare global {
-    /**
-     * 扩展Math对象增加缓动函数
-     */
-    interface Math {
-        easeInOutQuad(t: number, b: number, c: number, d: number): number
-    }
-    /**
-     * 扩展Window对象增加关键帧动画函数
-     */
-    interface Window {
-        webkitRequestAnimationFrame(callback: FrameRequestCallback): number
-        mozRequestAnimationFrame(callback: FrameRequestCallback): number
-    }
-    /**
-     * 扩展Node
-     */
-    interface Node {
-        scrollTop: number,
-        scrollLeft: number
-    }
-}
-
 Math.easeInOutQuad = function (t, b, c, d) {
     t /= d / 2
     if (t < 1) {

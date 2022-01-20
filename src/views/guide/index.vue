@@ -19,6 +19,7 @@ import 'driver.js/dist/driver.min.css' // import driver.js css
 import steps from './steps'
 
 export default defineComponent({
+    name: 'Guide',
     setup() {
         const driver = new Driver({
             padding: 0

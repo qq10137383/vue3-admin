@@ -62,8 +62,8 @@ export default defineComponent({
     setup() {
         let affixTags: RouteLocationNormalizedLoaded[] = []
 
-        const elRef = ref<HTMLElement | null>(null)
-        const scrollPaneRef = ref<InstanceType<typeof ScrollPane> | null>(null)
+        const elRef = ref<HTMLElement>()
+        const scrollPaneRef = ref<InstanceType<typeof ScrollPane>>()
         let tagRefs: CustomRouteLink[] = []
 
         const route = useRoute()

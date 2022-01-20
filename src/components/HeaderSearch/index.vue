@@ -43,7 +43,7 @@ export default defineComponent({
     setup() {
         let fuse: Fuse<SearchItem> | null = null
 
-        const headerSearchSelectRef = ref<InstanceType<typeof ElSelect> | null>(null)
+        const headerSearchSelectRef = ref<InstanceType<typeof ElSelect>>()
 
         const router = useRouter()
         const search = ref('')

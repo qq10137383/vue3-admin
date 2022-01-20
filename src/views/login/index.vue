@@ -111,9 +111,9 @@ export default defineComponent({
         const router = useRouter()
         const route = useRoute()
 
-        const loginFormRef = ref<InstanceType<typeof ElForm> | null>(null)
-        const usernameRef = ref<HTMLElement | null>(null)
-        const passwordRef = ref<HTMLElement | null>(null)
+        const loginFormRef = ref<InstanceType<typeof ElForm>>()
+        const usernameRef = ref<HTMLElement>()
+        const passwordRef = ref<HTMLElement>()
 
         const loginForm = reactive({
             username: 'admin',

@@ -44,10 +44,6 @@ import { isExternal } from '@/utils/validate'
 import MenuIcon from './Icon.vue'
 import AppLink from './Link.vue'
 
-type CustomRouteRecordRawVo = CustomRouteRecordRaw & {
-    noShowingChildren?: boolean
-}
-
 export default defineComponent({
     components: {
         MenuIcon,
@@ -69,10 +65,10 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const onlyOneChild = ref<CustomRouteRecordRawVo | null>(null)
+        const onlyOneChild = ref<CustomRouteRecordRaw>()
         const { device } = useGetter(["device"])
 
-        const subMenuRef = ref<any>(null)
+        const subMenuRef = ref<any>()
 
         function hasOneShowingChild(children: CustomRouteRecordRaw[] = [], parent: CustomRouteRecordRaw) {
             const showingChildren = children.filter(item => {

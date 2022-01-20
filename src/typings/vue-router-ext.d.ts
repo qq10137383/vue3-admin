@@ -11,7 +11,9 @@ declare module "vue-router" {
             // 路由是否在菜单显示
             hidden?: boolean
             // 路由没有子路由时是否总是在菜单显示
-            alwaysShow?: boolean
+            alwaysShow?: boolean,
+            // 不显示子元素
+            noShowingChildren?: boolean
         }
 
     interface RouteMeta {

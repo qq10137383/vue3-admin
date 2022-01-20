@@ -16,6 +16,21 @@ export interface ApiResult<T> {
     data: T
 }
 
+export enum ResponseStatus {
+    Success = 'success',
+    Failed = 'failed'
+}
+
+export interface AddVo {
+    key: string
+}
+
+export interface UpdateVo {
+    status: ResponseStatus
+}
+
+export type DeleteVo = UpdateVo
+
 export interface ListData<T> {
     items: T[]
 }

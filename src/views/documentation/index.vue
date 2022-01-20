@@ -34,6 +34,7 @@ import { defineComponent, reactive } from 'vue'
 import DropdownMenu, { MenuItem } from '@/components/Share/DropdownMenu.vue'
 
 export default defineComponent({
+    name: 'Documentation',
     components: {
         DropdownMenu
     },

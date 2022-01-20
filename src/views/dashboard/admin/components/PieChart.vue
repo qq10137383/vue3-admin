@@ -26,7 +26,7 @@ export default defineComponent({
     setup() {
         let chart: echarts.ECharts | null = null
 
-        const elRef = ref<HTMLDivElement | null>(null)
+        const elRef = ref<HTMLDivElement>()
 
         function initChart() {
             chart = echarts.init(elRef.value!, 'macarons')

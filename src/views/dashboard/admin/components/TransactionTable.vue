@@ -20,7 +20,7 @@ import { TransactionVo, transactionList } from '@/api/remote-search'
 
 export default defineComponent({
     setup() {
-        const list = ref<TransactionVo[] | undefined>(undefined)
+        const list = ref<TransactionVo[]>()
 
         function orderNoFilter(str: string) {
             return str.substring(0, 30)

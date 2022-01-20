@@ -39,7 +39,7 @@ export default defineComponent({
     setup(props) {
         let chart: echarts.ECharts | null = null
 
-        const elRef = ref<HTMLDivElement | null>(null)
+        const elRef = ref<HTMLDivElement>()
 
         function setOptions({ expectedData, actualData } = {} as any) {
             if (!chart) return

@@ -11,7 +11,11 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @returns 
  */
 function hasPermission(roles: string[], route: CustomRouteRecordRaw): boolean {
-    return roles.some(role => (route.meta?.roles ?? []).includes(role))
+    if (route.meta && route.meta.roles) {
+        return roles.some(role => route.meta!.roles!.includes(role))
+    } else {
+        return true
+    }
 }
 
 /**

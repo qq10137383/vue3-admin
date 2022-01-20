@@ -24,7 +24,7 @@ export default defineComponent({
     setup(_, { emit }) {
         const instance = getCurrentInstance()
 
-        const scrollContainerRef = ref<InstanceType<typeof ElScrollbar> | null>(null)
+        const scrollContainerRef = ref<InstanceType<typeof ElScrollbar>>()
 
         const scrollWrapper = computed(() => scrollContainerRef.value?.$refs.wrap$ as HTMLElement | null)
 

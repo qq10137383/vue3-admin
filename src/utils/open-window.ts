@@ -1,14 +1,4 @@
 /**
- * Firefox Screen对象扩展
- */
-declare global {
-    interface Screen {
-        left: number,
-        top: number
-    }
-}
-
-/**
  * 居中位置打开窗口并聚焦
  * @param {string} url
  * @param {string} title
