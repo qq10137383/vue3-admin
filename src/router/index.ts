@@ -3,6 +3,9 @@ import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw, R
 /* Layout */
 import Layout from '@/layout/index.vue'
 
+/* Router Modules */
+import componentsRouter from './modules/components'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -103,19 +106,6 @@ export const constantRoutes: CustomRouteRecordRaw[] = [
 
 export const asyncRoutes: CustomRouteRecordRaw[] = [
     {
-        path: '/profile',
-        component: Layout,
-        redirect: '/profile/index',
-        children: [
-            {
-                path: 'index',
-                name: "Profile",
-                component: () => import("@/views/profile/index.vue"),
-                meta: { title: 'Profile', icon: 'el-icon-apple' }
-            }
-        ]
-    },
-    {
         path: '/permission',
         component: Layout,
         redirect: '/permission/page',
@@ -168,6 +158,7 @@ export const asyncRoutes: CustomRouteRecordRaw[] = [
             }
         ]
     },
+    componentsRouter
 ]
 
 const router = createRouter({

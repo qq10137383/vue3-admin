@@ -7,10 +7,11 @@ declare global {
     /**
      * 扩展Window对象增加关键帧动画函数、Vue实例
      */
-     interface Window {
+    interface Window {
         webkitRequestAnimationFrame(callback: FrameRequestCallback): number
         mozRequestAnimationFrame(callback: FrameRequestCallback): number
         Vue?: App
+        tinymce?: any
     }
 
     /**
@@ -35,6 +36,14 @@ declare global {
         scrollTop: number,
         scrollLeft: number
     }
+
+    /**
+     * 扩展HTMLScriptElement
+     */
+    interface HTMLScriptElement {
+        onreadystatechange: (() => void) | null
+        readyState: string
+    }
 }
 
-export {}
+export { }
