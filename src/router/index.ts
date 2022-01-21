@@ -153,6 +153,18 @@ export const asyncRoutes: CustomRouteRecordRaw[] = [
                     title: 'Role Permission',
                     roles: ['admin']
                 }
+            },
+        ]
+    },
+    {
+        path: '/icon',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/icons/index.vue'),
+                name: 'Icons',
+                meta: { title: 'Icons', icon: 'icon', noCache: true }
             }
         ]
     },
