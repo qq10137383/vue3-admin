@@ -19,6 +19,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'TinymceDemo',
             meta: { title: 'Tinymce' }
         },
+        {
+            path: 'markdown',
+            component: () => import('@/views/components-demo/markdown.vue'),
+            name: 'MarkdownDemo',
+            meta: { title: 'Markdown' }
+        },
     ]
 }
 

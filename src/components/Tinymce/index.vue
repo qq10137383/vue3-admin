@@ -146,6 +146,9 @@ export default defineComponent({
                 tinymce.destroy()
             }
         }
+        function getTinymce() {
+            return window.tinymce.get(props.id)
+        }
         function setContent(value: string) {
             window.tinymce.get(props.id).setContent(value)
         }
@@ -170,6 +173,7 @@ export default defineComponent({
         return {
             fullscreen,
             containerWidth,
+            getTinymce,
             setContent,
             getContent,
             imageSuccessCBK
