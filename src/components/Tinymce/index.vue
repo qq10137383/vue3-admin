@@ -6,7 +6,7 @@
     >
         <textarea :id="id" class="tinymce-textarea" />
         <div class="editor-custom-btn-container">
-            <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
+            <editor-image color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
         </div>
     </div>
 </template>
@@ -18,7 +18,7 @@
  */
 import {
     defineComponent, PropType, ref, computed, watch, nextTick,
-    onActivated, onDeactivated, onMounted, onUnmounted
+    onActivated, onDeactivated, onMounted, onBeforeUnmount
 } from 'vue'
 import { ElMessage } from 'element-plus'
 import EditorImage, { CustomUploadFile } from './components/EditorImage.vue'
@@ -115,7 +115,7 @@ export default defineComponent({
                     }
                     hasInit = true
                     editor.on('NodeChange Change KeyUp SetContent', () => {
-                        hasInit = true
+                        hasChange = true
                         emit(MODEL_EVENT, editor.getContent())
                     })
                 },
@@ -165,7 +165,7 @@ export default defineComponent({
         onMounted(init)
         onActivated(() => window.tinymce && initTinymce())
         onDeactivated(destroyTinymce)
-        onUnmounted(destroyTinymce)
+        onBeforeUnmount(destroyTinymce)
 
         return {
             fullscreen,

@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+import { UploadFile, ElFile } from 'element-plus/es/components/upload/src/upload.type'
 
 export type CustomUploadFile = Partial<UploadFile
     & {
@@ -91,13 +91,13 @@ export default defineComponent({
                 }
             }
         }
-        function beforeUpload(file: UploadFile) {
+        function beforeUpload(file: ElFile) {
             const _URL = window.URL || window.webkitURL
             const fileName = file.uid
             listObj[fileName] = {}
             return new Promise((resolve) => {
                 const img = new Image()
-                img.src = _URL.createObjectURL(file.raw)
+                img.src = _URL.createObjectURL(file)
                 img.onload = function () {
                     listObj[fileName] = { hasSuccess: false, uid: file.uid, width: img.width, height: img.height }
                 }
@@ -122,6 +122,14 @@ export default defineComponent({
     margin-bottom: 20px;
     ::v-deep(.el-upload--picture-card) {
         width: 100%;
+        height: 148px;
+        line-height: 146px;
+        background-color: #fbfdff;
+        border: 1px dashed #c0ccda;
+        border-radius: 6px;
+        box-sizing: border-box;
+        cursor: pointer;
+        vertical-align: top;
     }
 }
 </style>
