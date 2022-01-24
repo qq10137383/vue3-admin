@@ -89,7 +89,7 @@ export default defineComponent({
         const content3 = ref(content)
         const content4 = ref(content)
         const language = ref(languageTypeList['zh'])
-        const html = ref<string | null>('')
+        const html = ref<string | undefined>('')
 
         const markdownEditorRef = ref<InstanceType<typeof MarkdownEditor>>()
 
