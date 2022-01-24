@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
-    <el-config-provider :size="size" :locale="locale">
-      <router-view />
-    </el-config-provider>
-  </div>
+  <el-config-provider :size="size" :locale="locale">
+    <router-view />
+  </el-config-provider>
 </template>
 
 <script lang="ts">
