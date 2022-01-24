@@ -90,7 +90,7 @@ export default defineComponent({
         })
 
         function initTinymce() {
-            window.tinymce.init({
+            window.tinymce?.init({
                 selector: `#${props.id}`,
                 language: languageTypeList['en'],
                 height: props.height,
@@ -137,8 +137,11 @@ export default defineComponent({
                 initTinymce()
             })
         }
+        function getTinymce() {
+            return window.tinymce?.get(props.id)
+        }
         function destroyTinymce() {
-            const tinymce = window.tinymce.get(props.id)
+            const tinymce = getTinymce()
             if (fullscreen.value) {
                 tinymce.execCommand('mceFullScreen')
             }
@@ -146,17 +149,14 @@ export default defineComponent({
                 tinymce.destroy()
             }
         }
-        function getTinymce() {
-            return window.tinymce.get(props.id)
-        }
         function setContent(value: string) {
-            window.tinymce.get(props.id).setContent(value)
+            getTinymce()?.setContent(value)
         }
         function getContent(): string {
-            return window.tinymce.get(props.id).getContent()
+            return getTinymce()?.getContent()
         }
         function imageSuccessCBK(arr: CustomUploadFile[]) {
-            arr.forEach(v => window.tinymce.get(props.id).insertContent(`<img class="wscnph" src="${v.url}" >`))
+            arr.forEach(v => getTinymce()?.insertContent(`<img class="wscnph" src="${v.url}" >`))
         }
 
         watch(() => props.modelValue, (val) => {
@@ -166,7 +166,7 @@ export default defineComponent({
         })
 
         onMounted(init)
-        onActivated(() => window.tinymce && initTinymce())
+        onActivated(initTinymce)
         onDeactivated(destroyTinymce)
         onBeforeUnmount(destroyTinymce)
 

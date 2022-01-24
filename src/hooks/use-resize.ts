@@ -22,10 +22,10 @@ export function useResize(cb: Ref<ResizeFn>): void {
     }
     function initSidebarResizeEvent() {
         sidebarElm = document.getElementsByClassName('sidebar-container')[0]
-        sidebarElm && sidebarElm.addEventListener('transitionend', sidebarResizeHandler as any)
+        sidebarElm?.addEventListener('transitionend', sidebarResizeHandler as any)
     }
     function destroySidebarResizeEvent() {
-        sidebarElm && sidebarElm.removeEventListener('transitionend', sidebarResizeHandler as any)
+        sidebarElm?.removeEventListener('transitionend', sidebarResizeHandler as any)
     }
     function initAllResizeEvents() {
         initResizeEvent()

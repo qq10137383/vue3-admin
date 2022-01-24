@@ -9,6 +9,7 @@ const options: MdEditorOptions = {
     useCommandShortcut: true,
     usageStatistics: false,
     hideModeSwitch: false,
+    autofocus: false,
     toolbarItems: [
         ['heading', 'bold', 'italic', 'strike'],
         ['hr', 'quote'],

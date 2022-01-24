@@ -99,13 +99,13 @@ export default defineComponent({
         }
 
         const resizeChart = ref(() => {
-            chart && chart.resize()
+            chart?.resize()
         })
         useResize(resizeChart)
 
         onMounted(() => nextTick(initChart))
         onBeforeUnmount(() => {
-            chart && chart.dispose()
+            chart?.dispose()
             chart = null
         })
 

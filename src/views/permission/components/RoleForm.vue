@@ -3,6 +3,7 @@
         :model-value="modelValue"
         :title="dialogType === 'edit' ? 'Edit Role' : 'New Role'"
         :close-on-click-modal="false"
+        top="30px"
         @close="cancel"
     >
         <el-form :model="role" label-width="80px" label-position="left">
@@ -118,7 +119,7 @@ export default defineComponent({
 
                 const data: RouteNode = {
                     path: path.resolve(basePath, route.path),
-                    label: route.meta && route.meta.title
+                    label: route.meta?.title
                 }
 
 

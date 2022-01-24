@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import '@toast-ui/editor/dist/i18n/zh-cn.js'
+import '@toast-ui/editor/dist/i18n/zh-cn.js' //i18n: zh-CN
 
 import { defineComponent, ref } from 'vue'
 import MarkdownEditor from '@/components/MarkdownEditor/index.vue'

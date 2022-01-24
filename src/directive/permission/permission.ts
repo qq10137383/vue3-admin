@@ -5,7 +5,7 @@ const permission: ObjectDirective<HTMLElement, string[]> & Partial<Plugin> = {
     mounted(el, binding) {
         const { value } = binding
 
-        const roles: string[] = store.getters && store.getters.roles
+        const roles: string[] = store.getters?.roles
 
         if (value && value instanceof Array) {
             if (value.length > 0) {
@@ -16,7 +16,7 @@ const permission: ObjectDirective<HTMLElement, string[]> & Partial<Plugin> = {
                 })
 
                 if (!hasPermission) {
-                    el.parentNode && el.parentNode.removeChild(el)
+                    el.parentNode?.removeChild(el)
                 }
             }
         } else {

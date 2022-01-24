@@ -81,16 +81,16 @@ export default defineComponent({
             return editor
         }
         function setValue(value: string) {
-            editor && editor.setMarkdown(value)
+            editor?.setMarkdown(value)
         }
         function getValue() {
-            return editor && editor.getMarkdown()
+            return editor?.getMarkdown()
         }
         function setHtml(value: string) {
-            editor && editor.setHTML(value)
+            editor?.setHTML(value)
         }
         function getHtml() {
-            return editor && editor.getHTML()
+            return editor?.getHTML()
         }
 
         watch(() => props.modelValue, (val, oldVal) => {
@@ -103,10 +103,10 @@ export default defineComponent({
             initEditor()
         })
         watch(() => props.height, (val) => {
-            editor && editor.setHeight(val)
+            editor?.setHeight(val)
         })
         watch(() => props.mode, (val) => {
-            editor && editor.changeMode(val)
+            editor?.changeMode(val)
         })
 
         onMounted(initEditor)
