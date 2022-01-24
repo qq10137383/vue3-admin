@@ -32,14 +32,6 @@ module.exports = {
         // 打开source-map，方便调试
         config.devtool('source-map')
 
-        // 解决element-plus报错的问题
-        config.module
-            .rule('mjs')
-            .test(/\.mjs$/)
-            .type('javascript/auto')
-            .include.add(/node_modules/)
-            .end()
-
         // 默认处理svg的url-loader排除src/icons目录，使用svg-sprite-loader加载
         config.module
             .rule('svg')
@@ -58,5 +50,7 @@ module.exports = {
                 symbolId: 'icon-[name]'
             })
             .end()
-    }
+    },
+    // babel编译element-plus模块，解决element-plus导入报错的问题
+    transpileDependencies: ['element-plus']
 }
