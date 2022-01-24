@@ -16,7 +16,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // 禁用any检测
     '@typescript-eslint/no-explicit-any': 'off',
-    // 禁用!断定检测
+    // 禁用!断言检测
     "@typescript-eslint/no-non-null-assertion": 'off'
   }
 }
