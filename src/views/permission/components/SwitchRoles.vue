@@ -12,8 +12,7 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useGetter } from '@/hooks/use-vuex'
-
-const CHANGE_EVENT = 'change'
+import { CHANGE_EVENT } from '@/utils/constants'
 
 export default defineComponent({
     emits: [CHANGE_EVENT],

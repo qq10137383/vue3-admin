@@ -25,6 +25,7 @@ import EditorImage, { CustomUploadFile } from './components/EditorImage.vue'
 import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
+import { MODEL_EVENT } from '@/utils/constants'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
@@ -35,8 +36,6 @@ const languageTypeList: Record<string, string> = {
     'es': 'es_MX',
     'ja': 'ja'
 }
-
-const MODEL_EVENT = 'update:modelValue'
 
 export default defineComponent({
     name: 'Tinymce',

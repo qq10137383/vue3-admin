@@ -27,9 +27,7 @@ import 'codemirror/addon/lint/lint'   // base lint
 import 'codemirror/addon/lint/json-lint'  // json lint addon
 
 import { defineComponent, ref, onMounted, watch, computed, onBeforeUnmount } from 'vue'
-
-const CHANGE_EVENT = 'changed'
-const MODEL_EVENT = 'update:modelValue'
+import { MODEL_EVENT, CHANGE_EVENT } from '@/utils/constants'
 
 export default defineComponent({
     name: 'JsonEditor',

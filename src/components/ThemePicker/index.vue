@@ -14,9 +14,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
+import { CHANGE_EVENT } from '@/utils/constants'
 
 const CHALK_STYLE = 'chalk-style'
-const CHANGE_EVENT = 'change'
 
 export default defineComponent({
     name: "ThemePicker",

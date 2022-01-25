@@ -31,6 +31,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'JsonEditorDemo',
             meta: { title: 'JSON Editor' }
         },
+        {
+            path: 'split-pane',
+            component: () => import('@/views/components-demo/split-pane.vue'),
+            name: 'SplitpaneDemo',
+            meta: { title: 'SplitPane' }
+        }
     ]
 }
 

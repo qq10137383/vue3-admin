@@ -9,8 +9,7 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // editor ui
 import { defineComponent, PropType, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import Editor, { EditorType } from '@toast-ui/editor'
 import defaultOptions, { MdEditorOptions } from './default-options'
-
-const MODEL_EVENT = 'update:modelValue'
+import { MODEL_EVENT } from '@/utils/constants'
 
 export default defineComponent({
     name: 'MarkdownEditor',
