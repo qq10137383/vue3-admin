@@ -9,7 +9,7 @@ import 'codemirror/lib/codemirror.css'  // codemirror core css
 import 'codemirror/theme/rubyblue.css'  // codemirror theme
 import 'codemirror/addon/lint/lint.css' // codemirror lint
 
-import CodeMirror, { EditorFromTextArea } from 'codemirror'  // codemirror core js
+import CodeMirror, { Editor, EditorFromTextArea } from 'codemirror'  // codemirror core js
 
 // 1、codemirror/addon/lint/json-lint需要调用jsonlint模块，而且读取的是window.jsonlint
 //    由于使用es6 import是局部范围模块，不是window
@@ -26,7 +26,7 @@ import 'codemirror/mode/javascript/javascript' // codemirror js、json mode
 import 'codemirror/addon/lint/lint'   // base lint
 import 'codemirror/addon/lint/json-lint'  // json lint addon
 
-import { defineComponent, ref, onMounted, watch, computed } from 'vue'
+import { defineComponent, ref, onMounted, watch, computed, onBeforeUnmount } from 'vue'
 
 const CHANGE_EVENT = 'changed'
 const MODEL_EVENT = 'update:modelValue'
@@ -56,7 +56,7 @@ export default defineComponent({
         }
 
         const editorText = computed(() => {
-            let formatText
+            let formatText: string
             if (typeof props.modelValue == 'string') {
                 formatText = props.modelValue
                 if (props.format) {
@@ -77,6 +77,10 @@ export default defineComponent({
         function parseValue(val: string) {
             return typeof props.modelValue == 'string' ? val : JSON.parse(val)
         }
+        function handleTextChange(editor: Editor) {
+            emit(CHANGE_EVENT, parseValue(editor.getValue()))
+            emit(MODEL_EVENT, parseValue(editor.getValue()))
+        }
         function initJsonEditor() {
             jsonEditor = CodeMirror.fromTextArea(textareaRef.value!, {
                 lineNumbers: true,
@@ -86,10 +90,11 @@ export default defineComponent({
                 lint: true
             })
             jsonEditor.setValue(editorText.value)
-            jsonEditor.on('change', cm => {
-                emit(CHANGE_EVENT, parseValue(cm.getValue()))
-                emit(MODEL_EVENT, parseValue(cm.getValue()))
-            })
+            jsonEditor.on('change', handleTextChange)
+        }
+        function destroyJsonEditor() {
+            jsonEditor?.off('change', handleTextChange)
+            jsonEditor = null
         }
         function getEditor() {
             return jsonEditor
@@ -103,6 +108,7 @@ export default defineComponent({
         })
 
         onMounted(initJsonEditor)
+        onBeforeUnmount(destroyJsonEditor)
 
         return {
             textareaRef,
