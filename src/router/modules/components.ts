@@ -25,6 +25,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'MarkdownDemo',
             meta: { title: 'Markdown' }
         },
+        {
+            path: 'json-editor',
+            component: () => import('@/views/components-demo/json-editor.vue'),
+            name: 'JsonEditorDemo',
+            meta: { title: 'JSON Editor' }
+        },
     ]
 }
 

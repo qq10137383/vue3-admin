@@ -10,18 +10,21 @@ import 'codemirror/theme/rubyblue.css'  // codemirror theme
 import 'codemirror/addon/lint/lint.css' // codemirror lint
 
 import CodeMirror, { EditorFromTextArea } from 'codemirror'  // codemirror core js
-import 'codemirror/mode/javascript/javascript' // codemirror js、json mode
-import 'codemirror/addon/lint/lint'   // base lint
-import 'codemirror/addon/lint/json-lint'  // json lint
 
 // 1、codemirror/addon/lint/json-lint需要调用jsonlint模块，而且读取的是window.jsonlint
-//    由于使用es6 import是局部范围模块，不是window，所以改用script-loader
+//    由于使用es6 import是局部范围模块，不是window
 // 2、webpack的内联导入模式指定使用script-loader来加载jsonlint模块，替换默认的babel-loader
 //    script-loader的作用是在全局上下文(window)对象下执行脚本 -> eval(null,script)
-//    下面脚本等同于:
+//    require('script-loader!jsonlint')作用等同于:
 //       import jsonlint from 'jsonlint'
 //       window.jsonlint = jsonlint
-require('script-loader!jsonlint')
+//    但是jsonlint代码包含了nodejs的模块(file、system等)，在使用模块化导入静态依赖分析会报错，
+//    所以上面代码其实是行不通的
+require('script-loader!jsonlint') //json lint
+
+import 'codemirror/mode/javascript/javascript' // codemirror js、json mode
+import 'codemirror/addon/lint/lint'   // base lint
+import 'codemirror/addon/lint/json-lint'  // json lint addon
 
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 
@@ -31,10 +34,16 @@ const MODEL_EVENT = 'update:modelValue'
 export default defineComponent({
     name: 'JsonEditor',
     props: {
+        // json对象或json字符串，如果是json对象，需要用ref而不是reactive
         modelValue: {
             type: [String, Object],
             default: ""
         },
+        // modelValue为json字符串时是否需要格式化
+        format: {
+            type: Boolean,
+            default: true
+        }
     },
     emits: [CHANGE_EVENT, MODEL_EVENT],
     setup(props, { emit }) {
@@ -42,17 +51,29 @@ export default defineComponent({
 
         const textareaRef = ref<HTMLTextAreaElement>()
 
+        function formatStringify(val: Record<any, any>) {
+            return JSON.stringify(val, null, 2)
+        }
+
         const editorText = computed(() => {
-            return typeof props.modelValue == 'string'
-                ? props.modelValue : JSON.stringify(props.modelValue, null, 2)
+            let formatText
+            if (typeof props.modelValue == 'string') {
+                formatText = props.modelValue
+                if (props.format) {
+                    try {
+                        formatText = formatStringify(JSON.parse(formatText))
+                    }
+                    catch {
+                        formatText = props.modelValue
+                    }
+                }
+            }
+            else {
+                formatText = formatStringify(props.modelValue)
+            }
+            return formatText
         })
 
-        function getEditor() {
-            return jsonEditor
-        }
-        function getValue() {
-            return jsonEditor?.getValue()
-        }
         function parseValue(val: string) {
             return typeof props.modelValue == 'string' ? val : JSON.parse(val)
         }
@@ -69,6 +90,12 @@ export default defineComponent({
                 emit(CHANGE_EVENT, parseValue(cm.getValue()))
                 emit(MODEL_EVENT, parseValue(cm.getValue()))
             })
+        }
+        function getEditor() {
+            return jsonEditor
+        }
+        function getValue() {
+            return jsonEditor?.getValue()
         }
 
         watch(editorText, (val) => {
@@ -92,19 +119,17 @@ export default defineComponent({
     height: 100%;
     position: relative;
 
-    ::v-deep {
-        .CodeMirror {
-            height: auto;
-            min-height: 300px;
-        }
+    ::v-deep(.CodeMirror) {
+        height: auto;
+        min-height: 300px;
+    }
 
-        .CodeMirror-scroll {
-            min-height: 300px;
-        }
+    ::v-deep(.CodeMirror-scroll) {
+        min-height: 300px;
+    }
 
-        .cm-s-rubyblue span.cm-string {
-            color: #f08047;
-        }
+    ::v-deep(.cm-s-rubyblue span.cm-string) {
+        color: #f08047;
     }
 }
 </style>
