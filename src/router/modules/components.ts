@@ -36,7 +36,13 @@ const componentsRouter: CustomRouteRecordRaw = {
             component: () => import('@/views/components-demo/split-pane.vue'),
             name: 'SplitpaneDemo',
             meta: { title: 'SplitPane' }
-        }
+        },
+        {
+            path: 'avatar-upload',
+            component: () => import('@/views/components-demo/avatar-upload.vue'),
+            name: 'AvatarUploadDemo',
+            meta: { title: 'Upload' }
+        },
     ]
 }
 
