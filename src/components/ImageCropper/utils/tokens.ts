@@ -1,11 +1,26 @@
-import { InjectionKey, ComputedRef } from 'vue'
+import { InjectionKey, UnwrapNestedRefs, ComputedRef } from 'vue'
 import { LangDef } from './language'
 import { UseStep } from '@/hooks/use-step'
 
-export const stepKey: InjectionKey<UseStep> = Symbol('step')
+export interface CropperWizard {
+    step: UseStep,
+    off: () => void
+}
 
-export const langKey: InjectionKey<ComputedRef<LangDef>> = Symbol('lang')
+export interface CropperState {
+    currentState: number
+    sourceImgUrl?: string
+    file?: File
+    createImgUrl?: string
+}
 
-export const mimeKey: InjectionKey<ComputedRef<string>> = Symbol('mime')
+export interface CropperShared {
+    lang: ComputedRef<LangDef>,
+    mime: ComputedRef<string>
+}
 
-export const closeKey: InjectionKey<() => void> = Symbol('close')
+export const wizardKey: InjectionKey<CropperWizard> = Symbol('cropperWizard')
+
+export const stateKey: InjectionKey<UnwrapNestedRefs<CropperState>> = Symbol('cropperState')
+
+export const sharedKey: InjectionKey<CropperShared> = Symbol('cropperShared')

@@ -44,6 +44,13 @@ declare global {
         onreadystatechange: (() => void) | null
         readyState: string
     }
+
+    /**
+     * 扩展WheelEvent
+     */
+    interface WheelEvent {
+        wheelDelta?: number
+    }
 }
 
 export { }

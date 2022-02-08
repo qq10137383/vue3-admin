@@ -34,19 +34,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, getCurrentInstance } from 'vue'
-import { langKey, closeKey } from '../utils/tokens'
+import { defineComponent, ref, inject, markRaw, getCurrentInstance } from 'vue'
+import { wizardKey, stateKey, sharedKey } from '../utils/tokens'
 import { preventDefault } from '../utils/common'
 import ripple from '../utils/effectRipple'
+import type { CropperProps } from '../index.vue'
 
 export default defineComponent({
-    stepIndex: 1,
+    __stepIndex: 1,
     setup() {
-        const instance = getCurrentInstance();
-        const isSupported = typeof FormData == 'function'
+        const { step, off } = inject(wizardKey)!
+        const { lang } = inject(sharedKey)!
+        const cropperState = inject(stateKey)!
 
-        const lang = inject(langKey)!
-        const off = inject(closeKey)!
+        const instance = getCurrentInstance();
+        const parentProps = instance!.proxy!.$attrs as CropperProps
+        const isSupported = typeof FormData == 'function'
 
         const hasError = ref(false)
         const errorMsg = ref('')
@@ -61,7 +64,7 @@ export default defineComponent({
                 return false;
             }
             // 超出大小
-            const maxSize = instance?.attrs?.maxSize as number
+            const maxSize = parentProps.maxSize
             if (file.size / 1024 > maxSize) {
                 hasError.value = true;
                 errorMsg.value = lang.value.error.outOfSize + maxSize + 'kb';
@@ -71,12 +74,16 @@ export default defineComponent({
         }
         // 设置图片源
         function setSourceImg(file: File) {
+            cropperState.file = markRaw(file)
+            cropperState.currentState = 0
             const fr = new FileReader();
             fr.onload = () => {
-                console.log(fr.result)
+                cropperState.sourceImgUrl = fr.result as string
+                step.next()
             }
             fr.readAsDataURL(file);
         }
+        // 重置控件
         function reset() {
             hasError.value = false;
             errorMsg.value = '';

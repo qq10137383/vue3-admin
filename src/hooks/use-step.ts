@@ -4,7 +4,7 @@ export interface UseStep {
     current: ComputedRef<number>
     next(): boolean
     previous(): boolean
-    step(index: number): boolean
+    goto(index: number): boolean
     reset(): void
 }
 
@@ -14,7 +14,7 @@ export function useStep(initIndex = 1, min = 1, max?: number): UseStep {
     // 只读属性
     const current = computed(() => state.value)
 
-    function step(index: number) {
+    function goto(index: number) {
         index = Math.max(index, min)
         if (max !== undefined) {
             index = Math.min(index, max)
@@ -24,10 +24,10 @@ export function useStep(initIndex = 1, min = 1, max?: number): UseStep {
         return result
     }
     function next() {
-        return step(state.value + 1)
+        return goto(state.value + 1)
     }
     function previous() {
-        return step(state.value - 1)
+        return goto(state.value - 1)
     }
     function reset() {
         state.value = initIndex
@@ -35,7 +35,7 @@ export function useStep(initIndex = 1, min = 1, max?: number): UseStep {
 
     return {
         current,
-        step,
+        goto,
         next,
         previous,
         reset
