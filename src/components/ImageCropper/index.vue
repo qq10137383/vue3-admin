@@ -78,7 +78,7 @@ const cropperProps = {
     // 不显示旋转功能
     noRotate: {
         type: Boolean,
-        default: false
+        default: true
     },
     // 不预览圆形图片
     noCircle: {

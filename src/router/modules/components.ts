@@ -43,6 +43,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'AvatarUploadDemo',
             meta: { title: 'Upload' }
         },
+        {
+            path: 'dropzone',
+            component: () => import('@/views/components-demo/dropzone.vue'),
+            name: 'DropzoneDemo',
+            meta: { title: 'Dropzone' }
+        },
     ]
 }
 
