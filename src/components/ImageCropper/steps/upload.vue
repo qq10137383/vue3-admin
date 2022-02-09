@@ -34,6 +34,7 @@ import type { CropperProps } from '../index.vue'
 
 // 图片上传
 export default defineComponent({
+    inheritAttrs: false,
     __stepIndex: 4,
     setup() {
         const { step, close } = inject(wizardKey)!

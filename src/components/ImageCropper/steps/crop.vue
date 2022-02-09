@@ -95,6 +95,7 @@ import type { CropperProps } from '../index.vue'
 
 // 图片裁剪
 export default defineComponent({
+    inheritAttrs: false,
     __stepIndex: 3,
     setup() {
         const { step, close } = inject(wizardKey)!

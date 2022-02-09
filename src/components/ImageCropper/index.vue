@@ -78,7 +78,7 @@ const cropperProps = {
     // 不显示旋转功能
     noRotate: {
         type: Boolean,
-        default: true
+        default: false
     },
     // 不预览圆形图片
     noCircle: {
@@ -200,7 +200,7 @@ export default defineComponent({
         }
         function handleEscClose(e: KeyboardEvent) {
             if (props.modelValue && e.key == 'Escape') {
-                off();
+                close();
             }
         }
         function init() {
@@ -230,7 +230,6 @@ export default defineComponent({
                     break
             }
         })
-
         watch(() => props.modelValue, (val) => {
             val ? on() : off()
         })
