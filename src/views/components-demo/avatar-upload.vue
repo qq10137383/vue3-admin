@@ -6,7 +6,7 @@
                 class="link-type"
                 href="//github.com/dai-siki/vue-image-crop-upload"
             >vue-image-crop-upload</a>.
-            Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.
+            rewritten using the vue3 composition api based on the latest version of the original author, split into multiple step components
         </aside>
 
         <pan-thumb :image="image" />
