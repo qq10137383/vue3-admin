@@ -28,7 +28,7 @@
             {{ errorMsg }}
         </div>
         <div class="vicp-operate">
-            <a @click="off" @mousedown="ripple">{{ lang.btn.off }}</a>
+            <a @click="close" @mousedown="ripple">{{ lang.btn.off }}</a>
         </div>
     </div>
 </template>
@@ -40,10 +40,11 @@ import { preventDefault } from '../utils/common'
 import ripple from '../utils/effectRipple'
 import type { CropperProps } from '../index.vue'
 
+// 图片选择
 export default defineComponent({
-    __stepIndex: 1,
+    __stepIndex: 2,
     setup() {
-        const { step, off } = inject(wizardKey)!
+        const { step, close } = inject(wizardKey)!
         const { lang } = inject(sharedKey)!
         const cropperState = inject(stateKey)!
 
@@ -113,7 +114,7 @@ export default defineComponent({
         return {
             isSupported,
             lang,
-            off,
+            close,
             hasError,
             errorMsg,
             fileinputRef,

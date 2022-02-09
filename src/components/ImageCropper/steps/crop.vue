@@ -69,6 +69,10 @@
                 </div>
             </div>
         </div>
+        <div class="vicp-error" v-show="hasError">
+            <i class="vicp-icon2"></i>
+            {{ errorMsg }}
+        </div>
         <div class="vicp-operate">
             <a @click="step.previous()" @mousedown="ripple">{{ lang.btn.back }}</a>
             <a
@@ -88,12 +92,12 @@ import mimes from '../utils/mimes'
 import { preventDefault } from '../utils/common'
 import ripple from '../utils/effectRipple'
 import type { CropperProps } from '../index.vue'
-import { off } from 'codemirror'
 
+// 图片裁剪
 export default defineComponent({
-    __stepIndex: 2,
+    __stepIndex: 3,
     setup() {
-        const { step, off } = inject(wizardKey)!
+        const { step, close } = inject(wizardKey)!
         const { lang, mime } = inject(sharedKey)!
         const cropperState = inject(stateKey)!
 
@@ -123,7 +127,7 @@ export default defineComponent({
 
         // canvas
         const canvasRef = ref<HTMLCanvasElement>()
-        // 在模板中使用$attrs.width、$attrs。height时，ts检查模板报类型错误，显式声明一下
+        // 在模板中使用$attrs.width、$attrs.height时，ts检查模板报类型错误，显式声明一下
         const { width: pWidth, height: pHeight } = toRefs(parentProps)
         // 原图展示属性
         const scale = reactive({
@@ -457,7 +461,7 @@ export default defineComponent({
             if (typeof url == 'string' && url) {
                 step.next()
             } else {
-                off()
+                close()
             }
         }
 
@@ -475,6 +479,8 @@ export default defineComponent({
             scale,
             width: pWidth,
             height: pHeight,
+            hasError,
+            errorMsg,
             sourceImgStyle,
             sourceImgShadeStyle,
             previewStyle,

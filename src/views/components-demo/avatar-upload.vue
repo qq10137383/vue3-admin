@@ -20,7 +20,11 @@
 
         <image-cropper
             v-model="imagecropperShow"
-            :key="imagecropperKey"
+            :width="300"
+            :height="300"
+            url="https://httpbin.org/post"
+            lang-type="en"
+            @crop-upload-success="cropSuccess"
         />
     </div>
 </template>
@@ -38,21 +42,17 @@ export default defineComponent({
     },
     setup() {
         const imagecropperShow = ref(false)
-        const imagecropperKey = ref(0)
         const image = ref('https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191')
 
         function cropSuccess(resData: any) {
-            imagecropperShow.value = false
-            imagecropperKey.value = imagecropperKey.value + 1
             image.value = resData.files.avatar
+            imagecropperShow.value = false
         }
 
         return {
             imagecropperShow,
-            imagecropperKey,
             image,
-            cropSuccess,
-            close
+            cropSuccess
         }
     },
 })
