@@ -28,6 +28,16 @@ module.exports = {
         // 启动前先启动api服务
         before: require('./mock/mock-server.js')
     },
+    configureWebpack: config => {
+        if (process.env.NODE_ENV === 'production') {
+            config.mode = 'production';
+            // 打包文件大小配置
+            config.performance = {
+                maxEntrypointSize: 10000000,
+                maxAssetSize: 30000000
+            }
+        }
+    },
     chainWebpack: config => {
         // 打开source-map，方便调试
         config.devtool('source-map')
