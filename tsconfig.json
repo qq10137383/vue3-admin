@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
+    // ts不转换es语法，交给babel转换
     "target": "esnext",
+    // ts不转换esm为cjs，交给webpack转换
     "module": "esnext",
+    // 启用严格模式
     "strict": true,
     // 启用jsx支持
     "jsx": "preserve",
     "importHelpers": true,
+    // 模块查找使用node方式
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "skipLibCheck": true,
+    // 由于module设置为esnext，esm转cjs其实是由webpack执行的，这个设置无效，如果module为'commonjs'，这个设置才有效
     "esModuleInterop": true,
+    // 导入cjs模块时，模块声明使用export=xx，导入使用import xx from 'xx'必须打开此开关
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
