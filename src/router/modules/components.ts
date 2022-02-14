@@ -54,7 +54,13 @@ const componentsRouter: CustomRouteRecordRaw = {
             component: () => import('@/views/components-demo/sticky.vue'),
             name: 'StickyDemo',
             meta: { title: 'Sticky' }
-        }
+        },
+        {
+            path: 'count-to',
+            component: () => import('@/views/components-demo/count-to.vue'),
+            name: 'CountToDemo',
+            meta: { title: 'Count To' }
+        },
     ]
 }
 
