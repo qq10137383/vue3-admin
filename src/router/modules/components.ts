@@ -61,6 +61,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'CountToDemo',
             meta: { title: 'Count To' }
         },
+        {
+            path: 'mixin',
+            component: () => import('@/views/components-demo/mixin.vue'),
+            name: 'ComponentMixinDemo',
+            meta: { title: 'Component Mixin' }
+        },
     ]
 }
 

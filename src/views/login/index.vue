@@ -92,7 +92,7 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute, LocationQuery } from 'vue-router'
 import { ElForm } from "element-plus"
 import { validUsername } from '@/utils/validate'
-import type { FormRuleCallBack } from '@/utils/types'
+import type { ElFormRules, ElFormRuleValidator } from '@/utils/types'
 import SocialSign from './components/SocialSignin.vue'
 
 /**
@@ -124,21 +124,21 @@ export default defineComponent({
         const loading = ref(false)
         const showDialog = ref(false)
 
-        const validateUsername = (_: any, value: string, callback: FormRuleCallBack) => {
+        const validateUsername: ElFormRuleValidator = (_, value: string, callback) => {
             if (!validUsername(value)) {
                 callback(new Error('Please enter the correct user name'))
             } else {
                 callback()
             }
         }
-        const validatePassword = (_: any, value: string, callback: FormRuleCallBack) => {
+        const validatePassword: ElFormRuleValidator = (_, value: string, callback) => {
             if (value.length < 6) {
                 callback(new Error('The password can not be less than 6 digits'))
             } else {
                 callback()
             }
         }
-        const loginRules = reactive({
+        const loginRules = reactive<ElFormRules>({
             username: [{ required: true, trigger: 'blur', validator: validateUsername }],
             password: [{ required: true, trigger: 'blur', validator: validatePassword }]
         })
