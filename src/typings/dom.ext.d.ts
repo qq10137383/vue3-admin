@@ -15,6 +15,20 @@ declare global {
     }
 
     /**
+     * firefox getComputedStyle
+     */
+    interface Document {
+        currentStyle?: CSSStyleDeclaration
+    }
+
+    /**
+     * firefox getComputedStyle
+     */
+    interface Element {
+        currentStyle?: CSSStyleDeclaration
+    }
+
+    /**
      * Firefox Screen对象扩展
      */
     interface Screen {
