@@ -67,6 +67,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'ComponentMixinDemo',
             meta: { title: 'Component Mixin' }
         },
+        {
+            path: 'back-to-top',
+            component: () => import('@/views/components-demo/back-to-top.vue'),
+            name: 'BackToTopDemo',
+            meta: { title: 'Back To Top' }
+        }
     ]
 }
 
