@@ -85,6 +85,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'DragSelectDemo',
             meta: { title: 'Drag Select' }
         },
+        {
+            path: 'dnd-list',
+            component: () => import('@/views/components-demo/dnd-list.vue'),
+            name: 'DndListDemo',
+            meta: { title: 'Dnd List' }
+        },
     ]
 }
 

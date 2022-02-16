@@ -38,3 +38,12 @@ export interface ListData<T> {
 export interface TotalListData<T> extends ListData<T> {
     total: number
 }
+
+export interface PagedOption {
+    page?: number
+    limit?: 20
+}
+
+export interface SortablePagedOption extends PagedOption {
+    sort?: string
+}
