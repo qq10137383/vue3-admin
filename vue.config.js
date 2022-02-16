@@ -61,6 +61,8 @@ module.exports = {
             })
             .end()
     },
-    // babel编译element-plus模块，解决element-plus导入报错的问题
+    // babel编译node_module/element-plus模块，解决element-plus导入报错的问题
+    // 默认情况下babel-loader会忽略所有node_modules中的文件，导入element-plus
+    // 包时定义了module入口，使用mjs文件(es模块)，需要babel转译为cjs
     transpileDependencies: ['element-plus']
 }

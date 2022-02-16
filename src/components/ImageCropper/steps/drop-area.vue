@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, markRaw, getCurrentInstance } from 'vue'
+import { defineComponent, ref, inject, markRaw } from 'vue'
 import { wizardKey, stateKey, sharedKey } from '../utils/tokens'
 import { preventDefault } from '../utils/common'
 import ripple from '../utils/effectRipple'
@@ -44,13 +44,12 @@ import type { CropperProps } from '../index.vue'
 export default defineComponent({
     inheritAttrs: false,
     __stepIndex: 2,
-    setup() {
+    setup(_, { attrs }) {
         const { step, close } = inject(wizardKey)!
         const { lang } = inject(sharedKey)!
         const cropperState = inject(stateKey)!
 
-        const instance = getCurrentInstance();
-        const parentProps = instance!.proxy!.$attrs as CropperProps
+        const parentProps = attrs as CropperProps
         const isSupported = typeof FormData == 'function'
 
         const hasError = ref(false)

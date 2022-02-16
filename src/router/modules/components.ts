@@ -78,7 +78,13 @@ const componentsRouter: CustomRouteRecordRaw = {
             component: () => import('@/views/components-demo/drag-dialog.vue'),
             name: 'DragDialogDemo',
             meta: { title: 'Drag Dialog' }
-        }
+        },
+        {
+            path: 'drag-select',
+            component: () => import('@/views/components-demo/drag-select.vue'),
+            name: 'DragSelectDemo',
+            meta: { title: 'Drag Select' }
+        },
     ]
 }
 

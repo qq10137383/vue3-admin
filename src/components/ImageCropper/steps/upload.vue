@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, computed, getCurrentInstance, markRaw, onMounted } from 'vue'
+import { defineComponent, ref, inject, computed, markRaw, onMounted } from 'vue'
 import { wizardKey, stateKey, sharedKey } from '../utils/tokens'
 import ripple from '../utils/effectRipple'
 import data2blob from '../utils/data2blob'
@@ -36,13 +36,12 @@ import type { CropperProps } from '../index.vue'
 export default defineComponent({
     inheritAttrs: false,
     __stepIndex: 4,
-    setup() {
+    setup(_, { attrs }) {
         const { step, close } = inject(wizardKey)!
         const { lang, mime } = inject(sharedKey)!
         const cropperState = inject(stateKey)!
 
-        const instance = getCurrentInstance()
-        const parentProps = instance!.proxy!.$attrs as CropperProps
+        const parentProps = attrs as CropperProps
 
         const progress = ref(0)
         const hasError = ref(false)

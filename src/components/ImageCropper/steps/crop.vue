@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs, inject, computed, getCurrentInstance, onMounted } from 'vue'
+import { defineComponent, ref, reactive, inject, computed, onMounted } from 'vue'
 import { wizardKey, stateKey, sharedKey } from '../utils/tokens'
 import mimes from '../utils/mimes'
 import { preventDefault } from '../utils/common'
@@ -97,13 +97,12 @@ import type { CropperProps } from '../index.vue'
 export default defineComponent({
     inheritAttrs: false,
     __stepIndex: 3,
-    setup() {
+    setup(_, { attrs }) {
         const { step, close } = inject(wizardKey)!
         const { lang, mime } = inject(sharedKey)!
         const cropperState = inject(stateKey)!
 
-        const instance = getCurrentInstance()
-        const parentProps = instance!.proxy!.$attrs as CropperProps
+        const parentProps = attrs as CropperProps
         const isSupportTouch = 'ontouchstart' in document
         // 原图片
         let sourceImg: HTMLImageElement | null = null
@@ -129,7 +128,7 @@ export default defineComponent({
         // canvas
         const canvasRef = ref<HTMLCanvasElement>()
         // 在模板中使用$attrs.width、$attrs.height时，ts检查模板报类型错误，显式声明一下
-        const { width: pWidth, height: pHeight } = toRefs(parentProps)
+        const { width: pWidth, height: pHeight } = parentProps
         // 原图展示属性
         const scale = reactive({
             zoomAddOn: false, //按钮缩放事件开启
@@ -151,7 +150,7 @@ export default defineComponent({
 
         // 需求图宽高比
         const ratio = computed(() => {
-            return pWidth.value / pHeight.value
+            return pWidth / pHeight
         })
         // 原图蒙版属性
         const sourceImgMasking = computed(() => {
@@ -159,12 +158,12 @@ export default defineComponent({
             const sicRatio = sic.width / sic.height // 原图容器宽高比
             let x = 0, y = 0, w = sic.width, h = sic.height, sc = 1
             if (ratio.value < sicRatio) {
-                sc = sic.height / pHeight.value
+                sc = sic.height / pHeight
                 w = sic.height * ratio.value
                 x = (sic.width - w) / 2
             }
             if (ratio.value > sicRatio) {
-                sc = sic.width / pWidth.value
+                sc = sic.width / pWidth
                 h = sic.width / ratio.value
                 y = (sic.height - h) / 2
             }
@@ -228,17 +227,17 @@ export default defineComponent({
                 // 取消鼠标按下移动状态
                 sourceImgMouseDown.on = false
             }
-            canvas.width = pWidth.value
-            canvas.height = pHeight.value
+            canvas.width = pWidth
+            canvas.height = pHeight
 
-            ctx.clearRect(0, 0, pWidth.value, pHeight.value)
+            ctx.clearRect(0, 0, pWidth, pHeight)
             if (imgFormat == 'png') {
                 ctx.fillStyle = 'rgba(0,0,0,0)'
             } else {
                 // 如果jpg 为透明区域设置背景，默认白色
                 ctx.fillStyle = imgBgc
             }
-            ctx.fillRect(0, 0, pWidth.value, pHeight.value)
+            ctx.fillRect(0, 0, pWidth, pHeight)
             ctx.drawImage(sourceImg!, x / sc, y / sc, sw / sc, sh / sc)
 
             cropperState.createImgUrl = canvas.toDataURL(mime.value)
@@ -258,9 +257,9 @@ export default defineComponent({
                     y = 0
 
                 // 图片像素不达标
-                if (nWidth < pWidth.value || nHeight < pHeight.value) {
+                if (nWidth < pWidth || nHeight < pHeight) {
                     hasError.value = true
-                    errorMsg.value = lang.value.error.lowestPx + pWidth.value + '*' + pHeight.value
+                    errorMsg.value = lang.value.error.lowestPx + pWidth + '*' + pHeight
                     return false
                 }
                 if (ratio.value > nRatio) {
