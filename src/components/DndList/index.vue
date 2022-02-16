@@ -119,7 +119,7 @@ export default defineComponent({
                 props.list1.push(ele)
             }
         }
-        function setData(dataTransfer: any) {
+        function setData(dataTransfer: DataTransfer) {
             // to avoid Firefox bug
             // Detail see : https://github.com/RubaXa/Sortable/issues/1012
             dataTransfer.setData('Text', '')

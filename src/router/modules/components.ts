@@ -91,6 +91,12 @@ const componentsRouter: CustomRouteRecordRaw = {
             name: 'DndListDemo',
             meta: { title: 'Dnd List' }
         },
+        {
+            path: 'drag-kanban',
+            component: () => import('@/views/components-demo/drag-kanban.vue'),
+            name: 'DragKanbanDemo',
+            meta: { title: 'Drag Kanban' }
+        }
     ]
 }
 
