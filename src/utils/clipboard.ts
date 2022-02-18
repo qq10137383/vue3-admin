@@ -17,7 +17,7 @@ function clipboardError() {
 }
 
 export default function handleClipboard(text: string, event: MouseEvent): void {
-    const clipboard = new Clipboard(event.target as HTMLElement, {
+    const clipboard = new Clipboard(event.currentTarget as HTMLElement, {
         text: () => text
     })
     clipboard.on('success', () => {
@@ -27,5 +27,6 @@ export default function handleClipboard(text: string, event: MouseEvent): void {
     clipboard.on('error', () => {
         clipboardError()
         clipboard.destroy()
-    })
+    });
+    (clipboard as any).onClick(event)
 }

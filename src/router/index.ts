@@ -265,6 +265,18 @@ export const asyncRoutes: CustomRouteRecordRaw[] = [
         component: () => import('@/views/pdf/download.vue'),
         hidden: true
     },
+    {
+        path: '/clipboard',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/clipboard/index.vue'),
+                name: 'ClipboardDemo',
+                meta: { title: 'Clipboard', icon: 'clipboard' }
+            }
+        ]
+    }
 ]
 
 const router = createRouter({
