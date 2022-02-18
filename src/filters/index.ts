@@ -1,5 +1,5 @@
 // import parseTime, formatTime and set to filter
-export { parseTime, formatTime } from '@/utils'
+import { parseTime, formatTime } from '@/utils'
 
 /**
  * 全局过滤器附加到app.config.globalProperties时
@@ -7,6 +7,8 @@ export { parseTime, formatTime } from '@/utils'
  * 这样在options api中使用this.$filters.xxx时就能获得提示信息，模板中使用不会报ts警告
  */
 export interface CustomFilters {
+    parseTime(time: Date | string | number, cFormat: string): string | null
+    formatTime(time: number, option?: string): string | null
     pluralize(time: number, label: string): string
     timeAgo(time: number): string
     numberFormatter(num: number, digits: number): string
@@ -81,6 +83,8 @@ function uppercaseFirst(str: string): string {
 }
 
 const filters: CustomFilters = {
+    parseTime,
+    formatTime,
     pluralize,
     timeAgo,
     numberFormatter,

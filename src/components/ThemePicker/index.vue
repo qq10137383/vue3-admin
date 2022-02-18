@@ -66,10 +66,10 @@ export default defineComponent({
         }
 
         const theme = computed({
-            get() {
+            get: () => {
                 return store.state.settings.theme
             },
-            set(theme: string) {
+            set: (theme) => {
                 if (typeof theme !== 'string') return
 
                 switchTheme(theme)

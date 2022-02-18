@@ -8,7 +8,7 @@
  * @param {string} cFormat
  * @returns {string | null}
  */
-export function parseTime(time: Date | string | number, cFormat: string): string | null {
+export function parseTime(time: Date | string | number, cFormat?: string): string | null {
     if (arguments.length === 0 || !time) {
         return null
     }

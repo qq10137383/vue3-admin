@@ -13,3 +13,5 @@ export interface TableColumnScope<T> {
     column: TableColumnCtx<T>,
     $index: number
 }
+
+export type KeyArray<T> = (keyof T)[]

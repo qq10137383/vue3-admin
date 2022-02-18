@@ -78,43 +78,43 @@ export default defineComponent({
         })
 
         const startVal = computed({
-            get() {
+            get: () => {
                 if (state._setStartVal) {
                     return state._setStartVal || 0
                 } else {
                     return 0
                 }
             },
-            set(val: number) {
+            set: (val) => {
                 state._setStartVal = val
             }
         })
         const endVal = computed({
-            get() {
+            get: () => {
                 if (state._setEndVal) {
                     return state._setEndVal
                 } else {
                     return 0
                 }
             },
-            set(val: number) {
+            set: (val) => {
                 state._setEndVal = val
             }
         })
         const duration = computed({
-            get() {
+            get: () => {
                 if (state._setDuration) {
                     return state._setDuration
                 } else {
                     return 100
                 }
             },
-            set(val: number) {
+            set: (val) => {
                 state._setDuration = val
             }
         })
         const decimals = computed({
-            get() {
+            get: () => {
                 if (state._setDecimals) {
                     if (state._setDecimals < 0 || state._setDecimals > 20) {
                         alert('digits argument must be between 0 and 20')
@@ -125,7 +125,7 @@ export default defineComponent({
                     return 0
                 }
             },
-            set(val: number) {
+            set: (val) => {
                 state._setDecimals = val
             }
         })

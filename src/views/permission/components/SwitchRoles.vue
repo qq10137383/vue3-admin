@@ -21,10 +21,10 @@ export default defineComponent({
         const { roles } = useGetter(['roles'])
 
         const switchRoles = computed({
-            get() {
+            get: () => {
                 return roles.value[0]
             },
-            set(val: string) {
+            set: (val: string) => {
                 store.dispatch('user/changeRoles', val).then(() => {
                     emit(CHANGE_EVENT)
                 })
