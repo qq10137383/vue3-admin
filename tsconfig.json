@@ -28,6 +28,8 @@
       "element-plus/global"
     ],
     "paths": {
+      // webpack中定义了resolve.alias，打包@路径可以正确解析，但是ts并不知道@路径应该怎么解析
+      // 所以会出现ts警告，这里定义了paths->"@/*"解决了ts查找@路径的问题
       "@/*": [
         "src/*"
       ]

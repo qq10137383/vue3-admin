@@ -88,7 +88,7 @@ export default defineComponent({
         onBeforeUnmount(() => {
             window.removeEventListener('scroll', handleScroll)
             if (interval) {
-                clearInterval(interval)
+                window.clearInterval(interval)
             }
         })
 
