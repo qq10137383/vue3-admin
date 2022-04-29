@@ -30,7 +30,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useGetter } from "@/hooks/use-vuex"
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import PanThumb from '@/components/PanThumb/index.vue'
 import Mallki from '@/components/TextHoverEffect/Mallki.vue'
 
@@ -40,7 +41,8 @@ export default defineComponent({
         Mallki
     },
     setup() {
-        const { avatar } = useGetter(["avatar"])
+        const userStore = useUserStore()
+        const { avatar } = storeToRefs(userStore)
 
         return {
             avatar

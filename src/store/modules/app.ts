@@ -1,7 +1,6 @@
-import { Module, MutationTree, ActionTree } from "vuex"
+import { ref, reactive } from 'vue'
+import { defineStore } from "pinia"
 import Cookies from 'js-cookie'
-
-import type { AllState } from '../index'
 
 /**
  * 设备类型
@@ -12,73 +11,52 @@ export enum DeviceType {
 }
 
 /**
- * App State
+ * Element 组件尺寸
  */
-export type AppState = {
-    sidebar: {
-        opened: boolean,
-        withoutAnimation: boolean
-    },
-    device: DeviceType,
-    size: string
-}
-
-const state: AppState = {
-    sidebar: {
-        opened: Cookies.get('sidebarStatus') ? !!Cookies.get('sidebarStatus') : true,
-        withoutAnimation: false
-    },
-    device: DeviceType.Desktop,
-    size: Cookies.get('size') || 'default'
-}
-
-const mutations: MutationTree<AppState> = {
-    TOGGLE_SIDEBAR(state) {
-        state.sidebar.opened = !state.sidebar.opened
-        state.sidebar.withoutAnimation = false
-        if (state.sidebar.opened) {
-            Cookies.set('sidebarStatus', "1")
-        } else {
-            Cookies.set('sidebarStatus', "0")
-        }
-    },
-    CLOSE_SIDEBAR(state, withoutAnimation: boolean) {
-        Cookies.set('sidebarStatus', "0")
-        state.sidebar.opened = false
-        state.sidebar.withoutAnimation = withoutAnimation
-    },
-    TOGGLE_DEVICE(state, device: DeviceType) {
-        state.device = device
-    },
-    SET_SIZE(state, size: string) {
-        state.size = size
-        Cookies.set('size', size)
-    }
-}
-
-const actions: ActionTree<AppState, AllState> = {
-    toggleSideBar({ commit }) {
-        commit('TOGGLE_SIDEBAR')
-    },
-    closeSideBar({ commit }, { withoutAnimation }: AppState["sidebar"]) {
-        commit('CLOSE_SIDEBAR', withoutAnimation)
-    },
-    toggleDevice({ commit }, device: string) {
-        commit('TOGGLE_DEVICE', device)
-    },
-    setSize({ commit }, size: string) {
-        commit('SET_SIZE', size)
-    }
-}
+export type Size = "default" | "small" | "large"
 
 /**
  * app store模块
  */
-const app: Module<AppState, AllState> = {
-    namespaced: true,
-    state,
-    mutations,
-    actions
-}
+export const useAppStore = defineStore('app', () => {
+    // state
+    const sidebar = reactive({
+        opened: Cookies.get('sidebarStatus') ? !!Cookies.get('sidebarStatus') : true,
+        withoutAnimation: false
+    })
+    const device = ref(DeviceType.Desktop)
+    const size = ref<Size>(Cookies.get('size') as Size || 'default')
 
-export default app
+    // actions
+    function toggleSideBar() {
+        sidebar.opened = !sidebar.opened
+        sidebar.withoutAnimation = false
+        if (sidebar.opened) {
+            Cookies.set('sidebarStatus', "1")
+        } else {
+            Cookies.set('sidebarStatus', "0")
+        }
+    }
+    function closeSideBar(withoutAnimation: boolean) {
+        Cookies.set('sidebarStatus', "0")
+        sidebar.opened = false
+        sidebar.withoutAnimation = withoutAnimation
+    }
+    function toggleDevice(deviceValue: DeviceType) {
+        device.value = deviceValue
+    }
+    function setSize(sizeValue: Size) {
+        size.value = sizeValue
+        Cookies.set('size', size.value)
+    }
+
+    return {
+        sidebar,
+        device,
+        size,
+        toggleSideBar,
+        closeSideBar,
+        toggleDevice,
+        setSize
+    }
+})

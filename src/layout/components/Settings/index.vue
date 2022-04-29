@@ -5,10 +5,7 @@
 
             <div class="drawer-item">
                 <span>Theme Color</span>
-                <theme-picker
-                    style="float: right;height: 26px;margin: -3px 8px 0 0;"
-                    @change="themeChange"
-                />
+                <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
             </div>
 
             <div class="drawer-item">
@@ -32,7 +29,8 @@
 <script lang="ts">
 import { defineComponent, computed, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useTagsViewStore } from '@/store/modules/tagsView'
+import { useSettingsStore } from '@/store/modules/settings'
 import ThemePicker from '@/components/ThemePicker/index.vue'
 
 export default defineComponent({
@@ -40,39 +38,40 @@ export default defineComponent({
         ThemePicker
     },
     setup() {
-        const store = useStore()
+        const tagsViewStore = useTagsViewStore()
+        const settingsStore = useSettingsStore()
         const router = useRouter()
         const route = useRoute()
 
         const fixedHeader = computed({
-            get: () => store.state.settings.fixedHeader as boolean,
-            set: (val: boolean) => store.dispatch('settings/changeSetting', {
+            get: () => settingsStore.fixedHeader as boolean,
+            set: (val: boolean) => settingsStore.changeSetting({
                 key: 'fixedHeader',
                 value: val
             })
         })
         const tagsView = computed({
-            get: () => store.state.settings.tagsView as boolean,
-            set: (val: boolean) => store.dispatch('settings/changeSetting', {
+            get: () => settingsStore.tagsView as boolean,
+            set: (val: boolean) => settingsStore.changeSetting({
                 key: 'tagsView',
                 value: val
             })
         })
         const sidebarLogo = computed({
-            get: () => store.state.settings.sidebarLogo as boolean,
-            set: (val: boolean) => store.dispatch('settings/changeSetting', {
+            get: () => settingsStore.sidebarLogo as boolean,
+            set: (val: boolean) => settingsStore.changeSetting({
                 key: 'sidebarLogo',
                 value: val
             })
         })
 
         function themeChange(val: string) {
-            store.dispatch('settings/changeSetting', {
+            settingsStore.changeSetting({
                 key: 'theme',
                 value: val
             })
             // 清除所有页面缓存并刷新当前视图(内联样式无法更新的问题)
-            store.dispatch('tagsView/delAllCachedViews').then(() => {
+            tagsViewStore.delAllCachedViews().then(() => {
                 const { fullPath } = route
                 nextTick(() => {
                     router.replace({ path: '/redirect' + fullPath })

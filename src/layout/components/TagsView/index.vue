@@ -1,23 +1,12 @@
 <template>
     <div ref="elRef" id="tags-view-container" class="tags-view-container">
         <scroll-pane ref="scrollPaneRef" class="tags-view-wrapper">
-            <router-link
-                v-for="tag in visitedViews"
-                :ref="setTagRef"
-                :key="tag.path"
+            <router-link v-for="tag in visitedViews" :ref="setTagRef" :key="tag.path"
                 :class="isActive(tag) ? 'active' : ''"
-                :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-                tag="span"
-                class="tags-view-item"
-                @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
-                @contextmenu.prevent="openMenu(tag, $event)"
-            >
+                :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }" tag="span" class="tags-view-item"
+                @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''" @contextmenu.prevent="openMenu(tag, $event)">
                 {{ tag.title }}
-                <el-icon
-                    v-if="!isAffix(tag)"
-                    class="el-icon-close"
-                    @click.prevent.stop="closeSelectedTag(tag)"
-                >
+                <el-icon v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)">
                     <close />
                 </el-icon>
             </router-link>
@@ -41,9 +30,10 @@ import {
     useRoute, useRouter, RouteLocationNormalizedLoaded,
     CustomRouteRecordRaw, RouteLocationRaw, RouterLinkProps
 } from 'vue-router'
+import { useTagsViewStore } from '@/store/modules/tagsView'
+import { usePermissionStore } from '@/store/modules/permission'
 import { Close } from '@element-plus/icons-vue'
-import { useStore } from 'vuex'
-import { useState, useGetter } from '@/hooks/use-vuex'
+import { storeToRefs } from 'pinia'
 import ScrollPane from './ScrollPane.vue'
 
 // 自定义RouteLink，修改to属性
@@ -68,9 +58,11 @@ export default defineComponent({
 
         const route = useRoute()
         const router = useRouter()
-        const store = useStore()
-        const { visitedViews } = useGetter(['visitedViews'])
-        const { routes } = useState('permission', ['routes'])
+
+        const tagsViewStore = useTagsViewStore()
+        const permissionStore = usePermissionStore()
+        const { visitedViews } = storeToRefs(tagsViewStore)
+        const { routes } = storeToRefs(permissionStore)
 
         const ctxState = reactive({
             visible: false,
@@ -121,14 +113,14 @@ export default defineComponent({
             for (const tag of affixTags) {
                 // Must have tag name
                 if (tag.name) {
-                    store.dispatch('tagsView/addVisitedView', tag)
+                    tagsViewStore.addVisitedView(tag)
                 }
             }
         }
         function addTags() {
             const { name } = route
             if (name) {
-                store.dispatch('tagsView/addView', route)
+                tagsViewStore.addView(route)
             }
             return false
         }
@@ -139,7 +131,7 @@ export default defineComponent({
                         scrollPaneRef.value!.moveToTarget(tag)
                         // when query is different then update
                         if (tag.to.fullPath !== route.fullPath) {
-                            store.dispatch('tagsView/updateVisitedView', route)
+                            tagsViewStore.updateVisitedView(route)
                         }
                         break
                     }
@@ -147,7 +139,7 @@ export default defineComponent({
             })
         }
         function refreshSelectedTag(view: RouteLocationNormalizedLoaded) {
-            store.dispatch('tagsView/delCachedView', view).then(() => {
+            tagsViewStore.delCachedView(view).then(() => {
                 const { fullPath } = view
                 nextTick(() => {
                     router.replace({ path: '/redirect' + fullPath })
@@ -170,7 +162,7 @@ export default defineComponent({
             }
         }
         function closeSelectedTag(view: RouteLocationNormalizedLoaded) {
-            store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+            tagsViewStore.delView(view).then(({ visitedViews }) => {
                 if (isActive(view)) {
                     toLastView(visitedViews, view)
                 }
@@ -178,12 +170,12 @@ export default defineComponent({
         }
         function closeOthersTags() {
             router.push(ctxState.selectedTag as RouteLocationRaw)
-            store.dispatch('tagsView/delOthersViews', ctxState.selectedTag).then(() => {
+            tagsViewStore.delOthersViews(ctxState.selectedTag).then(() => {
                 moveToCurrentTag()
             })
         }
         function closeAllTags(view: RouteLocationNormalizedLoaded) {
-            store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
+            tagsViewStore.delAllViews().then(({ visitedViews }) => {
                 if (affixTags.some(tag => tag.path === view.path)) {
                     return
                 }
@@ -258,6 +250,7 @@ export default defineComponent({
     background: #fff;
     border-bottom: 1px solid #d8dce5;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+
     .tags-view-wrapper {
         .tags-view-item {
             display: inline-block;
@@ -272,16 +265,20 @@ export default defineComponent({
             font-size: 12px;
             margin-left: 5px;
             margin-top: 4px;
+
             &:first-of-type {
                 margin-left: 15px;
             }
+
             &:last-of-type {
                 margin-right: 15px;
             }
+
             &.active {
                 background-color: #42b983;
                 color: #fff;
                 border-color: #42b983;
+
                 &::before {
                     content: "";
                     background: #fff;
@@ -295,6 +292,7 @@ export default defineComponent({
             }
         }
     }
+
     .contextmenu {
         margin: 0;
         background: #fff;
@@ -307,10 +305,12 @@ export default defineComponent({
         font-weight: 400;
         color: #333;
         box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+
         li {
             margin: 0;
             padding: 7px 16px;
             cursor: pointer;
+
             &:hover {
                 background: #eee;
             }
@@ -332,6 +332,7 @@ export default defineComponent({
             font-size: 9px;
             transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
             transform-origin: 100% 50%;
+
             &:hover {
                 background-color: #b4bccc;
                 color: #fff;

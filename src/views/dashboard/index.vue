@@ -6,7 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue"
-import { useGetter } from "@/hooks/use-vuex";
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import AdminDashboard from './admin/index.vue'
 import EditorDashboard from './editor/index.vue'
 
@@ -19,7 +20,8 @@ export default defineComponent({
     setup() {
         const currentRole = ref('adminDashboard')
 
-        const { roles } = useGetter(['roles'])
+        const userStore = useUserStore()
+        const { roles } = storeToRefs(userStore)
 
         if (!roles.value.includes('admin')) {
             currentRole.value = 'editorDashboard'

@@ -6,15 +6,17 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useGetter } from '@/hooks/use-vuex'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/store/modules/app'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default defineComponent({
   name: "App",
   setup() {
-    const { size } = useGetter(['size'])
-
     const locale = ref(zhCn)
+
+    const appStore = useAppStore()
+    const { size } = storeToRefs(appStore)
 
     return {
       size,

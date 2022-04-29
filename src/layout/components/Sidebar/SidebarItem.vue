@@ -39,10 +39,11 @@
 import path from 'path'
 import { defineComponent, onMounted, PropType, ref } from 'vue'
 import type { CustomRouteRecordRaw } from 'vue-router'
-import { useGetter } from '@/hooks/use-vuex'
+import { storeToRefs } from 'pinia'
 import { isExternal } from '@/utils/validate'
 import MenuIcon from './Icon.vue'
 import AppLink from './Link.vue'
+import { useAppStore } from '@/store/modules/app'
 
 export default defineComponent({
     components: {
@@ -66,7 +67,9 @@ export default defineComponent({
     },
     setup(props) {
         const onlyOneChild = ref<CustomRouteRecordRaw>()
-        const { device } = useGetter(["device"])
+
+        const appStore = useAppStore()
+        const { device } = storeToRefs(appStore)
 
         const subMenuRef = ref<any>()
 

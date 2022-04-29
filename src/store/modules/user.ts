@@ -1,65 +1,45 @@
-import { Module, MutationTree, ActionTree } from "vuex"
+import { reactive, toRefs } from 'vue'
+import { defineStore } from "pinia"
 import type { CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
-import { login, logout, getInfo, LoginDto, UserVo } from '@/api/user'
+import { loginApi, logoutApi, getInfoApi, LoginDto, UserVo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import { usePermissionStore } from './permission'
+import { useTagsViewStore } from './tagsView'
 
-import type { AllState } from "../index"
+/**
+ * 用户模块
+ */
+export const useUserStore = defineStore('user', () => {
+    // state
+    const state = reactive({
+        token: getToken() ?? "",
+        name: '',
+        avatar: '',
+        introduction: '',
+        roles: [] as string[]
+    })
 
-export type UserState = {
-    token: string,
-    name: string,
-    avatar: string,
-    introduction: string,
-    roles: string[]
-}
-
-const state: UserState = {
-    token: getToken() ?? "",
-    name: '',
-    avatar: '',
-    introduction: '',
-    roles: []
-}
-
-const mutations: MutationTree<UserState> = {
-    SET_TOKEN(state, token: string) {
-        state.token = token
-    },
-    SET_INTRODUCTION(state, introduction: string) {
-        state.introduction = introduction
-    },
-    SET_NAME(state, name: string) {
-        state.name = name
-    },
-    SET_AVATAR(state, avatar: string) {
-        state.avatar = avatar
-    },
-    SET_ROLES(state, roles: string[]) {
-        state.roles = roles
-    }
-}
-
-const actions: ActionTree<UserState, AllState> = {
+    // actions
     // user login
-    login({ commit }, userInfo: LoginDto): Promise<string> {
+    function login(userInfo: LoginDto): Promise<string> {
         const { username, password } = userInfo
         return new Promise((resolve, reject) => {
-            login({ username: username.trim(), password: password }).then(response => {
-                const { data } = response
-                commit('SET_TOKEN', data.token)
-                setToken(data.token)
-                resolve(data.token)
-            }).catch(error => {
-                reject(error)
-            })
+            loginApi({ username: username.trim(), password: password })
+                .then(response => {
+                    const { data } = response
+                    state.token = data.token
+                    setToken(data.token)
+                    resolve(data.token)
+                }).catch(error => {
+                    reject(error)
+                })
         })
-    },
-
+    }
     // get user info
-    getInfo({ commit, state }): Promise<UserVo> {
+    function getInfo(): Promise<UserVo> {
         return new Promise((resolve, reject) => {
-            getInfo(state.token).then(response => {
+            getInfoApi(state.token).then(response => {
                 const { data } = response
 
                 if (!data) {
@@ -73,74 +53,77 @@ const actions: ActionTree<UserState, AllState> = {
                     reject('getInfo: roles must be a non-null array!')
                 }
 
-                commit('SET_ROLES', roles)
-                commit('SET_NAME', name)
-                commit('SET_AVATAR', avatar)
-                commit('SET_INTRODUCTION', introduction)
+                state.roles = roles
+                state.name = name
+                state.avatar = avatar
+                state.introduction = introduction
                 resolve(data)
             }).catch(error => {
                 reject(error)
             })
         })
-    },
-
+    }
     // user logout
-    logout({ commit, dispatch }): Promise<boolean> {
+    function logout(): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            logout().then(() => {
-                commit('SET_TOKEN', '')
-                commit('SET_ROLES', [])
+            logoutApi().then(() => {
+                state.token = ''
+                state.roles = []
                 removeToken()
                 resetRouter()
-                commit('permission/SET_ROUTES', [], { root: true })
+
+                const permission = usePermissionStore()
+                permission.setRoutes([])
 
                 // reset visited views and cached views
                 // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-                dispatch('tagsView/delAllViews', null, { root: true })
+                const tagsView = useTagsViewStore()
+                tagsView.delAllViews()
 
                 resolve(true)
             }).catch(error => {
                 reject(error)
             })
         })
-    },
-
+    }
     // remove token
-    resetToken({ commit }): Promise<boolean> {
+    function resetToken(): Promise<boolean> {
         return new Promise(resolve => {
-            commit('SET_TOKEN', '')
-            commit('SET_ROLES', [])
+            state.token = ''
+            state.roles = []
             removeToken()
             resolve(true)
         })
-    },
-
+    }
     // dynamically modify permissions
-    async changeRoles({ commit, dispatch }, role: string) {
+    async function changeRoles(role: string) {
         const token = role + '-token'
 
-        commit('SET_TOKEN', token)
+        state.token = token
         setToken(token)
 
-        const { roles } = await dispatch('getInfo')
+        const { roles } = await getInfo()
 
         resetRouter()
 
         // generate accessible routes map based on roles
-        const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+        const permission = usePermissionStore()
+        const accessRoutes = await permission.generateRoutes(roles)
         // dynamically add accessible routes
         accessRoutes.forEach((r: CustomRouteRecordRaw) => router.addRoute(r as RouteRecordRaw));
 
         // reset visited views and cached views
-        dispatch('tagsView/delAllViews', null, { root: true })
+        const tagsView = useTagsViewStore()
+        tagsView.delAllViews()
     }
-}
 
-const user: Module<UserState, AllState> = {
-    namespaced: true,
-    state,
-    mutations,
-    actions
-}
 
-export default user
+    return {
+        ...toRefs(state),
+        login,
+        getInfo,
+        logout,
+        resetToken,
+        changeRoles
+    }
+})

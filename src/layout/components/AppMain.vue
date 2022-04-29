@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { useTagsViewStore } from '@/store/modules/tagsView'
 import { useRoute } from 'vue-router'
 
 // vue-router4 router-viewer需要包裹在keep-alive外面，和vue-router3相反
@@ -20,12 +20,12 @@ import { useRoute } from 'vue-router'
 export default defineComponent({
     name: 'AppMain',
     setup() {
-        const store = useStore();
-        const route = useRoute();
+        const tagsViewStore = useTagsViewStore()
+        const route = useRoute()
 
         // 不能直接使用cachedViews，需要将cachedViews展开，否则会出现切换路由时组件销毁
         // see https://github.com/vuejs/vue-next/issues/5217
-        const cachedViews = computed(() => [...store.getters.cachedViews])
+        const cachedViews = computed(() => [...tagsViewStore.cachedViews])
 
         // 1、keep-alive默认使用组件定义(options)作为key，当组件有多个实例
         //    时就会出现多个实例共享一份缓存，自定义key能解决这个问题
@@ -52,7 +52,7 @@ export default defineComponent({
     overflow: hidden;
 }
 
-.fixed-header + .app-main {
+.fixed-header+.app-main {
     padding-top: 50px;
 }
 
@@ -62,7 +62,7 @@ export default defineComponent({
         min-height: calc(100vh - 84px);
     }
 
-    .fixed-header + .app-main {
+    .fixed-header+.app-main {
         padding-top: 84px;
     }
 }

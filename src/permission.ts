@@ -1,6 +1,8 @@
 import type { CustomRouteRecordRaw } from 'vue-router'
 import router, { addRoute } from './router'
 import store from './store'
+import { useUserStore } from './store/modules/user'
+import { usePermissionStore } from './store/modules/permission'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
@@ -27,18 +29,21 @@ router.beforeEach(async (to, from, next) => {
             NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
         } else {
             // determine whether the user has obtained his permission roles through getInfo
-            const hasRoles = store.getters.roles?.length > 0
+            // 不在vue组件中调用pinia，需要显式注入pinia实例
+            const userStore = useUserStore(store)
+            const permissionStore = usePermissionStore(store)
+            const hasRoles = userStore.roles?.length > 0
             if (hasRoles) {
                 next()
             } else {
                 try {
                     // get user info
                     // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-                    const { roles } = await store.dispatch('user/getInfo')
+                    const { roles } = await userStore.getInfo()
 
                     // generate accessible routes map based on roles
-                    const accessRoutes: CustomRouteRecordRaw[] = await store.dispatch('permission/generateRoutes', roles)
-                    
+                    const accessRoutes: CustomRouteRecordRaw[] = await permissionStore.generateRoutes(roles)
+
                     // dynamically add accessible routes
                     accessRoutes.forEach(route => addRoute(route));
 
@@ -47,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
                     next({ ...to, replace: true })
                 } catch (error) {
                     // remove token and go to login page to re-login
-                    await store.dispatch('user/resetToken')
+                    await userStore.resetToken()
                     ElMessage.error(error as string || 'Has Error')
                     next(`/login?redirect=${to.path}`)
                     NProgress.done()

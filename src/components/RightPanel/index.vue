@@ -3,11 +3,8 @@
         <div :class="{ show: show }" class="rightPanel-container">
             <div class="rightPanel-background"></div>
             <div class="rightPanel">
-                <div
-                    class="handle-button"
-                    :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
-                    @click="toggle"
-                >
+                <div class="handle-button" :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
+                    @click="toggle">
                     <el-icon>
                         <component :is="show ? 'Close' : 'Setting'" />
                     </el-icon>
@@ -22,10 +19,11 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { Close, Setting } from '@element-plus/icons-vue'
 import { useToggle } from '@/hooks/use-toggle'
-import { useState } from '@/hooks/use-vuex'
 import { addClass, removeClass } from '@/utils'
+import { useSettingsStore } from '@/store/modules/settings'
 
 export default defineComponent({
     name: 'RightPanel',
@@ -45,7 +43,8 @@ export default defineComponent({
     },
     setup(props) {
         const { state: show, toggle } = useToggle(false)
-        const { theme } = useState('settings', ['theme'])
+        const settingsStore = useSettingsStore()
+        const { theme } = storeToRefs(settingsStore)
 
         const closeSidebar = (evt: MouseEvent) => {
             const target = evt.target as HTMLElement
@@ -143,6 +142,7 @@ export default defineComponent({
     color: #fff;
     line-height: 48px;
     padding-top: 4px;
+
     i {
         font-size: 24px;
         line-height: 48px;

@@ -1,16 +1,17 @@
 import { watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { useGetter } from "@/hooks/use-vuex"
+import { useAppStore, DeviceType } from '@/store/modules/app'
 
 const { body } = document
 const WIDTH = 992 // refer to Bootstrap's responsive design
 
 export default function resizeHandler(): void {
-    const store = useStore()
+
     const route = useRoute()
 
-    const { device, sidebar } = useGetter(["device", "sidebar"])
+    const appStore = useAppStore()
+    const { device, sidebar } = storeToRefs(appStore)
 
     function checkIsMobile() {
         const rect = body.getBoundingClientRect()
@@ -19,17 +20,17 @@ export default function resizeHandler(): void {
     function resizeHandler() {
         const isMobile = checkIsMobile()
         if (!document.hidden) {
-            store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
+            appStore.toggleDevice(isMobile ? DeviceType.Mobile : DeviceType.Desktop)
 
             if (isMobile) {
-                store.dispatch('app/closeSideBar', { withoutAnimation: true })
+                appStore.closeSideBar(true)
             }
         }
     }
 
     watch(() => route.path, () => {
         if (device.value === 'mobile' && sidebar.value.opened) {
-            store.dispatch('app/closeSideBar', { withoutAnimation: false })
+            appStore.closeSideBar(false)
         }
     })
 
@@ -39,8 +40,8 @@ export default function resizeHandler(): void {
     onMounted(() => {
         const isMobile = checkIsMobile()
         if (isMobile) {
-            store.dispatch('app/toggleDevice', 'mobile')
-            store.dispatch('app/closeSideBar', { withoutAnimation: true })
+            appStore.toggleDevice(DeviceType.Mobile)
+            appStore.closeSideBar(false)
         }
     })
     onBeforeUnmount(() => {

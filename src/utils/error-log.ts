@@ -1,5 +1,6 @@
 import { App, nextTick, AppConfig } from 'vue'
 import store from '@/store'
+import { useErrorLogStore } from '@/store/modules/errorLog'
 import { isString, isArray } from '@/utils/validate'
 import settings from '@/settings'
 
@@ -30,7 +31,7 @@ function checkNeed() {
 }
 
 /**
- * 捕获全局错误日志记录到vuex中
+ * 捕获全局错误日志记录到pinia中
  * @param app 
  */
 function install(app: App<Element>): void {
@@ -40,7 +41,9 @@ function install(app: App<Element>): void {
             // Don't ask me why I use Vue.nextTick, it just a hack.
             // detail see https://forum.vuejs.org/t/dispatch-in-vue-config-errorhandler-has-some-problem/23500
             nextTick(() => {
-                store.dispatch('errorLog/addErrorLog', {
+                // 不在vue组件中使用pinia，需要显示注入pinia实例
+                const errorLogStore = useErrorLogStore(store)
+                errorLogStore.addErrorLog({
                     err,
                     vm,
                     info,

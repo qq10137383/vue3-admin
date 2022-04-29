@@ -1,10 +1,6 @@
 <template>
     <div :class="classObj" class="app-wrapper">
-        <div
-            v-if="device === 'mobile' && sidebar.opened"
-            class="drawer-bg"
-            @click="handleClickOutside"
-        ></div>
+        <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
         <sidebar class="sidebar-container" />
         <div :class="{ hasTagsView: needTagsView }" class="main-container">
             <div :class="{ 'fixed-header': fixedHeader }">
@@ -22,11 +18,12 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useState, useGetter } from '@/hooks/use-vuex'
+import { storeToRefs } from 'pinia'
 import resizeHandler from './resize-handler'
 import RightPanel from '@/components/RightPanel/index.vue'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import { useAppStore } from '@/store/modules/app'
+import { useSettingsStore } from '@/store/modules/settings'
 
 export default defineComponent({
     name: 'Layout',
@@ -39,13 +36,10 @@ export default defineComponent({
         TagsView
     },
     setup() {
-        const store = useStore()
-        const { sidebar, device } = useGetter(['sidebar', 'device'])
-        const { showSettings, tagsView: needTagsView, fixedHeader } = useState('settings', [
-            'showSettings',
-            'tagsView',
-            'fixedHeader'
-        ])
+        const appStore = useAppStore()
+        const settingsStore = useSettingsStore()
+        const { sidebar, device } = storeToRefs(appStore)
+        const { showSettings, tagsView: needTagsView, fixedHeader } = storeToRefs(settingsStore)
 
         const classObj = computed(() => {
             return {
@@ -57,7 +51,7 @@ export default defineComponent({
         })
 
         function handleClickOutside() {
-            store.dispatch('app/closeSideBar', { withoutAnimation: false })
+            appStore.closeSideBar(false)
         }
 
         resizeHandler()

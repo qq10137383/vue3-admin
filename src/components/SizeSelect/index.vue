@@ -5,15 +5,9 @@
         </div>
         <template v-slot:dropdown>
             <el-dropdown-menu>
-                <el-dropdown-item
-                    v-for="item of sizeOptions"
-                    :key="item.value"
-                    :disabled="size === item.value"
-                    :command="item.value"
-                >
-                    {{
-                        item.label
-                    }}
+                <el-dropdown-item v-for="item of sizeOptions" :key="item.value" :disabled="size === item.value"
+                    :command="item.value">
+                    {{ item.label }}
                 </el-dropdown-item>
             </el-dropdown-menu>
         </template>
@@ -22,15 +16,15 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
 import { ElMessage } from 'element-plus'
-import { useGetter } from '@/hooks/use-vuex'
+import { useAppStore, Size } from '@/store/modules/app'
 
 export default defineComponent({
     name: "SizeSelect",
     setup() {
-        const store = useStore()
-        const { size } = useGetter(['size'])
+        const appStore = useAppStore()
+        const { size } = storeToRefs(appStore)
 
         const sizeOptions = reactive([
             { label: 'Large', value: 'large' },
@@ -38,8 +32,8 @@ export default defineComponent({
             { label: 'Small', value: 'small' },
         ])
 
-        async function handleSetSize(value: string) {
-            await store.dispatch('app/setSize', value)
+        function handleSetSize(value: string) {
+            appStore.setSize(value as Size)
             ElMessage({
                 message: 'Switch Size Success',
                 type: 'success'

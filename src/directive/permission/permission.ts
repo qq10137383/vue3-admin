@@ -1,17 +1,16 @@
 import { ObjectDirective, Plugin } from 'vue'
-import store from '@/store'
+import { useUserStore } from '@/store/modules/user'
 
 const permission: ObjectDirective<HTMLElement, string[]> & Partial<Plugin> = {
     mounted(el, binding) {
         const { value } = binding
 
-        const roles: string[] = store.getters?.roles
-
+        const userStore = useUserStore()
         if (value && value instanceof Array) {
             if (value.length > 0) {
                 const permissionRoles = value
 
-                const hasPermission = roles.some(role => {
+                const hasPermission = userStore.roles.some(role => {
                     return permissionRoles.includes(role)
                 })
 

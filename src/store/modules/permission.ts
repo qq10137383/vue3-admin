@@ -1,7 +1,6 @@
+import { ref } from 'vue'
+import { defineStore } from "pinia"
 import type { CustomRouteRecordRaw } from "vue-router"
-import { ActionTree, Module, MutationTree } from "vuex"
-import type { AllState } from "../index"
-
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
@@ -41,33 +40,19 @@ export function filterAsyncRoutes(routes: CustomRouteRecordRaw[], roles: string[
 }
 
 /**
- * Permission State
+ * permission store模块
  */
-export type PermissionState = {
-    /**
-     * 所有路由
-     */
-    routes: CustomRouteRecordRaw[],
-    /**
-     * 动态路由
-     */
-    addRoutes: CustomRouteRecordRaw[]
-}
+export const usePermissionStore = defineStore('permission', () => {
+    // state
+    const routes = ref<CustomRouteRecordRaw[]>([])  // 所有路由
+    const addRoutes = ref<CustomRouteRecordRaw[]>([])  // 动态路由
 
-const state: PermissionState = {
-    routes: [],
-    addRoutes: []
-}
-
-const mutations: MutationTree<PermissionState> = {
-    SET_ROUTES(state, routes: CustomRouteRecordRaw[]) {
-        state.addRoutes = routes
-        state.routes = constantRoutes.concat(routes)
+    // actions
+    function setRoutes(routeValues: CustomRouteRecordRaw[]) {
+        routes.value = routeValues
+        addRoutes.value = constantRoutes.concat(routeValues)
     }
-}
-
-const actions: ActionTree<PermissionState, AllState> = {
-    generateRoutes({ commit }, roles: string[]): Promise<CustomRouteRecordRaw[]> {
+    function generateRoutes(roles: string[]): Promise<CustomRouteRecordRaw[]> {
         return new Promise(resolve => {
             let accessedRoutes: CustomRouteRecordRaw[]
             if (roles.includes('admin')) {
@@ -77,17 +62,15 @@ const actions: ActionTree<PermissionState, AllState> = {
             }
             // 404 page must be placed at the end !!!
             accessedRoutes.push({ path: '/:pathMatch(.*)*', redirect: '/404', hidden: true })
-            commit('SET_ROUTES', accessedRoutes)
+            setRoutes(accessedRoutes)
             resolve(accessedRoutes)
         })
     }
-}
 
-const permission: Module<PermissionState, AllState> = {
-    namespaced: true,
-    state,
-    mutations,
-    actions
-}
-
-export default permission;
+    return {
+        routes,
+        addRoutes,
+        setRoutes,
+        generateRoutes
+    }
+})

@@ -1,11 +1,7 @@
 <template>
     <div class="navbar">
-        <hamburger
-            id="hamburger-container"
-            :is-active="sidebar.opened"
-            class="hamburger-container"
-            @toggleClick="toggleSideBar"
-        />
+        <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container"
+            @toggleClick="toggleSideBar" />
 
         <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
@@ -18,18 +14,11 @@
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
                 <el-tooltip content="Global Size" effect="dark" placement="bottom">
-                    <size-select
-                        id="size-select"
-                        class="size-select-container right-menu-item hover-effect"
-                    />
+                    <size-select id="size-select" class="size-select-container right-menu-item hover-effect" />
                 </el-tooltip>
             </template>
 
-            <el-dropdown
-                class="avatar-container right-menu-item hover-effect"
-                trigger="click"
-                @command="handleCommand"
-            >
+            <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click" @command="handleCommand">
                 <div class="avatar-wrapper">
                     <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
                     <el-icon class="el-icon-caret-bottom">
@@ -47,10 +36,7 @@
                         <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
                             <el-dropdown-item>Github</el-dropdown-item>
                         </a>
-                        <a
-                            target="_blank"
-                            href="https://panjiachen.github.io/vue-element-admin-site/#/"
-                        >
+                        <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
                             <el-dropdown-item>Docs</el-dropdown-item>
                         </a>
                         <el-dropdown-item divided command="logout">
@@ -65,10 +51,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/store/modules/app'
+import { useUserStore } from '@/store/modules/user'
 import { useRouter, useRoute } from 'vue-router'
 import { CaretBottom } from '@element-plus/icons-vue'
-import { useGetter } from '@/hooks/use-vuex'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
 import ErrorLog from '@/components/ErrorLog/index.vue'
@@ -88,20 +75,23 @@ export default defineComponent({
         CaretBottom
     },
     setup() {
-        const store = useStore()
         const router = useRouter()
         const route = useRoute()
-        const { sidebar, avatar, device } = useGetter(['sidebar', 'avatar', 'device'])
+
+        const appStore = useAppStore()
+        const userStore = useUserStore()
+        const { sidebar, device } = storeToRefs(appStore)
+        const { avatar } = storeToRefs(userStore)
 
         const handlers: Record<string, () => void> = {
             async logout() {
-                await store.dispatch('user/logout')
+                await userStore.logout()
                 router.push(`/login?redirect=${route.fullPath}`)
             }
         }
 
         function toggleSideBar() {
-            store.dispatch('app/toggleSideBar')
+            appStore.toggleSideBar()
         }
         function handleCommand(command: string) {
             handlers[command] && handlers[command]()

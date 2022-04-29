@@ -30,7 +30,7 @@ export interface LoginVo {
  * @param data {LoginDto}
  * @returns 
  */
-export function login(data: LoginDto): AxiosPromise<LoginVo> {
+export function loginApi(data: LoginDto): AxiosPromise<LoginVo> {
   return request({
     url: '/vue-element-admin/user/login',
     method: 'post',
@@ -65,7 +65,7 @@ export interface UserVo {
  * @param token 
  * @returns 
  */
-export function getInfo(token: string): AxiosPromise<UserVo> {
+export function getInfoApi(token: string): AxiosPromise<UserVo> {
   return request({
     url: '/vue-element-admin/user/info',
     method: 'get',
@@ -77,7 +77,7 @@ export function getInfo(token: string): AxiosPromise<UserVo> {
  * 用户注销
  * @returns 
  */
-export function logout(): AxiosPromise<string> {
+export function logoutApi(): AxiosPromise<string> {
   return request({
     url: '/vue-element-admin/user/logout',
     method: 'post'

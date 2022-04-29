@@ -10,22 +10,22 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useGetter } from '@/hooks/use-vuex'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import { CHANGE_EVENT } from '@/utils/constants'
 
 export default defineComponent({
     emits: [CHANGE_EVENT],
     setup(_, { emit }) {
-        const store = useStore()
-        const { roles } = useGetter(['roles'])
+        const userStore = useUserStore()
+        const { roles } = storeToRefs(userStore)
 
         const switchRoles = computed({
             get: () => {
                 return roles.value[0]
             },
             set: (val: string) => {
-                store.dispatch('user/changeRoles', val).then(() => {
+                userStore.changeRoles(val).then(() => {
                     emit(CHANGE_EVENT)
                 })
             }

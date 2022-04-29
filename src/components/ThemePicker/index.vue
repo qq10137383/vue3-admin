@@ -1,19 +1,14 @@
 <template>
     <div class="theme-picker-wrap">
-        <el-color-picker
-            ref="colorRef"
-            v-model="theme"
+        <el-color-picker ref="colorRef" v-model="theme"
             :predefine="['#409EFF', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d']"
-            class="theme-picker"
-            popper-class="theme-picker-dropdown inside-right-panel"
-            :append-to-body="false"
-        />
+            class="theme-picker" popper-class="theme-picker-dropdown inside-right-panel" :append-to-body="false" />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/modules/settings'
 import { CHANGE_EVENT } from '@/utils/constants'
 
 const CHALK_STYLE = 'chalk-style'
@@ -22,7 +17,7 @@ export default defineComponent({
     name: "ThemePicker",
     emits: [CHANGE_EVENT],
     setup(_, { emit }) {
-        const store = useStore()
+        const settingsStore = useSettingsStore()
 
         function tintColor(color: string, tint: number) {
             let red: string | number = parseInt(color.slice(0, 2), 16)
@@ -67,7 +62,7 @@ export default defineComponent({
 
         const theme = computed({
             get: () => {
-                return store.state.settings.theme
+                return settingsStore.theme
             },
             set: (theme) => {
                 if (typeof theme !== 'string') return

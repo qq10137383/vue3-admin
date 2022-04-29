@@ -1,10 +1,6 @@
 <template>
-    <div v-if="errorLogs.length > 0">
-        <el-badge
-            :is-dot="true"
-            style="line-height: 25px;margin-top: -5px;"
-            @click="dialogTableVisible = true"
-        >
+    <div v-if="logs.length > 0">
+        <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click="dialogTableVisible = true">
             <el-button style="padding: 8px 10px;" size="small" type="danger">
                 <svg-icon icon-class="bug" />
             </el-button>
@@ -17,7 +13,7 @@
                     <el-button size="small" type="primary" :icon="Delete" @click="clearAll">Clear All</el-button>
                 </div>
             </template>
-            <el-table :data="errorLogs" border>
+            <el-table :data="logs" border>
                 <el-table-column label="Message">
                     <template v-slot="{ row }">
                         <div>
@@ -27,9 +23,7 @@
                         <br />
                         <div>
                             <span class="message-title" style="padding-right: 10px;">Info:</span>
-                            <el-tag
-                                type="warning"
-                            >{{ row.vm.$.vnode.type?.name }} error in {{ row.info }}</el-tag>
+                            <el-tag type="warning">{{ row.vm.$.vnode.type?.name }} error in {{ row.info }}</el-tag>
                         </div>
                         <br />
                         <div>
@@ -48,26 +42,27 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
 import { Delete } from '@element-plus/icons-vue'
-import { useGetter } from '@/hooks/use-vuex'
+import { useErrorLogStore } from '@/store/modules/errorLog'
 
 export default defineComponent({
     name: "ErrorLog",
     setup() {
-        const store = useStore()
         const dialogTableVisible = ref(false)
-        const { errorLogs } = useGetter(["errorLogs"])
+
+        const errorLogStore = useErrorLogStore()
+        const { logs } = storeToRefs(errorLogStore)
 
         function clearAll() {
             dialogTableVisible.value = false
-            store.dispatch('errorLog/clearErrorLog')
+            errorLogStore.clearErrorLog()
         }
 
         return {
             dialogTableVisible,
             clearAll,
-            errorLogs,
+            logs,
             Delete
         }
     }

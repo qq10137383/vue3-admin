@@ -21,7 +21,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useGetter } from "@/hooks/use-vuex";
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import PanThumb from '@/components/PanThumb/index.vue'
 import GithubCorner from '@/components/GithubCorner/index.vue'
 
@@ -34,7 +35,8 @@ export default defineComponent({
     setup() {
         const emptyGif = ref('https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3')
 
-        const { name, avatar, roles } = useGetter(["name", "avatar", "roles"])
+        const userStore = useUserStore()
+        const { name, avatar, roles } = storeToRefs(userStore)
 
         return {
             emptyGif,

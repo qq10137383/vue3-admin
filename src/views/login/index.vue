@@ -1,13 +1,7 @@
 <template>
     <div class="login-container">
-        <el-form
-            ref="loginFormRef"
-            :model="loginForm"
-            :rules="loginRules"
-            class="login-form"
-            autocomplete="on"
-            label-position="left"
-        >
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on"
+            label-position="left">
             <div class="title-container">
                 <h3 class="title">Login Form</h3>
             </div>
@@ -16,15 +10,8 @@
                 <span class="svg-container">
                     <svg-icon icon-class="user" />
                 </span>
-                <el-input
-                    ref="usernameRef"
-                    v-model="loginForm.username"
-                    placeholder="Username"
-                    name="username"
-                    type="text"
-                    tabindex="1"
-                    autocomplete="on"
-                />
+                <el-input ref="usernameRef" v-model="loginForm.username" placeholder="Username" name="username"
+                    type="text" tabindex="1" autocomplete="on" />
             </el-form-item>
 
             <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
@@ -32,31 +19,17 @@
                     <span class="svg-container">
                         <svg-icon icon-class="password" />
                     </span>
-                    <el-input
-                        :key="passwordType"
-                        ref="passwordRef"
-                        v-model="loginForm.password"
-                        :type="passwordType"
-                        placeholder="Password"
-                        name="password"
-                        tabindex="2"
-                        autocomplete="on"
-                        @keyup="checkCapslock"
-                        @blur="capsTooltip = false"
-                        @keyup.enter="handleLogin"
-                    />
+                    <el-input :key="passwordType" ref="passwordRef" v-model="loginForm.password" :type="passwordType"
+                        placeholder="Password" name="password" tabindex="2" autocomplete="on" @keyup="checkCapslock"
+                        @blur="capsTooltip = false" @keyup.enter="handleLogin" />
                     <span class="show-pwd" @click="showPwd">
                         <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
                     </span>
                 </el-form-item>
             </el-tooltip>
 
-            <el-button
-                :loading="loading"
-                type="primary"
-                style="width:100%;margin-bottom:30px;"
-                @click.prevent="handleLogin"
-            >Login</el-button>
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
+                @click.prevent="handleLogin">Login</el-button>
 
             <div style="position:relative">
                 <div class="tips">
@@ -68,11 +41,8 @@
                     <span>Password : any</span>
                 </div>
 
-                <el-button
-                    class="thirdparty-button"
-                    type="primary"
-                    @click="showDialog = true"
-                >Or connect with</el-button>
+                <el-button class="thirdparty-button" type="primary" @click="showDialog = true">Or connect with
+                </el-button>
             </div>
         </el-form>
 
@@ -88,12 +58,12 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, nextTick, watchEffect } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter, useRoute, LocationQuery } from 'vue-router'
 import { ElForm } from "element-plus"
 import { validUsername } from '@/utils/validate'
 import type { ElFormRules, ElFormRuleValidator } from '@/utils/types'
 import SocialSign from './components/SocialSignin.vue'
+import { useUserStore } from '@/store/modules/user'
 
 /**
  * Login
@@ -107,7 +77,7 @@ export default defineComponent({
             otherQuery: {} as LocationQuery
         }
 
-        const store = useStore()
+        const userStore = useUserStore()
         const router = useRouter()
         const route = useRoute()
 
@@ -157,7 +127,7 @@ export default defineComponent({
             loginFormRef.value?.validate((valid?: boolean) => {
                 if (valid) {
                     loading.value = true
-                    store.dispatch('user/login', loginForm)
+                    userStore.login(loginForm)
                         .then(() => {
                             const { redirect, otherQuery } = redirectInfo
                             router.push({ path: redirect || '/', query: otherQuery })

@@ -1,23 +1,9 @@
 <template>
     <div :class="{ 'show': show }" class="header-search">
         <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" />
-        <el-select
-            ref="headerSearchSelectRef"
-            v-model="search"
-            :remote-method="querySearch"
-            filterable
-            default-first-option
-            remote
-            placeholder="Search"
-            class="header-search-select"
-            @change="change"
-        >
-            <el-option
-                v-for="item in options"
-                :key="item.path"
-                :value="item"
-                :label="item.title.join(' > ')"
-            />
+        <el-select ref="headerSearchSelectRef" v-model="search" :remote-method="querySearch" filterable
+            default-first-option remote placeholder="Search" class="header-search-select" @change="change">
+            <el-option v-for="item in options" :key="item.path" :value="item" :label="item.title.join(' > ')" />
         </el-select>
     </div>
 </template>
@@ -28,10 +14,11 @@
 import Fuse from 'fuse.js'
 import path from 'path'
 import { defineComponent, ref, onMounted, watch, nextTick } from 'vue'
+import { storeToRefs } from 'pinia'
 import { CustomRouteRecordRaw, useRouter } from 'vue-router'
 import { ElSelect } from 'element-plus'
-import { useGetter } from '@/hooks/use-vuex'
 import { useToggle } from '@/hooks/use-toggle'
+import { usePermissionStore } from '@/store/modules/permission'
 
 interface SearchItem {
     path: string
@@ -45,12 +32,13 @@ export default defineComponent({
 
         const headerSearchSelectRef = ref<InstanceType<typeof ElSelect>>()
 
+        const permissionStore = usePermissionStore()
         const router = useRouter()
         const search = ref('')
         const searchPool = ref<SearchItem[]>([])
         const options = ref<SearchItem[]>([])
         const { state: show, toggle } = useToggle(false)
-        const { permission_routes } = useGetter(['permission_routes'])
+        const { routes: permission_routes } = storeToRefs(permissionStore)
 
         // Filter out the routes that can be displayed in the sidebar
         // And generate the internationalized title
