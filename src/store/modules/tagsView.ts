@@ -50,6 +50,11 @@ const mutations: MutationTree<TagsViewState> = {
         const index = state.cachedViews.indexOf(view.name as string)
         index > -1 && state.cachedViews.splice(index, 1)
     },
+    DEL_OTHERS_VISITED_VIEWS: (state, view: RouteLocationNormalizedLoaded) => {
+        state.visitedViews = state.visitedViews.filter(v => {
+            return v.meta.affix || v.path === view.path
+        })
+    },
     DEL_OTHERS_CACHED_VIEWS(state, view: RouteLocationNormalizedLoaded) {
         const index = state.cachedViews.indexOf(view.name as string)
         if (index > -1) {
