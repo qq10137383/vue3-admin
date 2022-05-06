@@ -39,7 +39,7 @@ import {
 } from 'vue'
 import {
     useRoute, useRouter, RouteLocationNormalizedLoaded,
-    CustomRouteRecordRaw, RouteLocationRaw, RouterLinkProps
+    RouteRecordRaw, RouteLocationRaw, RouterLinkProps
 } from 'vue-router'
 import { Close } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
@@ -90,7 +90,7 @@ export default defineComponent({
         function isAffix(tag: RouteLocationNormalizedLoaded) {
             return tag.meta?.affix
         }
-        function filterAffixTags(routes: CustomRouteRecordRaw[], basePath = '/') {
+        function filterAffixTags(routes: RouteRecordRaw[], basePath = '/') {
             let tags: RouteLocationNormalizedLoaded[] = []
             routes.forEach(route => {
                 if (route.meta && route.meta.affix) {

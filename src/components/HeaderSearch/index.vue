@@ -28,7 +28,7 @@
 import Fuse from 'fuse.js'
 import path from 'path'
 import { defineComponent, ref, onMounted, watch, nextTick } from 'vue'
-import { CustomRouteRecordRaw, useRouter } from 'vue-router'
+import { RouteRecordRaw, useRouter } from 'vue-router'
 import { ElSelect } from 'element-plus'
 import { useGetter } from '@/hooks/use-vuex'
 import { useToggle } from '@/hooks/use-toggle'
@@ -54,7 +54,7 @@ export default defineComponent({
 
         // Filter out the routes that can be displayed in the sidebar
         // And generate the internationalized title
-        function generateRoutes(routes: CustomRouteRecordRaw[], basePath = '/', prefixTitle: string[] = []) {
+        function generateRoutes(routes: RouteRecordRaw[], basePath = '/', prefixTitle: string[] = []) {
             let res: SearchItem[] = []
 
             for (const router of routes) {

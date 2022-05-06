@@ -1,20 +1,16 @@
-import { RouteRecordRaw } from 'vue-router'
-
 /**
  * vue-router 类型扩展
  */
 declare module "vue-router" {
-    // type 无法声明合并，定义一个新类型CustomRouteRecordRaw扩展RouteRecordRaw
-    type CustomRouteRecordRaw = Omit<RouteRecordRaw, "children">
-        & {
-            children?: CustomRouteRecordRaw[]
-            // 路由是否在菜单显示
-            hidden?: boolean
-            // 路由没有子路由时是否总是在菜单显示
-            alwaysShow?: boolean,
-            // 不显示子元素
-            noShowingChildren?: boolean
-        }
+    // 扩展RouteRecordRaw
+    interface _RouteRecordBase {
+        // 路由是否在菜单显示
+        hidden?: boolean
+        // 路由没有子路由时是否总是在菜单显示
+        alwaysShow?: boolean,
+        // 不显示子元素
+        noShowingChildren?: boolean
+    }
 
     interface RouteMeta {
         // 允许使用路由角色列表

@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch, nextTick } from 'vue'
-import { CustomRouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import { ElTree } from 'element-plus'
 import path from 'path'
 import { Role, getRoutes } from '@/api/role'
@@ -78,15 +78,15 @@ export default defineComponent({
     },
     emits: [CONFIRM_EVENT, CANCEL_EVENT],
     setup(props, { emit }) {
-        let serviceRoutes: CustomRouteRecordRaw[] = []
+        let serviceRoutes: RouteRecordRaw[] = []
 
         const treeRef = ref<InstanceType<typeof ElTree>>()
         const checkStrictly = ref(false)
         const routes = ref<RouteNode[]>([])
         const editedRole = ref<Role>(Object.assign({}, defaultRole))
 
-        function onlyOneShowingChild(children: CustomRouteRecordRaw[] = [], parent: CustomRouteRecordRaw) {
-            let onlyOneChild: CustomRouteRecordRaw | null = null
+        function onlyOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
+            let onlyOneChild: RouteRecordRaw | null = null
             const showingChildren = children.filter(item => !item.hidden)
 
             // When there is only one child route, the child route is displayed by default
@@ -104,7 +104,7 @@ export default defineComponent({
 
             return false
         }
-        function generateRoutes(routes: CustomRouteRecordRaw[], basePath = '/') {
+        function generateRoutes(routes: RouteRecordRaw[], basePath = '/') {
             const res: RouteNode[] = []
 
             for (let route of routes) {
@@ -131,8 +131,8 @@ export default defineComponent({
             }
             return res
         }
-        function generateTree(routes: CustomRouteRecordRaw[], basePath = '/', checkedKeys: string[]) {
-            const res: CustomRouteRecordRaw[] = []
+        function generateTree(routes: RouteRecordRaw[], basePath = '/', checkedKeys: string[]) {
+            const res: RouteRecordRaw[] = []
 
             for (const route of routes) {
                 const routePath = path.resolve(basePath, route.path)

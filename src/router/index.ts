@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, CustomRouteRecordRaw, RouteRecordRaw, Router } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, Router } from 'vue-router'
 
 /* Layout */
 import Layout from '@/layout/index.vue'
@@ -32,7 +32,7 @@ import componentsRouter from './modules/components'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes: CustomRouteRecordRaw[] = [
+export const constantRoutes: RouteRecordRaw[] = [
     {
         path: '/redirect',
         component: Layout,
@@ -104,7 +104,7 @@ export const constantRoutes: CustomRouteRecordRaw[] = [
     },
 ]
 
-export const asyncRoutes: CustomRouteRecordRaw[] = [
+export const asyncRoutes: RouteRecordRaw[] = [
     {
         path: '/permission',
         component: Layout,
@@ -291,7 +291,7 @@ type RouteRemoveHandler = ReturnType<Router["addRoute"]>
 // 动态路由移除方法，通过addRoute增加的动态路由在退出时要清理
 let asyncRemoveHandlers: RouteRemoveHandler[] = []
 
-export function addRoute(route: CustomRouteRecordRaw): RouteRemoveHandler {
+export function addRoute(route: RouteRecordRaw): RouteRemoveHandler {
     const handler = router.addRoute(route as RouteRecordRaw)
     asyncRemoveHandlers.push(handler)
     return handler

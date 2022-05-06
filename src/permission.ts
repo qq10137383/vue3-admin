@@ -1,4 +1,4 @@
-import type { CustomRouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import router, { addRoute } from './router'
 import store from './store'
 import { ElMessage } from 'element-plus'
@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
                     const { roles } = await store.dispatch('user/getInfo')
 
                     // generate accessible routes map based on roles
-                    const accessRoutes: CustomRouteRecordRaw[] = await store.dispatch('permission/generateRoutes', roles)
+                    const accessRoutes: RouteRecordRaw[] = await store.dispatch('permission/generateRoutes', roles)
                     
                     // dynamically add accessible routes
                     accessRoutes.forEach(route => addRoute(route));

@@ -1,9 +1,9 @@
-import { CustomRouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 
 /* Layout */
 import Layout from '@/layout/index.vue'
 
-const componentsRouter: CustomRouteRecordRaw = {
+const componentsRouter: RouteRecordRaw = {
     path: '/components',
     component: Layout,
     redirect: 'noRedirect',

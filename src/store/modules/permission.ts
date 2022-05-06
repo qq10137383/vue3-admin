@@ -1,4 +1,4 @@
-import type { CustomRouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 import { ActionTree, Module, MutationTree } from "vuex"
 import type { AllState } from "../index"
 
@@ -10,7 +10,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param route 路由
  * @returns 
  */
-function hasPermission(roles: string[], route: CustomRouteRecordRaw): boolean {
+function hasPermission(roles: string[], route: RouteRecordRaw): boolean {
     if (route.meta && route.meta.roles) {
         return roles.some(role => route.meta!.roles!.includes(role))
     } else {
@@ -24,11 +24,11 @@ function hasPermission(roles: string[], route: CustomRouteRecordRaw): boolean {
  * @param roles 用户角色
  * @returns 
  */
-export function filterAsyncRoutes(routes: CustomRouteRecordRaw[], roles: string[]): CustomRouteRecordRaw[] {
-    const res: CustomRouteRecordRaw[] = []
+export function filterAsyncRoutes(routes: RouteRecordRaw[], roles: string[]): RouteRecordRaw[] {
+    const res: RouteRecordRaw[] = []
 
     routes.forEach(route => {
-        const tmp: CustomRouteRecordRaw = { ...route }
+        const tmp: RouteRecordRaw = { ...route }
         if (hasPermission(roles, tmp)) {
             if (tmp.children) {
                 tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -47,11 +47,11 @@ export type PermissionState = {
     /**
      * 所有路由
      */
-    routes: CustomRouteRecordRaw[],
+    routes: RouteRecordRaw[],
     /**
      * 动态路由
      */
-    addRoutes: CustomRouteRecordRaw[]
+    addRoutes: RouteRecordRaw[]
 }
 
 const state: PermissionState = {
@@ -60,16 +60,16 @@ const state: PermissionState = {
 }
 
 const mutations: MutationTree<PermissionState> = {
-    SET_ROUTES(state, routes: CustomRouteRecordRaw[]) {
+    SET_ROUTES(state, routes: RouteRecordRaw[]) {
         state.addRoutes = routes
         state.routes = constantRoutes.concat(routes)
     }
 }
 
 const actions: ActionTree<PermissionState, AllState> = {
-    generateRoutes({ commit }, roles: string[]): Promise<CustomRouteRecordRaw[]> {
+    generateRoutes({ commit }, roles: string[]): Promise<RouteRecordRaw[]> {
         return new Promise(resolve => {
-            let accessedRoutes: CustomRouteRecordRaw[]
+            let accessedRoutes: RouteRecordRaw[]
             if (roles.includes('admin')) {
                 accessedRoutes = asyncRoutes ?? []
             } else {
