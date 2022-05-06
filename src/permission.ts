@@ -1,4 +1,4 @@
-import type { CustomRouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import router, { addRoute } from './router'
 import store from './store'
 import { useUserStore } from './store/modules/user'
@@ -42,7 +42,7 @@ router.beforeEach(async (to, from, next) => {
                     const { roles } = await userStore.getInfo()
 
                     // generate accessible routes map based on roles
-                    const accessRoutes: CustomRouteRecordRaw[] = await permissionStore.generateRoutes(roles)
+                    const accessRoutes: RouteRecordRaw[] = await permissionStore.generateRoutes(roles)
 
                     // dynamically add accessible routes
                     accessRoutes.forEach(route => addRoute(route));

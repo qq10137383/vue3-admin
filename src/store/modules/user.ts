@@ -1,6 +1,6 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from "pinia"
-import type { CustomRouteRecordRaw, RouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 import { loginApi, logoutApi, getInfoApi, LoginDto, UserVo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
@@ -110,7 +110,7 @@ export const useUserStore = defineStore('user', () => {
         const permission = usePermissionStore()
         const accessRoutes = await permission.generateRoutes(roles)
         // dynamically add accessible routes
-        accessRoutes.forEach((r: CustomRouteRecordRaw) => router.addRoute(r as RouteRecordRaw));
+        accessRoutes.forEach((r: RouteRecordRaw) => router.addRoute(r as RouteRecordRaw));
 
         // reset visited views and cached views
         const tagsView = useTagsViewStore()

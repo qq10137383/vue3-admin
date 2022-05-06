@@ -1,5 +1,5 @@
 import { AxiosPromise } from 'axios'
-import { CustomRouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import { AddVo, UpdateVo, DeleteVo } from './types'
 import request from '@/utils/request'
 
@@ -7,10 +7,10 @@ export interface Role {
     key: string,
     name: string,
     description: string,
-    routes: CustomRouteRecordRaw[]
+    routes: RouteRecordRaw[]
 }
 
-export function getRoutes(): AxiosPromise<CustomRouteRecordRaw[]> {
+export function getRoutes(): AxiosPromise<RouteRecordRaw[]> {
     return request({
         url: '/vue-element-admin/routes',
         method: 'get'

@@ -15,7 +15,7 @@ import Fuse from 'fuse.js'
 import path from 'path'
 import { defineComponent, ref, onMounted, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { CustomRouteRecordRaw, useRouter } from 'vue-router'
+import { RouteRecordRaw, useRouter } from 'vue-router'
 import { ElSelect } from 'element-plus'
 import { useToggle } from '@/hooks/use-toggle'
 import { usePermissionStore } from '@/store/modules/permission'
@@ -42,7 +42,7 @@ export default defineComponent({
 
         // Filter out the routes that can be displayed in the sidebar
         // And generate the internationalized title
-        function generateRoutes(routes: CustomRouteRecordRaw[], basePath = '/', prefixTitle: string[] = []) {
+        function generateRoutes(routes: RouteRecordRaw[], basePath = '/', prefixTitle: string[] = []) {
             let res: SearchItem[] = []
 
             for (const router of routes) {
@@ -76,7 +76,7 @@ export default defineComponent({
 
         }
         function setSearchPool() {
-            searchPool.value = generateRoutes(permission_routes.value)
+            searchPool.value = generateRoutes(permission_routes.value as RouteRecordRaw[])
         }
         function initFuse(list: SearchItem[]) {
             fuse = new Fuse(list, {

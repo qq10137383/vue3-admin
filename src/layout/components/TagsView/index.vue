@@ -28,7 +28,7 @@ import {
 } from 'vue'
 import {
     useRoute, useRouter, RouteLocationNormalizedLoaded,
-    CustomRouteRecordRaw, RouteLocationRaw, RouterLinkProps
+    RouteRecordRaw, RouteLocationRaw, RouterLinkProps
 } from 'vue-router'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import { usePermissionStore } from '@/store/modules/permission'
@@ -82,7 +82,7 @@ export default defineComponent({
         function isAffix(tag: RouteLocationNormalizedLoaded) {
             return tag.meta?.affix
         }
-        function filterAffixTags(routes: CustomRouteRecordRaw[], basePath = '/') {
+        function filterAffixTags(routes: RouteRecordRaw[], basePath = '/') {
             let tags: RouteLocationNormalizedLoaded[] = []
             routes.forEach(route => {
                 if (route.meta && route.meta.affix) {
@@ -109,7 +109,7 @@ export default defineComponent({
             return tags
         }
         function initTags() {
-            affixTags = filterAffixTags(routes.value)
+            affixTags = filterAffixTags(routes.value as RouteRecordRaw[])
             for (const tag of affixTags) {
                 // Must have tag name
                 if (tag.name) {
@@ -170,7 +170,7 @@ export default defineComponent({
         }
         function closeOthersTags() {
             router.push(ctxState.selectedTag as RouteLocationRaw)
-            tagsViewStore.delOthersViews(ctxState.selectedTag).then(() => {
+            tagsViewStore.delOthersViews(ctxState.selectedTag as RouteLocationNormalizedLoaded).then(() => {
                 moveToCurrentTag()
             })
         }

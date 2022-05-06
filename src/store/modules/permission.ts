@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from "pinia"
-import type { CustomRouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
@@ -9,7 +9,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param route 路由
  * @returns 
  */
-function hasPermission(roles: string[], route: CustomRouteRecordRaw): boolean {
+function hasPermission(roles: string[], route: RouteRecordRaw): boolean {
     if (route.meta && route.meta.roles) {
         return roles.some(role => route.meta!.roles!.includes(role))
     } else {
@@ -23,11 +23,11 @@ function hasPermission(roles: string[], route: CustomRouteRecordRaw): boolean {
  * @param roles 用户角色
  * @returns 
  */
-export function filterAsyncRoutes(routes: CustomRouteRecordRaw[], roles: string[]): CustomRouteRecordRaw[] {
-    const res: CustomRouteRecordRaw[] = []
+export function filterAsyncRoutes(routes: RouteRecordRaw[], roles: string[]): RouteRecordRaw[] {
+    const res: RouteRecordRaw[] = []
 
     routes.forEach(route => {
-        const tmp: CustomRouteRecordRaw = { ...route }
+        const tmp: RouteRecordRaw = { ...route }
         if (hasPermission(roles, tmp)) {
             if (tmp.children) {
                 tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -44,17 +44,17 @@ export function filterAsyncRoutes(routes: CustomRouteRecordRaw[], roles: string[
  */
 export const usePermissionStore = defineStore('permission', () => {
     // state
-    const routes = ref<CustomRouteRecordRaw[]>([])  // 所有路由
-    const addRoutes = ref<CustomRouteRecordRaw[]>([])  // 动态路由
+    const routes = ref<RouteRecordRaw[]>([])  // 所有路由
+    const addRoutes = ref<RouteRecordRaw[]>([])  // 动态路由
 
     // actions
-    function setRoutes(routeValues: CustomRouteRecordRaw[]) {
+    function setRoutes(routeValues: RouteRecordRaw[]) {
         routes.value = routeValues
         addRoutes.value = constantRoutes.concat(routeValues)
     }
-    function generateRoutes(roles: string[]): Promise<CustomRouteRecordRaw[]> {
+    function generateRoutes(roles: string[]): Promise<RouteRecordRaw[]> {
         return new Promise(resolve => {
-            let accessedRoutes: CustomRouteRecordRaw[]
+            let accessedRoutes: RouteRecordRaw[]
             if (roles.includes('admin')) {
                 accessedRoutes = asyncRoutes ?? []
             } else {

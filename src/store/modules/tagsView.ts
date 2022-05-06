@@ -16,7 +16,6 @@ export type TagsViewState = {
     cachedViews: string[]
 }
 
-
 /**
  * 页签模块
  */
@@ -55,7 +54,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
                     break
                 }
             }
-            resolve([...state.visitedViews])
+            resolve([...state.visitedViews] as RouteLocationNormalizedLoaded[])
         })
     }
     function delCachedView(view: RouteLocationNormalizedLoaded): Promise<string[]> {
@@ -72,7 +71,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
             resolve({
                 visitedViews: [...state.visitedViews],
                 cachedViews: [...state.cachedViews]
-            })
+            } as TagsViewState)
         })
     }
     function delOthersVisitedViews(view: RouteLocationNormalizedLoaded): Promise<RouteLocationNormalizedLoaded[]> {
@@ -80,7 +79,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
             state.visitedViews = state.visitedViews.filter(v => {
                 return v.meta.affix || v.path === view.path
             })
-            resolve([...state.visitedViews])
+            resolve([...state.visitedViews] as RouteLocationNormalizedLoaded[])
         })
     }
     function delOthersCachedViews(view: RouteLocationNormalizedLoaded): Promise<string[]> {
@@ -102,14 +101,14 @@ export const useTagsViewStore = defineStore('tagsView', () => {
             resolve({
                 visitedViews: [...state.visitedViews],
                 cachedViews: [...state.cachedViews]
-            })
+            } as TagsViewState)
         })
     }
     function delAllVisitedViews(): Promise<RouteLocationNormalizedLoaded[]> {
         return new Promise(resolve => {
             const affixTags = state.visitedViews.filter(tag => tag.meta?.affix)
             state.visitedViews = affixTags
-            resolve([...state.visitedViews])
+            resolve([...state.visitedViews] as RouteLocationNormalizedLoaded[])
         })
     }
     function delAllCachedViews(): Promise<string[]> {
@@ -125,7 +124,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
             resolve({
                 visitedViews: [...state.visitedViews],
                 cachedViews: [...state.cachedViews]
-            })
+            } as TagsViewState)
         })
     }
     function updateVisitedView(view: RouteLocationNormalizedLoaded) {

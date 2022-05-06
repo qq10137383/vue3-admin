@@ -38,7 +38,7 @@
 <script lang="ts">
 import path from 'path'
 import { defineComponent, onMounted, PropType, ref } from 'vue'
-import type { CustomRouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { isExternal } from '@/utils/validate'
 import MenuIcon from './Icon.vue'
@@ -53,7 +53,7 @@ export default defineComponent({
     props: {
         // route object
         item: {
-            type: Object as PropType<CustomRouteRecordRaw>,
+            type: Object as PropType<RouteRecordRaw>,
             required: true
         },
         isNest: {
@@ -66,14 +66,14 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const onlyOneChild = ref<CustomRouteRecordRaw>()
+        const onlyOneChild = ref<RouteRecordRaw>()
 
         const appStore = useAppStore()
         const { device } = storeToRefs(appStore)
 
         const subMenuRef = ref<any>()
 
-        function hasOneShowingChild(children: CustomRouteRecordRaw[] = [], parent: CustomRouteRecordRaw) {
+        function hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
             const showingChildren = children.filter(item => {
                 if (item.hidden) {
                     return false
