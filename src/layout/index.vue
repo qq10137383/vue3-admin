@@ -1,10 +1,6 @@
 <template>
     <div :class="classObj" class="app-wrapper">
-        <div
-            v-if="device === 'mobile' && sidebar.opened"
-            class="drawer-bg"
-            @click="handleClickOutside"
-        ></div>
+        <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
         <sidebar class="sidebar-container" />
         <div :class="{ hasTagsView: needTagsView }" class="main-container">
             <div :class="{ 'fixed-header': fixedHeader }">
@@ -77,8 +73,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/mixin.scss";
-@import "~@/styles/variables.scss";
+@use "~@/styles/mixin.scss"as *;
+@use "~@/styles/variables.scss"as *;
 
 .app-wrapper {
     @include clearfix;

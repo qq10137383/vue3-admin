@@ -10,7 +10,7 @@ export type ArticleStatus = 'published' | 'draft'
  * 文章Vo
  */
 export interface Article {
-    id: string,
+    id: number,
     timestamp: number,
     author: string,
     reviewer: string,
@@ -18,7 +18,7 @@ export interface Article {
     content_short: string,
     content: string,
     forecast: string,
-    importance: string,
+    importance: number,
     type: ArticleType,
     status: ArticleStatus,
     display_time: string,
@@ -34,8 +34,10 @@ export interface PV {
 }
 
 export interface ArticleQueryDto extends SortablePagedOption {
-    importance?: string,
-    type?: string
+    importance?: number,
+    type?: string,
+    title?: string,
+    sort?: string
 }
 
 export function fetchList(query?: ArticleQueryDto): AxiosPromise<TotalListData<Article>> {
@@ -46,7 +48,7 @@ export function fetchList(query?: ArticleQueryDto): AxiosPromise<TotalListData<A
     })
 }
 
-export function fetchArticle(id: string): AxiosPromise<Article> {
+export function fetchArticle(id: number): AxiosPromise<Article> {
     return request({
         url: '/vue-element-admin/article/detail',
         method: 'get',

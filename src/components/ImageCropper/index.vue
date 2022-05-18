@@ -259,5 +259,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "./scss/upload.scss";
+@use "./scss/upload.scss";
 </style>
