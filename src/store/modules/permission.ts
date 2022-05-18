@@ -49,8 +49,8 @@ export const usePermissionStore = defineStore('permission', () => {
 
     // actions
     function setRoutes(routeValues: RouteRecordRaw[]) {
-        routes.value = routeValues
-        addRoutes.value = constantRoutes.concat(routeValues)
+        addRoutes.value = routeValues
+        routes.value = constantRoutes.concat(routeValues)
     }
     function generateRoutes(roles: string[]): Promise<RouteRecordRaw[]> {
         return new Promise(resolve => {
