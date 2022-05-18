@@ -1,10 +1,5 @@
 <template>
-    <el-scrollbar
-        ref="scrollContainerRef"
-        :vertical="false"
-        class="scroll-container"
-        @wheel.prevent="handleScroll"
-    >
+    <el-scrollbar ref="scrollContainerRef" :vertical="false" class="scroll-container" @wheel.prevent="handleScroll">
         <slot></slot>
     </el-scrollbar>
 </template>
@@ -21,6 +16,7 @@ const SCROLL_EVENT = 'scroll'
 
 export default defineComponent({
     name: 'ScrollPane',
+    emits: [SCROLL_EVENT],
     setup(_, { emit }) {
         const instance = getCurrentInstance()
 
